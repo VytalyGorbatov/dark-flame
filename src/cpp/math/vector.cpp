@@ -6,16 +6,6 @@ float P3D::GetDistance(const P3D& p) const
     return (float)sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y) + (p.z - z) * (p.z - z));
 }
 
-void P3D::MultBy(const float& a)
-{
-    x *= a; y *= a; z *= a;
-}
-
-void P3D::SetXYZ(const float& a, const float& b, const float& c)
-{
-    x = a; y = b; z = c;
-}
-
 bool V3D::SetLength(const float& nl)
 {
     float l = (float)sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);

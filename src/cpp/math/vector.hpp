@@ -18,9 +18,17 @@ public:
         x = a; y = b; z = c;
     }
 
-    void MultBy(const float&);
+    void MultBy(const float& a)
+    {
+        x *= a; y *= a; z *= a;
+    }
+
+    void SetXYZ(const float& a, const float& b, const float& c)
+    {
+        x = a; y = b; z = c;
+    }
+
     float GetDistance(const P3D& point) const;
-    void SetXYZ(const float&, const float&, const float&);
 };
 
 inline P3D operator +(P3D lh, const P3D& rh)
