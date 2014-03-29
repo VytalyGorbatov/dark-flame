@@ -18,17 +18,17 @@ public:
         x = a; y = b; z = c;
     }
 
-    void MultBy(const float& a)
+    void mult_by(const float& a)
     {
         x *= a; y *= a; z *= a;
     }
 
-    void SetXYZ(const float& a, const float& b, const float& c)
+    void set_xyz(const float& a, const float& b, const float& c)
     {
         x = a; y = b; z = c;
     }
 
-    float GetDistance(const P3D& point) const;
+    float get_distance(const P3D& point) const;
 };
 
 inline P3D operator +(P3D lh, const P3D& rh)
@@ -103,24 +103,24 @@ public:
         return res;
     }
 
-    void MultBy(const float& a)
+    void mult_by(const float& a)
     {
         dir.x *= a;
         dir.y *= a;
         dir.z *= a;
     }
 
-    float AbsMult(const V3D& v) const
+    float abs_mult(const V3D& v) const
     {
         return dir.x * v.dir.x + dir.y * v.dir.y + dir.z * v.dir.z;
     }
 
-    float AbsMult(const P3D& v) const
+    float abs_mult(const P3D& v) const
     {
         return dir.x * v.x + dir.y * v.y + dir.z * v.z;
     }
 
-    float FullMult(const V3D& v, const V3D& w) const
+    float full_mult(const V3D& v, const V3D& w) const
     {
         float res;
         res = dir.x * (v.dir.y * w.dir.z - v.dir.z * w.dir.y);
@@ -129,7 +129,7 @@ public:
         return res;
     }
 
-    P3D AddTo(const P3D& p) const
+    P3D add_to(const P3D& p) const
     {
         P3D result;
         result.x = p.x + dir.x;
@@ -138,10 +138,10 @@ public:
         return result;
     }
 
-    float GetLength() const;
-    float GetDistance(const P3D& point) const;
-    bool SetLength(const float& length);
-    bool Projection(const V3D& base);
+    float get_length() const;
+    float get_distance(const P3D& point) const;
+    bool set_length(const float& length);
+    bool projection(const V3D& base);
 };
 
 inline V3D operator +(V3D lh, const V3D& rh)
