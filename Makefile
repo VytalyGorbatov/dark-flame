@@ -68,14 +68,14 @@ MODEL_OBJS      = $(patsubst $(MODEL_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_
 PHYSICS_OBJS    = $(patsubst $(PHYSICS_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSICS_SRC_DIR)/*.cpp))
 RENDERER_OBJS   = $(patsubst $(RENDERER_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
 
-SRCS_OBJS       = $(SRC_OBJS) \
-                  $(AI_SRC_OBJS) \
-                  $(ENTITY_SRC_OBJS) \
-                  $(FUNCTION_SRC_OBJS) \
-                  $(MATH_SRC_OBJS) \
-                  $(MODEL_SRC_OBJS) \
-                  $(PHYSICS_SRC_OBJS) \
-                  $(RENDERER_SRC_OBJS)
+SRCS_OBJS       = $(SRC_OBJS)\
+                  $(AI_OBJS)\
+                  $(ENTITY_OBJS)\
+                  $(FUNCTION_OBJS)\
+                  $(MATH_OBJS)\
+                  $(MODEL_OBJS)\
+                  $(PHYSICS_OBJS)\
+                  $(RENDERER_OBJS)
 
 UTEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/unit*.cpp))
 UTEST_CPP      += utils.cpp
@@ -150,3 +150,4 @@ debug:
 	@echo $(UTEST_OBJS)
 	@echo $(UTEST_BUILD_DIR)
 	@echo $(TEST_DIR)
+	@echo $(SRCS_OBJS)
