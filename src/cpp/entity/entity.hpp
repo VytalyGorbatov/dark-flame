@@ -4,7 +4,7 @@
 /**
  * Basic 'smart' object interface.
  */
-class Entity
+class ENTITY
 {
 public:
     virtual ~Entity() = 0;

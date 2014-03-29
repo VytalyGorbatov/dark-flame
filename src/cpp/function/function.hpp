@@ -4,7 +4,7 @@
 /**
  * Simple multiply or once-triggered actions.
  */
-class Function
+class FUNCTION
 {
 public:
     virtual ~Function() = 0;

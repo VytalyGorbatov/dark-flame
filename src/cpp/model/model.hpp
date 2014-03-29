@@ -4,7 +4,7 @@
 /**
  * View representation.
  */
-class Model
+class MODEL
 {
 public:
     virtual ~Model() = 0;
