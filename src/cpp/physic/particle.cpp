@@ -193,13 +193,14 @@ EMITTER& EMITTER::operator =(const EMITTER& m)
     if (&m == this)
         return *this;
 
-    for (int i = 0; i < particles_cnt; ++i)
+    for (int i = 0; i < particles_cnt; ++i) {
         delete particles[i];
+    }
     delete[] particles;
+
     particles_cnt = m.particles_cnt;
     particles = new PARTICLE*[particles_cnt];
-    for (int i = 0; i < particles_cnt; ++i)
-    {
+    for (int i = 0; i < particles_cnt; ++i) {
         particles[i] = new PARTICLE;
         *particles[i] = *m.particles[i];
     }
@@ -335,11 +336,11 @@ void EMITTER::init_particle(PARTICLE* p)
     }
 
     if (p_delta_velocity)     {
-        rnd = rand() * 6.103515625E-5 - 1;
+        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
         vel.dir.x += rnd * p_delta_velocity;
-        rnd = rand() * 6.103515625E-5 - 1;
+        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
         vel.dir.y += rnd * p_delta_velocity;
-        rnd = rand() * 6.103515625E-5 - 1;
+        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
         vel.dir.z += rnd * p_delta_velocity;
     }
 
