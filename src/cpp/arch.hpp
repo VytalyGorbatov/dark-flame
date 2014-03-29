@@ -1,5 +1,5 @@
-#ifndef __ARCH_H__
-#define __ARCH_H__
+#ifndef __ARCH_HPP__
+#define __ARCH_HPP__
 
 /** Detect arch type and machine bit depth. */
 #if defined(i386) || defined(__i386__) || defined(__i386) \
@@ -41,4 +41,4 @@
 #   endif
 #endif
 
-#endif  // __ARCH_H__
+#endif  // __ARCH_HPP__

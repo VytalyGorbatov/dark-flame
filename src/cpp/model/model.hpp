@@ -1,5 +1,5 @@
-#ifndef __MODEL_H__
-#define __MODEL_H__
+#ifndef __MODEL_HPP__
+#define __MODEL_HPP__
 
 /**
  * View representation.
@@ -10,4 +10,4 @@ public:
     virtual ~Model() = 0;
 };
 
-#endif // __MODEL_H__
+#endif // __MODEL_HPP__

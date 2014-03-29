@@ -1,5 +1,5 @@
-#ifndef __ENTITY_H__
-#define __ENTITY_H__
+#ifndef __ENTITY_HPP__
+#define __ENTITY_HPP__
 
 /**
  * Basic 'smart' object interface.
@@ -10,4 +10,4 @@ public:
     virtual ~Entity() = 0;
 };
 
-#endif // __ENTITY_H__
+#endif // __ENTITY_HPP__

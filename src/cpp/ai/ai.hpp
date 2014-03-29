@@ -1,5 +1,5 @@
-#ifndef __AI_H__
-#define __AI_H__
+#ifndef __AI_HPP__
+#define __AI_HPP__
 
 /**
  * Basic solver interface.
@@ -10,4 +10,4 @@ public:
     virtual ~AI() = 0;
 };
 
-#endif // __AI_H__
+#endif // __AI_HPP__

@@ -1,5 +1,5 @@
-#ifndef __BYTESWAP_H__
-#define __BYTESWAP_H__
+#ifndef __BYTESWAP_HPP__
+#define __BYTESWAP_HPP__
 
 #include <string.h>
 
@@ -289,4 +289,4 @@
 #   error Word size not defined!
 #endif
 
-#endif  // __BYTESWAP_H__
+#endif  // __BYTESWAP_HPP__

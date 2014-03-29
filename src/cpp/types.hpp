@@ -1,5 +1,5 @@
-#ifndef __TYPES_H__
-#define __TYPES_H__
+#ifndef __TYPES_HPP__
+#define __TYPES_HPP__
 
 #include "arch.hpp"
 
@@ -85,4 +85,4 @@
     // typedef u128 udword_t;
 #endif
 
-#endif  // __TYPES_H__
+#endif  // __TYPES_HPP__

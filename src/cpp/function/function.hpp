@@ -1,5 +1,5 @@
-#ifndef __FUNCTION_H__
-#define __FUNCTION_H__
+#ifndef __FUNCTION_HPP__
+#define __FUNCTION_HPP__
 
 /**
  * Simple multiply or once-triggered actions.
@@ -10,4 +10,4 @@ public:
     virtual ~Function() = 0;
 };
 
-#endif // __FUNCTION_H__
+#endif // __FUNCTION_HPP__
