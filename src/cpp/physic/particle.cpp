@@ -19,16 +19,16 @@ PARTICLE::PARTICLE(const P3D& position, float mass, float volume, const V3D& vel
         ttl = 0;
     }
 
-    this.position = position;
-    this.mass = mass;
-    this.volume = volume;
-    this.velocity = velocity;
-    this.spin = spin;
-    this.ttl = ttl;
+    this->position = position;
+    this->mass = mass;
+    this->volume = volume;
+    this->velocity = velocity;
+    this->spin = spin;
+    this->ttl = ttl;
 
-    this.f_volume = volume;
-    this.f_spin = spin;
-    this.angle = 0;
+    this->f_volume = volume;
+    this->f_spin = spin;
+    this->angle = 0;
 }
 
 void PARTICLE::set_start(const P3D& position, float mass, float volume, const V3D& velocity, float spin, float ttl)
@@ -37,19 +37,19 @@ void PARTICLE::set_start(const P3D& position, float mass, float volume, const V3
         ttl = 0;
     }
 
-    this.position = posistion;
-    this.mass = mass;
-    this.volume = volume;
-    this.velocity = velocity;
-    this.spin = spin;
-    this.ttl = time_to_life;
+    this->position = position;
+    this->mass = mass;
+    this->volume = volume;
+    this->velocity = velocity;
+    this->spin = spin;
+    this->ttl = ttl;
 }
 
 void PARTICLE::set_final(float f_volume, float f_spin, float angle)
 {
-    this.angle = angle;
-    this.f_volume = f_volume;
-    this.f_spin = f_spin;
+    this->angle = angle;
+    this->f_volume = f_volume;
+    this->f_spin = f_spin;
 }
 
 bool PARTICLE::update(float dt, const float env_density, const V3D* env_force, const V3D* gravity)
@@ -83,9 +83,9 @@ bool PARTICLE::update(float dt, const float env_density, const V3D* env_force, c
         add_v = add_v + av;
     }
 
-    position.x += (velocity.param.x + 0.5f * add_v.param.x) * dt;
-    position.y += (velocity.param.y + 0.5f * add_v.param.y) * dt;
-    position.z += (velocity.param.z + 0.5f * add_v.param.z) * dt;
+    position.x += (velocity.dir.x + 0.5f * add_v.dir.x) * dt;
+    position.y += (velocity.dir.y + 0.5f * add_v.dir.y) * dt;
+    position.z += (velocity.dir.z + 0.5f * add_v.dir.z) * dt;
     velocity = velocity + add_v;
 
     return true;
@@ -126,14 +126,14 @@ EMITTER::EMITTER(const P3D& position, float pps, int particles_cnt_max)
         pps = 0;
     }
 
-    this.position = position;
+    this->position = position;
 
     particles = NULL;
     particles_cnt = 0;
-    this.particles_cnt_max = particles_cnt_max;
+    this->particles_cnt_max = particles_cnt_max;
     is_active = false;
 
-    this.pps = pps;
+    this->pps = pps;
     scale = 1;
     env_density = 0;
 
@@ -186,19 +186,16 @@ EMITTER::EMITTER(const EMITTER& m)
 
     p_f_volume = m.p_f_volume;
     p_f_spin = m.p_f_spin;
-    is_alive = m.is_alive;
+    is_active = m.is_active;
 }
 EMITTER& EMITTER::operator =(const EMITTER& m)
 {
     if (&m == this)
         return *this;
 
-    delete Texture;
     for (int i = 0; i < particles_cnt; ++i)
         delete particles[i];
     delete[] particles;
-    Texture = new TEXTURE;
-    *Texture = *m.Texture;
     particles_cnt = m.particles_cnt;
     particles = new PARTICLE*[particles_cnt];
     for (int i = 0; i < particles_cnt; ++i)
@@ -212,7 +209,6 @@ EMITTER& EMITTER::operator =(const EMITTER& m)
     particles_cnt_max = m.particles_cnt_max;
     pps = m.pps;
     env_density = m.env_density;
-    ConstForce = m.ConstForce;
 
     p_mass = m.p_mass;
     p_volume = m.p_volume;
@@ -221,13 +217,11 @@ EMITTER& EMITTER::operator =(const EMITTER& m)
     p_delta_velocity =m.p_delta_velocity;
     p_spin = m.p_spin;
     p_delta_spin = m.p_delta_spin;
-    Color = m.Color;
     p_ttl = m.p_ttl;
     p_delta_ttl = m.p_delta_ttl;
 
     p_f_volume = m.p_f_volume;
     p_f_spin = m.p_f_spin;
-    FColor = m.FColor;
     is_active = m.is_active;
 
     return *this;
@@ -239,8 +233,8 @@ void EMITTER::init(const P3D& position, float pps, int particles_cnt_max)
         pps = 0;
     }
 
-    this.position = position;
-    this.pps = pps;
+    this->position = position;
+    this->pps = pps;
 }
 
 void EMITTER::start_emission()
@@ -342,11 +336,11 @@ void EMITTER::init_particle(PARTICLE* p)
 
     if (p_delta_velocity)     {
         rnd = rand() * 6.103515625E-5 - 1;
-        vel.param.x += rnd * p_delta_velocity;
+        vel.dir.x += rnd * p_delta_velocity;
         rnd = rand() * 6.103515625E-5 - 1;
-        vel.param.y += rnd * p_delta_velocity;
+        vel.dir.y += rnd * p_delta_velocity;
         rnd = rand() * 6.103515625E-5 - 1;
-        vel.param.z += rnd * p_delta_velocity;
+        vel.dir.z += rnd * p_delta_velocity;
     }
 
     rnd = rand() * 3.95f;

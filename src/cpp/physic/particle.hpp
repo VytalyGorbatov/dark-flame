@@ -60,7 +60,7 @@ public:
     float       p_f_volume;
     float       p_f_spin;
     float       p_delta_mass;
-    float       p_delta_vol;
+    float       p_delta_volume;
     float       p_delta_velocity;
     float       p_delta_spin;
     float       p_delta_ttl;

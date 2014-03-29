@@ -55,6 +55,15 @@ VDIRS              = $(BUILD_DIR)\
                      $(TARGET_BUILD_DIR)/physic\
                      $(TARGET_BUILD_DIR)/renderer
 
+CFLAGS += -I$(SRC_DIR)\
+          -I$(AI_SRC_DIR)\
+          -I$(ENTITY_SRC_DIR)\
+          -I$(FUNCTION_SRC_DIR)\
+          -I$(MATH_SRC_DIR)\
+          -I$(MODEL_SRC_DIR)\
+          -I$(PHYSIC_SRC_DIR)\
+          -I$(RENDERER_SRC_DIR)
+
 ###########################
 # Source and object files #
 ###########################
