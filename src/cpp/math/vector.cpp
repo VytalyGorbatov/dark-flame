@@ -16,37 +16,6 @@ void P3D::SetXYZ(const float& a, const float& b, const float& c)
     x = a; y = b; z = c;
 }
 
-V3D::V3D()
-{
-    dir.x = 0;
-    dir.y = 0;
-    dir.z = 0;
-}
-
-V3D::V3D(const P3D& v)
-{
-    dir = v;
-}
-
-V3D::V3D(const P3D& b, const P3D& e)
-{
-    dir.x = e.x - b.x;
-    dir.y = e.y - b.y;
-    dir.z = e.z - b.z;
-}
-
-V3D::V3D(const float& x, const float& y, const float& z)
-{
-    dir.x = x;
-    dir.y = y;
-    dir.z = z;
-}
-
-V3D::V3D(const V3D& v)
-{
-    dir = v.dir;
-}
-
 bool V3D::SetLength(const float& nl)
 {
     float l = (float)sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
