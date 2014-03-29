@@ -46,14 +46,14 @@ UTEST_BUILD_DIR    = $(TARGET_BUILD_DIR)/utest
 # Source and object files #
 ###########################
 
-SRC_OBJS        = $(patsubst $(SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(SRC_DIR)/*.cpp))
-AI_OBJS         = $(patsubst $(AI_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(AI_SRC_DIR)/*.cpp))
-ENTITY_OBJ      = $(patsubst $(ENTITY_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(ENTITY_SRC_DIR)/*.cpp))
-FUNCTION_OBJS   = $(patsubst $(FUNCTION_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(FUNCTION_SRC_DIR)/*.cpp))
-MATH_OBJS       = $(patsubst $(MATH_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MATH_SRC_DIR)/*.cpp))
-MODEL_OBJS      = $(patsubst $(MODEL_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MODEL_SRC_DIR)/*.cpp))
-PHYSICS_OBJS    = $(patsubst $(PHYSICS_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSICS_SRC_DIR)/*.cpp))
-RENDERER_OBJS   = $(patsubst $(RENDERER_SRC_DIR)/%.c,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
+SRC_OBJS        = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(SRC_DIR)/*.cpp))
+AI_OBJS         = $(patsubst $(AI_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(AI_SRC_DIR)/*.cpp))
+ENTITY_OBJ      = $(patsubst $(ENTITY_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(ENTITY_SRC_DIR)/*.cpp))
+FUNCTION_OBJS   = $(patsubst $(FUNCTION_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(FUNCTION_SRC_DIR)/*.cpp))
+MATH_OBJS       = $(patsubst $(MATH_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MATH_SRC_DIR)/*.cpp))
+MODEL_OBJS      = $(patsubst $(MODEL_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MODEL_SRC_DIR)/*.cpp))
+PHYSICS_OBJS    = $(patsubst $(PHYSICS_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSICS_SRC_DIR)/*.cpp))
+RENDERER_OBJS   = $(patsubst $(RENDERER_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
 
 SRCS_OBJS       = $(SRC_OBJS) \
                   $(AI_SRC_OBJS) \
@@ -66,7 +66,7 @@ SRCS_OBJS       = $(SRC_OBJS) \
 
 UTEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/unit*.cpp))
 UTEST_CPP      += utils.cpp
-UTEST_OBJS      = $(addprefix $(UTEST_BUILD_DIR)/,$(patsubst %.c,%.$(OBJ_EXT),$(UTEST_CPP)))
+UTEST_OBJS      = $(addprefix $(UTEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),$(UTEST_CPP)))
 
 ###################
 # Default targets #
@@ -109,14 +109,26 @@ $(PHYSICS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(PHYSICS_SRC_DIR)/%.cpp
 $(RENDERER_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(RENDERER_SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(UTEST_SRC_DIR)/%.cpp
+$(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
+
+$(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
+	$(LNK) $(CFLAGS) $(LDFLAGS) $^ -o $@
 
 ################
 # Unit testing #
 ################
 
-.PHONY: $(UTEST_BUILD_DIR)/unit
+.PHONY: $(UTEST_GOALS)
 
-$(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
-	$(LNK) $(CFLAGS) $(LDFLAGS) $^ -o $@
+$(UTEST_GOALS): $(UTEST_BUILD_DIR)/unit
+	$(UTEST_BUILD_DIR)/unit
+
+######################
+# Debug the Makefile #
+######################
+
+debug:
+	@echo $(UTEST_OBJS)
+	@echo $(UTEST_BUILD_DIR)
+	@echo $(TEST_DIR)
