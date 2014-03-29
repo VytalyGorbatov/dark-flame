@@ -31,7 +31,7 @@ ENTITY_SRC_DIR     = src/cpp/entity
 FUNCTION_SRC_DIR   = src/cpp/function
 MATH_SRC_DIR       = src/cpp/math
 MODEL_SRC_DIR      = src/cpp/model
-PHYSICS_SRC_DIR    = src/cpp/physics
+PHYSIC_SRC_DIR     = src/cpp/physic
 RENDERER_SRC_DIR   = src/cpp/renderer
 TEST_DIR           = test/cpp
 
@@ -52,7 +52,7 @@ VDIRS              = $(BUILD_DIR)\
                      $(TARGET_BUILD_DIR)/function\
                      $(TARGET_BUILD_DIR)/math\
                      $(TARGET_BUILD_DIR)/model\
-                     $(TARGET_BUILD_DIR)/physics\
+                     $(TARGET_BUILD_DIR)/physic\
                      $(TARGET_BUILD_DIR)/renderer
 
 ###########################
@@ -65,7 +65,7 @@ ENTITY_OBJ      = $(patsubst $(ENTITY_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ
 FUNCTION_OBJS   = $(patsubst $(FUNCTION_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(FUNCTION_SRC_DIR)/*.cpp))
 MATH_OBJS       = $(patsubst $(MATH_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MATH_SRC_DIR)/*.cpp))
 MODEL_OBJS      = $(patsubst $(MODEL_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MODEL_SRC_DIR)/*.cpp))
-PHYSICS_OBJS    = $(patsubst $(PHYSICS_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSICS_SRC_DIR)/*.cpp))
+PHYSIC_OBJS     = $(patsubst $(PHYSIC_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSIC_SRC_DIR)/*.cpp))
 RENDERER_OBJS   = $(patsubst $(RENDERER_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
 
 SRCS_OBJS       = $(SRC_OBJS)\
@@ -74,7 +74,7 @@ SRCS_OBJS       = $(SRC_OBJS)\
                   $(FUNCTION_OBJS)\
                   $(MATH_OBJS)\
                   $(MODEL_OBJS)\
-                  $(PHYSICS_OBJS)\
+                  $(PHYSIC_OBJS)\
                   $(RENDERER_OBJS)
 
 UTEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/unit*.cpp))
@@ -119,7 +119,7 @@ $(MATH_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(MATH_SRC_DIR)/%.cpp
 $(MODEL_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(MODEL_SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(PHYSICS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(PHYSICS_SRC_DIR)/%.cpp
+$(PHYSIC_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(PHYSIC_SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(RENDERER_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(RENDERER_SRC_DIR)/%.cpp
