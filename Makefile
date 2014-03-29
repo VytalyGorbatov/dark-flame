@@ -8,8 +8,8 @@ TARGET = host
 # Compilers #
 #############
 
-CC        = gcc
-LNK       = gcc
+CC        = g++
+LNK       = g++
 OBJ_EXT   = o
 
 ##################
@@ -41,6 +41,19 @@ TARGET_BUILD_DIR   = $(BUILD_DIR)/$(TARGET)
 TARGET_DIST_DIR    = $(DIST_DIR)/$(TARGET)
 
 UTEST_BUILD_DIR    = $(TARGET_BUILD_DIR)/utest
+
+VDIRS              = $(BUILD_DIR)\
+                     $(DIST_DIR)\
+                     $(TARGET_BUILD_DIR)\
+                     $(TARGET_DIST_DIR)\
+                     $(UTEST_BUILD_DIR)\
+                     $(TARGET_BUILD_DIR)/ai\
+                     $(TARGET_BUILD_DIR)/entity\
+                     $(TARGET_BUILD_DIR)/function\
+                     $(TARGET_BUILD_DIR)/math\
+                     $(TARGET_BUILD_DIR)/model\
+                     $(TARGET_BUILD_DIR)/physics\
+                     $(TARGET_BUILD_DIR)/renderer
 
 ###########################
 # Source and object files #
@@ -80,6 +93,9 @@ rebuild: clean all
 
 clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR)
+
+$(VDIRS):
+	mkdir $@
 
 ############################
 # Compilation and building #
@@ -121,7 +137,7 @@ $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
 
 .PHONY: $(UTEST_GOALS)
 
-$(UTEST_GOALS): $(UTEST_BUILD_DIR)/unit
+$(UTEST_GOALS): $(VDIRS) $(UTEST_BUILD_DIR)/unit
 	$(UTEST_BUILD_DIR)/unit
 
 ######################
