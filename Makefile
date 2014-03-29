@@ -111,34 +111,34 @@ $(VDIRS):
 ############################
 
 $(SRC_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(AI_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(AI_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(ENTITY_OBJ): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(ENTITY_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(FUNCTION_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(FUNCTION_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(MATH_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(MATH_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(MODEL_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(MODEL_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(PHYSIC_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(PHYSIC_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(RENDERER_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(RENDERER_SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
-	$(LNK) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(LNK) $^ $(CFLAGS) $(LDFLAGS) -o $@
 
 ################
 # Unit testing #
