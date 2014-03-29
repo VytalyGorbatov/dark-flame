@@ -129,7 +129,7 @@ $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
-	$(LNK) $(CFLAGS) $(LDFLAGS) $^ -o $@
+	$(LNK) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 ################
 # Unit testing #
