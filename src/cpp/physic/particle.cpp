@@ -306,6 +306,7 @@ void EMITTER::update(float dt)
     /* computing */
     for (int i = 0; i < particles_cnt; ++i) {
         particles[i]->update(dt, env_density, NULL, NULL);
+        // TODO: apply external forces
         // particles[i]->update(dt, env_density, &ConstForce, &CrPrm.Gravity);
     }
 }
