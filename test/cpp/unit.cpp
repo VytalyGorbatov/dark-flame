@@ -5,7 +5,7 @@ extern void unit_vector(void);
 
 int main()
 {
-    unit_vector(void);
+    unit_vector();
 
     std::cout << "Total errors: " << error_count << std::endl << std::endl;
 
