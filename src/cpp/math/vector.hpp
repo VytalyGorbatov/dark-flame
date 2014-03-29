@@ -18,9 +18,10 @@ public:
         x = a; y = b; z = c;
     }
 
-    void mult_by(const float& a)
+    P3D& mult_by(const float& a)
     {
         x *= a; y *= a; z *= a;
+        return *this;
     }
 
     void set_xyz(const float& a, const float& b, const float& c)
@@ -103,11 +104,12 @@ public:
         return res;
     }
 
-    void mult_by(const float& a)
+    V3D& mult_by(const float& a)
     {
         dir.x *= a;
         dir.y *= a;
         dir.z *= a;
+        return *this;
     }
 
     float abs_mult(const V3D& v) const
