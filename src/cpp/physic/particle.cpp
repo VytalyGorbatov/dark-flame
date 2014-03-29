@@ -336,7 +336,7 @@ void EMITTER::init_particle(PARTICLE* p)
         p_ttl += rnd * p_delta_ttl;
     }
 
-    if (p_delta_velocity)     {
+    if (p_delta_velocity) {
         rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
         vel.dir.x += rnd * p_delta_velocity;
         rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
