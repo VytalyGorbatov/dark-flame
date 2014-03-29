@@ -144,6 +144,8 @@ $(UTEST_GOALS): $(VDIRS) $(UTEST_BUILD_DIR)/unit
 # Debug the Makefile #
 ######################
 
+.PHONY: debug
+
 debug:
 	@echo $(UTEST_OBJS)
 	@echo $(UTEST_BUILD_DIR)
