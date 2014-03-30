@@ -13,7 +13,8 @@ private:
 
 public:
     LFILE();
-    LFILE(const char* name_output, const char* text = NULL);
+    LFILE(const char* name_output);
+    LFILE(const char* name_output, const char* text);
     ~LFILE();
 
     LFILE(const LFILE&);

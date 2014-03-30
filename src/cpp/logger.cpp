@@ -13,6 +13,12 @@ LFILE::LFILE()
     fhdl = NULL;
 }
 
+LFILE::LFILE(const char* name)
+{
+    fhdl = NULL;
+    sprintf((char*)file_name, "%s", name);
+}
+
 LFILE::LFILE(const char* name, const char* text)
 {
     memset(file_name, 0, sizeof(file_name));
@@ -146,4 +152,4 @@ void LFILE::deny()
     fhdl = NULL;
 }
 
-LFILE DFLOG("log.txt", "PROJECT\tDark Flame\n\n");
+LFILE DFLOG("log.txt");
