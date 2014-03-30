@@ -11,7 +11,7 @@ private:
     V3D     velocity;
     float   volume;
     float   spin;            // positive value - clockwise, negative value - conterclock
-    float   angle;           // destination summary angle of spinning
+    float   angle;           // destination summary rotation angle
 
     float   ttl;             // time to live
 
