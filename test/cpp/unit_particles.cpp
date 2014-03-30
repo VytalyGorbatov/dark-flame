@@ -1,6 +1,9 @@
 #include "utils.hpp"
 #include "particle.hpp"
 
+using namespace math;
+using namespace physic;
+
 static void test_particle_ttl(void)
 {
     P3D p(0, 0, 0);

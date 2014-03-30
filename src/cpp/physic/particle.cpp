@@ -2,6 +2,9 @@
 #include <math.h>
 #include "particle.hpp"
 
+using namespace math;
+using namespace physic;
+
 PARTICLE::PARTICLE()
 {
     mass = 1;

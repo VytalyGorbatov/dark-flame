@@ -1,6 +1,8 @@
 #include "utils.hpp"
 #include "vector.hpp"
 
+using namespace math;
+
 static void test_add_points(void)
 {
     P3D a(1, 1, 1);

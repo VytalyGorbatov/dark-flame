@@ -1,6 +1,8 @@
 #include <math.h>
 #include "vector.hpp"
 
+using namespace math;
+
 float P3D::get_distance(const P3D& p) const
 {
     return (float)sqrt((p.x - x) * (p.x - x) + (p.y - y) * (p.y - y) + (p.z - z) * (p.z - z));

@@ -3,30 +3,33 @@
 
 #include "vector.hpp"
 
+namespace physic
+{
+
 class PARTICLE
 {
 private:
-    P3D     position;
-    float   mass;
-    V3D     velocity;
-    float   volume;
-    float   spin;            // positive value - clockwise, negative value - conterclock
-    float   angle;           // destination summary rotation angle
+    math::P3D position;
+    float     mass;
+    math::V3D velocity;
+    float     volume;
+    float     spin;            // positive value - clockwise, negative value - conterclock
+    float     angle;           // destination summary rotation angle
 
-    float   ttl;             // time to live
+    float     ttl;             // time to live
 
-    float   f_volume;        // volume modificator
-    float   f_spin;          // spin modificator
+    float     f_volume;        // volume modificator
+    float     f_spin;          // spin modificator
 
 public:
     PARTICLE();
-    PARTICLE(const P3D& pos, float mass, float volume, const V3D& velocity, float spin, float time_to_life);
+    PARTICLE(const math::P3D& pos, float mass, float volume, const math::V3D& velocity, float spin, float time_to_life);
 
-    void set_start(const P3D& pos, float mass, float volume, const V3D& velocity, float spin, float time_to_life);
+    void set_start(const math::P3D& pos, float mass, float volume, const math::V3D& velocity, float spin, float time_to_life);
     void set_final(float final_volume, float final_spin, float angle = 0);
 
     /* if returns with false, then this particle is inactive (can be deleted) */
-    bool update(float dt, const float env_density = 0, const V3D* env_force = NULL, const V3D* gravity = NULL);
+    bool update(float dt, const float env_density = 0, const math::V3D* env_force = NULL, const math::V3D* gravity = NULL);
     bool is_alive() const;
 };
 
@@ -44,17 +47,17 @@ private:
 public:
 
     /* emitter properties */
-    P3D         position;
+    math::P3D   position;
 
     float       pps;         // particles per second;
     float       scale;
     float       env_density;
-    V3D         ext_force;
+    math::V3D   ext_force;
 
     /* emission particle properties */
     float       p_mass;
     float       p_volume;
-    V3D         p_velocity;
+    math::V3D   p_velocity;
     float       p_spin;
     float       p_ttl;
     float       p_f_volume;
@@ -67,16 +70,18 @@ public:
 
 public:
     EMITTER();
-    EMITTER(const P3D& position, float particles_per_second, int max_particles);
+    EMITTER(const math::P3D& position, float particles_per_second, int max_particles);
     ~EMITTER();
 
     EMITTER(const EMITTER&);
     EMITTER& operator =(const EMITTER&);
 
-    void init(const P3D& position, float particles_per_second, int max_particles);
+    void init(const math::P3D& position, float particles_per_second, int max_particles);
     void start_emission();
     void stop_emission();
     void update(float dt);
 };
+
+} // namespace physic
 
 #endif // __PARTICLE_HPP__

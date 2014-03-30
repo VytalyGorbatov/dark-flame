@@ -1,6 +1,9 @@
 #ifndef __VECTOR_HPP__
 #define __VECTOR_HPP__
 
+namespace math
+{
+
 /** Math point in Cartesian coordinate system. */
 class P3D
 {
@@ -161,5 +164,7 @@ inline V3D operator -(V3D lh, const V3D& rh)
     lh.dir.z -= rh.dir.z;
     return lh;
 }
+
+} // namespace math
 
 #endif // __VECTOR_HPP__
