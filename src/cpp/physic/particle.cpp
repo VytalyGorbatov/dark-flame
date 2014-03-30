@@ -193,8 +193,9 @@ EMITTER::EMITTER(const EMITTER& m)
 }
 EMITTER& EMITTER::operator =(const EMITTER& m)
 {
-    if (&m == this)
+    if (&m == this) {
         return *this;
+    }
 
     for (int i = 0; i < particles_cnt; ++i) {
         delete particles[i];
