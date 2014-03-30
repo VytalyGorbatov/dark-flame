@@ -12,6 +12,8 @@ CC        = g++
 LNK       = g++
 OBJ_EXT   = o
 
+LDFLAGS += -lglut -lGL -lGLU
+
 ##################
 # Extended goals #
 ##################
