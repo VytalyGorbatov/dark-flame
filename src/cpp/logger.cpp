@@ -9,31 +9,80 @@ unsigned int LFILE::note = 0;
 
 LFILE::LFILE()
 {
-
+    memset(file_name, 0, sizeof(file_name));
+    fhdl = NULL;
 }
 
 LFILE::LFILE(const char* name, const char* text)
 {
-    fstream* handler = new fstream;
+    memset(file_name, 0, sizeof(file_name));
 
-    handler->open(name, ios::binary | ios::out | ios::trunc);
-    sprintf((char*)logname, "%s", name);
-    if(handler->fail()) {
-        handler->close();
+    fhdl = new fstream;
+    fhdl->open(name, ios::binary | ios::out | ios::trunc);
+    if (fhdl->fail()) {
+        fhdl->close();
+        delete fhdl;
+        fhdl = NULL;
         return;
     }
 
-    if (text) {
-        handler->write((char*)text, strlen(text));
-    }
+    sprintf((char*)file_name, "%s", name);
 
-    handler->close();
-    delete handler;
+    if (text) {
+        fhdl->write((char*)text, strlen(text));
+        if(fhdl->fail()) {
+            fhdl->close();
+            delete fhdl;
+            fhdl = NULL;
+        }
+    }
 }
 
 LFILE::~LFILE()
 {
+    if (fhdl) {
+        fhdl->close();
+        delete fhdl;
+    }
+}
 
+LFILE::LFILE(const LFILE& m)
+{
+    memcpy(file_name, m.file_name, sizeof(file_name));
+
+    fhdl = new fstream;
+    fhdl->open(file_name, ios::binary | ios::out | ios::trunc);
+
+    if (fhdl->fail()) {
+        fhdl->close();
+        delete fhdl;
+        fhdl = NULL;
+    }
+}
+
+LFILE& LFILE::operator =(const LFILE& m)
+{
+    if (&m == this) {
+        return *this;
+    }
+
+    if (fhdl) {
+        fhdl->close();
+        delete fhdl;
+    }
+
+    memcpy(file_name, m.file_name, sizeof(file_name));
+
+    fhdl = new fstream;
+    fhdl->open(file_name, ios::binary | ios::out | ios::trunc);
+
+    if (fhdl->fail()) {
+        fhdl->close();
+        delete fhdl;
+        fhdl = NULL;
+    }
+
+    return *this;
 }
 
 void LFILE::addf(const char* text, ...)
@@ -55,23 +104,46 @@ void LFILE::add(const char* text)
     char line[1024];
     char nnote[128];
 
-    fstream* handler = new fstream;
-    handler->open((char*)logname, ios::binary | ios::out | ios::app);
-    if(handler->fail()) {
-        handler->close();
+    if (file_name[0] == '\0') {
         return;
     }
 
+    if (!fhdl) {
+        fhdl = new fstream;
+        fhdl->open((char*)file_name, ios::binary | ios::out | ios::app);
+        if(fhdl->fail()) {
+            fhdl->close();
+            delete fhdl;
+            fhdl = NULL;
+            return;
+        }
+    }
+
+
     memset(nnote, 0, 128);
     sprintf(nnote, " <%d> ", note);
-    handler->write((char*)nnote, strlen(nnote));
+    fhdl->write((char*)nnote, strlen(nnote));
     note++;
     memset(line, 0, 1024);
     sprintf(line, "%s", text);
-    handler->write((char*)line, strlen(line));
-    handler->close();
 
-    delete handler;
+    fhdl->write((char*)line, strlen(line));
+    if(fhdl->fail()) {
+        fhdl->close();
+        delete fhdl;
+        fhdl = NULL;
+    }
+}
+
+void LFILE::deny()
+{
+    if (fhdl) {
+        fhdl->close();
+        delete fhdl;
+    }
+
+    memset(file_name, 0, sizeof(file_name));
+    fhdl = NULL;
 }
 
 LFILE DFLOG("log.txt", "PROJECT\tDark Flame\n\n");
