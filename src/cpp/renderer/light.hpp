@@ -4,17 +4,17 @@
 #include "renderer.hpp"
 #include "vector.hpp"
 
-namespace model
+namespace renderer
 {
 
 class LIGHT
 {
 private:
-    static renderer::GLenum* sources;
+    static GLenum* sources;
     int idx;
 
-    renderer::GLenum get_source();
-    void free_source(renderer::GLenum);
+    GLenum get_source();
+    void free_source(GLenum);
 
 private:
     float ambient[4];                       // ambient RGBA intensity
@@ -44,15 +44,15 @@ public:
 
     void switch_on() const
     {
-        renderer::glEnable(sources[idx]);
+        glEnable(sources[idx]);
     }
 
     void switch_off() const
     {
-        renderer::glDisable(sources[idx]);
+        glDisable(sources[idx]);
     }
 };
 
-} // namespace model
+} // namespace renderer
 
 #endif  // __LIGHT_HPP__

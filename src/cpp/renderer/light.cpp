@@ -4,7 +4,6 @@
 
 using namespace math;
 using namespace renderer;
-using namespace model;
 
 GLenum* LIGHT::sources = NULL;
 

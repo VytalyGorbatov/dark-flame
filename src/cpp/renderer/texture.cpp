@@ -6,8 +6,7 @@
 
 using namespace std;
 using namespace renderer;
-using namespace model;
-using namespace model::texture;
+using namespace renderer::texture;
 
 #pragma push
 #pragma pack(1)

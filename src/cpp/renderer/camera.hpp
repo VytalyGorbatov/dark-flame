@@ -3,7 +3,7 @@
 
 #include "vector.hpp"
 
-namespace model
+namespace renderer
 {
 
 class CAMERA
@@ -33,6 +33,6 @@ public:
     void apply(const float& pitch, const float& roll, const float& yaw);
 };
 
-} // namespace model
+} // namespace renderer
 
 #endif  // __CAMERA_HPP__

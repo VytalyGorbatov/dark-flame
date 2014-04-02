@@ -5,7 +5,6 @@
 
 using namespace math;
 using namespace renderer;
-using namespace model;
 
 const P3D NP(0, 0, 0);
 const V3D Vi(1, 0, 0);
