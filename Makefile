@@ -96,7 +96,7 @@ UTEST_OBJS      = $(addprefix $(UTEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),
 # Default targets #
 ###################
 
-.PHONY: all clean rebuild
+.PHONY: all clean rebuild $(DIST_GOALS)
 
 all: $(DIST_GOALS)
 
@@ -107,6 +107,8 @@ clean:
 
 $(VDIRS):
 	mkdir $@
+
+$(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
 
 ############################
 # Compilation and building #
