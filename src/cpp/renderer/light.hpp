@@ -10,11 +10,17 @@ namespace renderer
 class LIGHT
 {
 private:
-    static GLenum* sources;
+    static GLenum* srcs;
+    static bool* actv;
+    static int srcs_cnt;
+
     int idx;
 
-    GLenum get_source();
-    void free_source(GLenum);
+    int get_source();
+    void free_source(int);
+
+    void apply_all();
+    void apply_direction();
 
 private:
     float ambient[4];                       // ambient RGBA intensity
@@ -34,23 +40,24 @@ public:
     LIGHT();
     ~LIGHT();
 
-    /*
-     * TODO:
-     * Separated constructors for directional and uniform lightning (replace default constructor).
-     * Methods to operate with position & direction through origin and target.
-     */
+    LIGHT(const LIGHT&);
+    LIGHT& operator =(const LIGHT&);
 
-    void apply();
+    void apply(const math::P3D& ambient, const math::P3D& diffuse, const math::P3D& specular,
+            const math::V3D& direction);
+    void apply(const math::P3D& ambient, const math::P3D& diffuse, const math::P3D& specular,
+            const math::P3D& position, float const_att, float line_att, float quad_att);
+    void apply(const math::P3D& ambient, const math::P3D& diffuse, const math::P3D& specular,
+            const math::P3D& position, const math::V3D& direction, float const_att, float line_att, float quad_att, float exponent, float cutoff);
+    void apply(const math::P3D& ambient, const math::P3D& diffuse, const math::P3D& specular,
+            const math::P3D& origin, const math::P3D& target, float const_att, float line_att, float quad_att, float exponent, float cutoff);
+    void apply(const math::P3D& origin, const math::P3D& target);
 
-    void switch_on() const
-    {
-        glEnable(sources[idx]);
-    }
+    void switch_on() const;
+    void switch_off() const;
 
-    void switch_off() const
-    {
-        glDisable(sources[idx]);
-    }
+    static int get_max_sources();
+    static int get_sources_left();
 };
 
 } // namespace renderer
