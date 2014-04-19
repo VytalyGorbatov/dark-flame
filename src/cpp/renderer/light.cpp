@@ -1,7 +1,7 @@
+#include "logger.hpp"
 #include "vector.hpp"
 #include "renderer.hpp"
 #include "light.hpp"
-// FIXME: #include "logger.hpp"
 
 using namespace math;
 using namespace renderer;
@@ -56,7 +56,7 @@ void LIGHT::free_source(int idx)
             glDisable(srcs[idx]);
             actv[idx] = false;
         } else {
-            // FIXME (see top): DFLOG.addf("WARNING: try to free light source: %p %p [%d, max %d] %s.\n", srcs, actv, idx, srcs_cnt, actv && idx < srcs_cnt && actv[idx] ? "(in use)" : "(idle)");
+            DFLOG.addf("WARNING: try to free light source: %p %p [%d, max %d] %s.\n", srcs, actv, idx, srcs_cnt, actv && idx < srcs_cnt && actv[idx] ? "(in use)" : "(idle)");
         }
     }
 }
