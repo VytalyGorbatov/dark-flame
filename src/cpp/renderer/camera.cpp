@@ -5,6 +5,7 @@
 
 using namespace math;
 using namespace renderer;
+using namespace renderer::camera;
 
 const P3D NP(0, 0, 0);
 const V3D Vi(1, 0, 0);
@@ -13,7 +14,7 @@ const V3D Vk(0, 0, 1);
 
 const float PI = 3.1415926f;
 
-CAMERA::CAMERA()
+MCAMERA::MCAMERA()
 {
     position = NP;
     i = Vi;
@@ -22,7 +23,7 @@ CAMERA::CAMERA()
     yaw = 0;
 }
 
-CAMERA::CAMERA(const P3D& p)
+MCAMERA::MCAMERA(const P3D& p)
 {
     position = p;
     i = Vi;
@@ -31,7 +32,7 @@ CAMERA::CAMERA(const P3D& p)
     yaw = 0;
 }
 
-CAMERA::CAMERA(const P3D& p, const V3D& v)
+MCAMERA::MCAMERA(const P3D& p, const V3D& v)
 {
     position = p;
     i = Vi;
@@ -41,7 +42,7 @@ CAMERA::CAMERA(const P3D& p, const V3D& v)
     yaw = 0;
 }
 
-void CAMERA::set_camera(const P3D& p, const P3D& t)
+void MCAMERA::set_camera(const P3D& p, const P3D& t)
 {
     position = p;
     V3D v(p, t);
@@ -55,14 +56,24 @@ void CAMERA::set_camera(const P3D& p, const P3D& t)
     i = j * k;
 }
 
-void CAMERA::set_vectors(const V3D& x, const V3D& y, const V3D& z)
+void MCAMERA::set_camera(const P3D& p, const V3D& v)
+{
+    position = p;
+    i = Vi;
+    j = v;
+    j.set_length(1);
+    k = Vk;
+    yaw = 0;
+}
+
+void MCAMERA::set_vectors(const V3D& x, const V3D& y, const V3D& z)
 {
     i = x;
     j = y;
     k = z;
 }
 
-void CAMERA::set_angles(const float& h, const float& v, const float& b)
+void MCAMERA::set_angles(const float h, const float v, const float b)
 {
     pitch = h;
     roll = v;
@@ -114,8 +125,9 @@ void CAMERA::set_angles(const float& h, const float& v, const float& b)
     k.set_length(1);
 }
 
-void CAMERA::apply()
+void MCAMERA::apply()
 {
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glRotated(yaw, 0, 0, 1);
     j.set_length(1);
@@ -126,20 +138,187 @@ void CAMERA::apply()
             0, 0, 1);
 }
 
-void CAMERA::apply(const P3D& p, const P3D& t)
+void MCAMERA::apply(const P3D& p, const P3D& t)
 {
     set_camera(p, t);
     apply();
 }
 
-void CAMERA::apply(const V3D& X, const V3D& Y, const V3D& Z)
+void MCAMERA::apply(const P3D& position, const V3D& dir)
+{
+    set_camera(position, dir);
+    apply();
+}
+
+void MCAMERA::apply(const V3D& X, const V3D& Y, const V3D& Z)
 {
     set_vectors(X, Y, Z);
     apply();
 }
 
-void CAMERA::apply(const float& h, const float& v, const float& b)
+void MCAMERA::apply(const float& h, const float& v, const float& b)
 {
     set_angles(h, v, b);
     apply();
+}
+
+PCAMERA::PCAMERA()
+{
+    fovy = 90;
+    aspect = 1;
+    z_near = 1;
+    z_far = 100;
+}
+
+PCAMERA::PCAMERA(float fovy, float aspect, float near, float far)
+{
+    this->fovy = fovy;
+    this->aspect = aspect;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+PCAMERA::PCAMERA(const P3D& position, const P3D& target, float fovy, float aspect, float near, float far)
+    : MCAMERA(position, target)
+{
+    this->fovy = fovy;
+    this->aspect = aspect;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+PCAMERA::PCAMERA(const P3D& position, const V3D& dir, float fovy, float aspect, float near, float far)
+    : MCAMERA(position, dir)
+{
+    this->fovy = fovy;
+    this->aspect = aspect;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+void PCAMERA::set_camera(float fovy)
+{
+    this->fovy = fovy;
+}
+
+void PCAMERA::set_camera(float fovy, float aspect)
+{
+    this->fovy = fovy;
+    this->aspect = aspect;
+}
+
+void PCAMERA::set_camera(float fovy, float aspect, float near, float far)
+{
+    this->fovy = fovy;
+    this->aspect = aspect;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+void PCAMERA::apply()
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(fovy, aspect, z_near, z_far);
+    MCAMERA::apply();
+}
+
+void PCAMERA::apply(const P3D& position, const P3D& target)
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(fovy, aspect, z_near, z_far);
+    MCAMERA::apply(position, target);
+}
+
+void PCAMERA::apply(const P3D& position, const V3D& dir)
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(fovy, aspect, z_near, z_far);
+    MCAMERA::apply(position, dir);
+}
+
+OCAMERA::OCAMERA()
+{
+    left = -1;
+    right = 1;
+    top = 1;
+    bottom = -1;
+    z_near = -50;
+    z_far = 50;
+}
+
+OCAMERA::OCAMERA(float left, float right, float top, float bottom, float near, float far)
+{
+    this->left = left;
+    this->right = right;
+    this->top = top;
+    this->bottom = bottom;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+OCAMERA::OCAMERA(const P3D& position, const P3D& target, float left, float right, float top, float bottom, float near, float far)
+    : MCAMERA(position, target)
+{
+    this->left = left;
+    this->right = right;
+    this->top = top;
+    this->bottom = bottom;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+OCAMERA::OCAMERA(const P3D& position, const V3D& dir, float left, float right, float top, float bottom, float near, float far)
+    : MCAMERA(position, dir)
+{
+    this->left = left;
+    this->right = right;
+    this->top = top;
+    this->bottom = bottom;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+void OCAMERA::set_camera(float left, float right, float top, float bottom)
+{
+    this->left = left;
+    this->right = right;
+    this->top = top;
+    this->bottom = bottom;
+}
+
+void OCAMERA::set_camera(float left, float right, float top, float bottom, float near, float far)
+{
+    this->left = left;
+    this->right = right;
+    this->top = top;
+    this->bottom = bottom;
+    this->z_near = near;
+    this->z_far = far;
+}
+
+void OCAMERA::apply()
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(left, right, bottom, top, z_near, z_far);
+    MCAMERA::apply();
+}
+
+void OCAMERA::apply(const P3D& position, const P3D& target)
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(left, right, bottom, top, z_near, z_far);
+    MCAMERA::apply(position, target);
+}
+
+void OCAMERA::apply(const P3D& position, const V3D& dir)
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(left, right, bottom, top, z_near, z_far);
+    MCAMERA::apply(position, dir);
 }
