@@ -71,13 +71,13 @@ CFLAGS += -I$(SRC_DIR)\
 ###########################
 
 SRC_OBJS        = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(SRC_DIR)/*.cpp))
-AI_OBJS         = $(patsubst $(AI_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(AI_SRC_DIR)/*.cpp))
-ENTITY_OBJ      = $(patsubst $(ENTITY_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(ENTITY_SRC_DIR)/*.cpp))
-FUNCTION_OBJS   = $(patsubst $(FUNCTION_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(FUNCTION_SRC_DIR)/*.cpp))
-MATH_OBJS       = $(patsubst $(MATH_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MATH_SRC_DIR)/*.cpp))
-MODEL_OBJS      = $(patsubst $(MODEL_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MODEL_SRC_DIR)/*.cpp))
-PHYSIC_OBJS     = $(patsubst $(PHYSIC_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSIC_SRC_DIR)/*.cpp))
-RENDERER_OBJS   = $(patsubst $(RENDERER_SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
+AI_OBJS         = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(AI_SRC_DIR)/*.cpp))
+ENTITY_OBJ      = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(ENTITY_SRC_DIR)/*.cpp))
+FUNCTION_OBJS   = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(FUNCTION_SRC_DIR)/*.cpp))
+MATH_OBJS       = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MATH_SRC_DIR)/*.cpp))
+MODEL_OBJS      = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MODEL_SRC_DIR)/*.cpp))
+PHYSIC_OBJS     = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSIC_SRC_DIR)/*.cpp))
+RENDERER_OBJS   = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
 
 SRCS_OBJS       = $(SRC_OBJS)\
                   $(AI_OBJS)\
@@ -114,28 +114,7 @@ $(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
 # Compilation and building #
 ############################
 
-$(SRC_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(AI_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(AI_SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(ENTITY_OBJ): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(ENTITY_SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(FUNCTION_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(FUNCTION_SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(MATH_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(MATH_SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(MODEL_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(MODEL_SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(PHYSIC_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(PHYSIC_SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-$(RENDERER_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(RENDERER_SRC_DIR)/%.cpp
+$(SRCS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
@@ -160,7 +139,4 @@ $(UTEST_GOALS): $(VDIRS) $(UTEST_BUILD_DIR)/unit
 .PHONY: debug
 
 debug:
-	@echo $(UTEST_OBJS)
-	@echo $(UTEST_BUILD_DIR)
-	@echo $(TEST_DIR)
-	@echo $(SRCS_OBJS)
+	@echo test
