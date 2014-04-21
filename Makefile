@@ -35,6 +35,7 @@ MATH_SRC_DIR       = src/cpp/math
 MODEL_SRC_DIR      = src/cpp/model
 PHYSIC_SRC_DIR     = src/cpp/physic
 RENDERER_SRC_DIR   = src/cpp/renderer
+WINDOW_SRC_DIR     = src/cpp/window
 TEST_DIR           = test/cpp
 
 BUILD_DIR          = $(TMP_DIR)/build
@@ -55,7 +56,8 @@ VDIRS              = $(BUILD_DIR)\
                      $(TARGET_BUILD_DIR)/math\
                      $(TARGET_BUILD_DIR)/model\
                      $(TARGET_BUILD_DIR)/physic\
-                     $(TARGET_BUILD_DIR)/renderer
+                     $(TARGET_BUILD_DIR)/renderer\
+                     $(TARGET_BUILD_DIR)/window
 
 CFLAGS += -I$(SRC_DIR)\
           -I$(AI_SRC_DIR)\
@@ -64,7 +66,8 @@ CFLAGS += -I$(SRC_DIR)\
           -I$(MATH_SRC_DIR)\
           -I$(MODEL_SRC_DIR)\
           -I$(PHYSIC_SRC_DIR)\
-          -I$(RENDERER_SRC_DIR)
+          -I$(RENDERER_SRC_DIR)\
+          -I$(WINDOW_SRC_DIR)
 
 ###########################
 # Source and object files #
@@ -78,6 +81,7 @@ MATH_OBJS       = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$
 MODEL_OBJS      = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(MODEL_SRC_DIR)/*.cpp))
 PHYSIC_OBJS     = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(PHYSIC_SRC_DIR)/*.cpp))
 RENDERER_OBJS   = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(RENDERER_SRC_DIR)/*.cpp))
+WINDOW_OBJS     = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(WINDOW_SRC_DIR)/*.cpp))
 
 SRCS_OBJS       = $(SRC_OBJS)\
                   $(AI_OBJS)\
@@ -86,7 +90,8 @@ SRCS_OBJS       = $(SRC_OBJS)\
                   $(MATH_OBJS)\
                   $(MODEL_OBJS)\
                   $(PHYSIC_OBJS)\
-                  $(RENDERER_OBJS)
+                  $(RENDERER_OBJS)\
+                  $(WINDOW_OBJS)
 
 UTEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/unit*.cpp))
 UTEST_CPP      += utils.cpp
