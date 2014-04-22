@@ -20,6 +20,7 @@ LDFLAGS += -lglut -lGL -lGLU
 
 DIST_GOALS         = dist $(filter dist-%,$(MAKECMDGOALS))
 UTEST_GOALS        = utest $(filter utest-%,$(MAKECMDGOALS))
+ATEST_GOALS        = atest $(filter atest-%,$(MAKECMDGOALS))
 
 ###############
 # Directories #
@@ -44,12 +45,14 @@ TARGET_BUILD_DIR   = $(BUILD_DIR)/$(TARGET)
 TARGET_DIST_DIR    = $(DIST_DIR)/$(TARGET)
 
 UTEST_BUILD_DIR    = $(TARGET_BUILD_DIR)/utest
+ATEST_BUILD_DIR    = $(TARGET_BUILD_DIR)/atest
 
 VDIRS              = $(BUILD_DIR)\
                      $(DIST_DIR)\
                      $(TARGET_BUILD_DIR)\
                      $(TARGET_DIST_DIR)\
                      $(UTEST_BUILD_DIR)\
+                     $(ATEST_BUILD_DIR)\
                      $(TARGET_BUILD_DIR)/ai\
                      $(TARGET_BUILD_DIR)/entity\
                      $(TARGET_BUILD_DIR)/function\
@@ -97,6 +100,10 @@ UTEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/unit*.cpp))
 UTEST_CPP      += utils.cpp
 UTEST_OBJS      = $(addprefix $(UTEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),$(UTEST_CPP)))
 
+ATEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/accept*.cpp))
+ATEST_CPP      += utils.cpp
+ATEST_OBJS      = $(addprefix $(ATEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),$(ATEST_CPP)))
+
 ###################
 # Default targets #
 ###################
@@ -128,6 +135,12 @@ $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
 $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
 	$(LNK) $^ $(CFLAGS) $(LDFLAGS) -o $@
 
+$(ATEST_OBJS): $(ATEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+$(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
+	$(LNK) $^ $(CFLAGS) $(LDFLAGS) -o $@
+
 ################
 # Unit testing #
 ################
@@ -136,6 +149,15 @@ $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
 
 $(UTEST_GOALS): $(VDIRS) $(UTEST_BUILD_DIR)/unit
 	$(UTEST_BUILD_DIR)/unit
+
+##################
+# Accept testing #
+##################
+
+.PHONY: $(UTEST_GOALS)
+
+$(ATEST_GOALS): $(VDIRS) $(ATEST_BUILD_DIR)/accept
+	$(ATEST_BUILD_DIR)/accept
 
 ######################
 # Debug the Makefile #

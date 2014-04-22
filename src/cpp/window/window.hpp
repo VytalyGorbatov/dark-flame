@@ -7,7 +7,7 @@ namespace window
 class WINDOW
 {
 public:
-    virtual void configure() = 0;
+    virtual void configure(const char* name, int width, int height) = 0;
     virtual void make_current() = 0;
     virtual void swap_buffers() = 0;
 };

@@ -44,7 +44,7 @@ WINDOW_X& WINDOW_X::operator =(const WINDOW_X& m)
     return *this;
 }
 
-void WINDOW_X::configure()
+void WINDOW_X::configure(const char* name, int width, int height)
 {
     int att[] = {GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None};
 
@@ -73,10 +73,10 @@ void WINDOW_X::configure()
     swa.colormap = XCreateColormap(dpy, root, vi->visual, AllocNone);
     swa.event_mask = ExposureMask | KeyPressMask;
 
-    win = XCreateWindow(dpy, root, 0, 0, 600, 600, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
+    win = XCreateWindow(dpy, root, 0, 0, width, height, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 
     XMapWindow(dpy, win);
-    XStoreName(dpy, win, "VERY SIMPLE APPLICATION");
+    XStoreName(dpy, win, name);
 
     glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
 

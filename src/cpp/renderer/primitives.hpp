@@ -3,10 +3,22 @@
 
 #include "renderer.hpp"
 #include "texture.hpp"
+#include "camera.hpp"
 #include "vector.hpp"
 
 namespace renderer
 {
+
+class PRIMITIVES
+{
+public:
+    static void draw_background(const TEXTURE& image);
+    static void draw_normal(const math::P3D& position, const math::V3D& direction, const float length);
+    static void draw_aim(const camera::MCAMERA& camera, const TEXTURE& crest);
+    static void draw_skybox(const camera::MCAMERA& camera, const TEXTURE& up, const TEXTURE& dn, const TEXTURE& ft, const TEXTURE& bk, const TEXTURE& lf, const TEXTURE& rt);
+    static void draw_cube(const math::P3D& centre, float half_edge);
+    static void draw_box(const math::P3D& centre, const math::P3D& size_xyz);
+};
 
 struct MATERIAL
 {

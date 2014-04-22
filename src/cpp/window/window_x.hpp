@@ -9,7 +9,7 @@
 namespace window
 {
 
-class WINDOW_X
+class WINDOW_X : public WINDOW
 {
 private:
     Display *dpy;
@@ -25,7 +25,7 @@ public:
     WINDOW_X(const WINDOW_X&);
     WINDOW_X& operator =(const WINDOW_X&);
 
-    void configure();
+    void configure(const char* name, int width, int height);
     void make_current();
     void swap_buffers();
 };
