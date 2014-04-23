@@ -15,8 +15,8 @@ int main()
     DFLOG.deny();
 
     /* create window (pseudo code to choose OS-dependent type) */
-    int width = 640;
-    int height = 480;
+    int width = 600;
+    int height = 600;
 
     WINDOW_X window_x;
     WINDOW* window = &window_x;
@@ -30,7 +30,7 @@ int main()
 
     /* setting up camera */
     VIEWPORT viewport(0, 0, width, height);
-    PCAMERA camera(view_point, cube_origin, 90, (float)width / height, 1, 100);
+    OCAMERA camera(-5, 5, 5, -5, 5, -5);
 
     /* drawing cycle */
     while (1) {
