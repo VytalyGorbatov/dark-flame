@@ -16,6 +16,8 @@ public:
     VIEWPORT(int x_left_bot, int y_left_bot, int width, int height);
 
     void apply() const;
+
+    static void clear();
 };
 
 } // namespace renderer

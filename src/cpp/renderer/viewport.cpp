@@ -13,7 +13,11 @@ VIEWPORT::VIEWPORT(int x, int y, int w, int h)
 
 void VIEWPORT::apply() const
 {
+    glViewport(x, y, w, h);
+}
+
+void VIEWPORT::clear()
+{
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(x, y, w, h);
 }
