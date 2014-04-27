@@ -42,6 +42,20 @@ MCAMERA::MCAMERA(const P3D& p, const V3D& v)
     yaw = 0;
 }
 
+MCAMERA::MCAMERA(const P3D& p, const P3D& t)
+{
+    position = p;
+    V3D v(p, t);
+    v.set_length(1);
+
+    j = v;
+    v = j * Vk;
+    k = v * j;
+    i = j * k;
+
+    yaw = 0;
+}
+
 void MCAMERA::set_camera(const P3D& p, const P3D& t)
 {
     position = p;

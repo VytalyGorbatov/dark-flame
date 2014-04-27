@@ -12,7 +12,7 @@ namespace camera
 /* rules with modelview permutations */
 class MCAMERA
 {
-private:
+protected:
     math::P3D position;
     math::V3D i;
     math::V3D j;
@@ -30,7 +30,8 @@ private:
 public:
     MCAMERA();
     MCAMERA(const math::P3D& position);
-    MCAMERA(const math::P3D& position, const math::V3D& j);
+    MCAMERA(const math::P3D& position, const math::P3D& target);
+    MCAMERA(const math::P3D& position, const math::V3D& dir);
 
     virtual void apply();
     virtual void apply(const math::P3D& position, const math::P3D& target);
@@ -44,7 +45,7 @@ public:
 /* rules with projection permutations (perspective) */
 class PCAMERA : public camera::MCAMERA
 {
-private:
+protected:
     float fovy;
     float aspect;
     float z_near;
@@ -68,7 +69,7 @@ public:
 /* rules with projection permutations (ortho) */
 class OCAMERA : public camera::MCAMERA
 {
-private:
+protected:
     float left;
     float right;
     float top;
