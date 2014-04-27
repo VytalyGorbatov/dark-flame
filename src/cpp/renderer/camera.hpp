@@ -32,11 +32,11 @@ public:
     MCAMERA(const math::P3D& position);
     MCAMERA(const math::P3D& position, const math::V3D& j);
 
-    void apply();
-    void apply(const math::P3D& position, const math::P3D& target);
-    void apply(const math::P3D& position, const math::V3D& dir);
-    void apply(const math::V3D& i, const math::V3D& j, const math::V3D& k);
-    void apply(const float& pitch, const float& roll, const float& yaw);
+    virtual void apply();
+    virtual void apply(const math::P3D& position, const math::P3D& target);
+    virtual void apply(const math::P3D& position, const math::V3D& dir);
+    virtual void apply(const math::V3D& i, const math::V3D& j, const math::V3D& k);
+    virtual void apply(const float& pitch, const float& roll, const float& yaw);
 };
 
 } //namespace camera

@@ -30,12 +30,12 @@ int main()
 
     /* setting up camera */
     VIEWPORT viewport(0, 0, width, height);
-    OCAMERA camera(-5, 5, 5, -5, 5, -5);
+    camera::MCAMERA* camera = new OCAMERA(-5, 5, 5, -5, 5, -5);
 
     /* drawing cycle */
     while (1) {
         viewport.apply();
-        camera.apply();
+        camera->apply();
 
         PRIMITIVES::draw_cube(cube_origin, cube_size);
 
