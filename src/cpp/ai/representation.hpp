@@ -5,7 +5,19 @@ namespace ai
 {
 
 /**
- * Inner world representation.
+ * Inner Parameter.
+ */
+class PARAMETER
+{
+protected:
+    int importance;
+};
+
+/**
+ * Inner World, Representation.
+ *
+ * A set of parameters how they are known by AI,
+ * active signals sended by analyzers.
  */
 class REPRESENTATION
 {
