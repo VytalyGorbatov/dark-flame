@@ -70,10 +70,12 @@
 
     Collapsing (achieved target > verification > motivator abolition).
 
-    Excitatory (regulation of analyzer, motivator, controller potential).
+    Excitatory (gain of the motivators).
 
-    Inhibition (regulation of analyzer, motivator, controller potential).
+    Inhibition (attenuation of the motivators).
 
     Adaptation (motivator > analyzer's transfer function).
 
-    Decision (motivator > affected parameters & controllers).
+    Correction (motivator > affected inner parameters).
+
+    Decision (motivator > controllers potentials).
