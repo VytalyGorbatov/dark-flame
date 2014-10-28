@@ -79,17 +79,22 @@ void WINDOW_X::configure(const char* name, int width, int height, void* hinst)
         XDestroyWindow(dpy, win);
         XCloseDisplay(dpy);
     }
+    is_configured = false;
 
     dpy = XOpenDisplay(NULL);
     if (dpy == NULL) {
+        is_configured = false;
         DFLOG.addf("WINDOW_X: cannot connect to X server\n");
+        return;
     }
 
     Window root = DefaultRootWindow(dpy);
 
     XVisualInfo* vi = glXChooseVisual(dpy, 0, att);
     if (vi == NULL) {
+        is_configured = false;
         DFLOG.addf("WINDOW_X: no appropriate visual found\n");
+        return;
     } else {
         DFLOG.addf("WINDOW_X: visual %p selected\n", (void *)vi->visualid);
     }
@@ -119,7 +124,9 @@ void WINDOW_X::make_current()
 
 void WINDOW_X::swap_buffers()
 {
-    glXSwapBuffers(dpy, win);
+    if (is_configured) {
+        glXSwapBuffers(dpy, win);
+    }
 }
 
 #endif //LINUX
