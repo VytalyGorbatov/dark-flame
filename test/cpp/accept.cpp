@@ -19,8 +19,10 @@
  * For more details see LICENSE file.
  */
 
+#include "arch.hpp"
 #include "logger.hpp"
-#include "window_x.hpp"
+
+#include "window.hpp"
 #include "primitives.hpp"
 #include "viewport.hpp"
 #include "vector.hpp"
@@ -29,20 +31,47 @@ using namespace math;
 using namespace window;
 using namespace renderer;
 
+WINDOW* wnd = NULL;
+void *hinst = NULL;
+
+int main_test(void);
+
+/* create window (pseudo code to choose OS-dependent type) */
+
+#if defined (WINDOWS)
+#include "window_winapi.hpp"
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+    WINDOW_WINAPI window_winapi;
+    wnd = &window_winapi;
+    hinst = hInstance;
+
+    return main_test();
+}
+#elif defined (LINUX)
+#include "window_x.hpp"
 int main()
 {
+    WINDOW_X window_x;
+    wnd = &window_x;
+    hinst = NULL;
 
+    return main_test();
+}
+#else
+#   error Current operating system is not supported yet.
+#endif
+
+int main_test(void)
+{
     /* comment next line to logging */
     DFLOG.deny();
 
-    /* create window (pseudo code to choose OS-dependent type) */
     int width = 800;
     int height = 400;
 
-    WINDOW_X window_x;
-    WINDOW* window = &window_x;
-    window->configure("Accept test window", width, height);
-    window->make_current();
+    wnd->configure("Accept test window", width, height, hinst);
+    wnd->make_current();
 
     /* parameters for drawing objects */
     P3D view_point(-2.1f, 2.8f, 3);
@@ -71,7 +100,7 @@ int main()
         camera2->apply();
         PRIMITIVES::draw_cube(cube_origin, cube_size);
 
-        window->swap_buffers();
+        wnd->swap_buffers();
     }
 
     return 0;

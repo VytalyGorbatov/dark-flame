@@ -91,7 +91,8 @@ CFLAGS += -I$(SRC_DIR)\
           -I$(MODEL_SRC_DIR)\
           -I$(PHYSIC_SRC_DIR)\
           -I$(RENDERER_SRC_DIR)\
-          -I$(WINDOW_SRC_DIR)
+          -I$(WINDOW_SRC_DIR)\
+          -fpermissive
 
 ###########################
 # Source and object files #

@@ -22,10 +22,14 @@
 #ifndef __WINDOW_X_HPP__
 #define __WINDOW_X_HPP__
 
+#include "arch.hpp"
+#include "window.hpp"
+
+#if defined (LINUX)
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
-#include "window.hpp"
 
 namespace window
 {
@@ -46,11 +50,13 @@ public:
     WINDOW_X(const WINDOW_X&);
     WINDOW_X& operator =(const WINDOW_X&);
 
-    void configure(const char* name, int width, int height);
+    void configure(const char* name, int width, int height, void* hinst);
     void make_current();
     void swap_buffers();
 };
 
 } // namespace window
+
+#endif // LINUX
 
 #endif  // __WINDOW_X_HPP__

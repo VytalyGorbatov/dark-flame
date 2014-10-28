@@ -19,11 +19,15 @@
  * For more details see LICENSE file.
  */
 
+#include "arch.hpp"
+#include "logger.hpp"
+#include "window_x.hpp"
+
+#if defined (LINUX)
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
-#include "logger.hpp"
-#include "window_x.hpp"
 
 using namespace window;
 
@@ -65,7 +69,7 @@ WINDOW_X& WINDOW_X::operator =(const WINDOW_X& m)
     return *this;
 }
 
-void WINDOW_X::configure(const char* name, int width, int height)
+void WINDOW_X::configure(const char* name, int width, int height, void* hinst)
 {
     int att[] = {GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None};
 
@@ -117,3 +121,5 @@ void WINDOW_X::swap_buffers()
 {
     glXSwapBuffers(dpy, win);
 }
+
+#endif //LINUX
