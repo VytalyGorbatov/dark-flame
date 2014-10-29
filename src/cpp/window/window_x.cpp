@@ -69,7 +69,7 @@ WINDOW_X& WINDOW_X::operator =(const WINDOW_X& m)
     return *this;
 }
 
-void WINDOW_X::configure(const char* name, int width, int height, void* hinst)
+void WINDOW_X::configure(const char* name, int width, int height)
 {
     int att[] = {GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None};
 

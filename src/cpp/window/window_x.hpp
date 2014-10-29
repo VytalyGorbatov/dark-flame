@@ -50,7 +50,7 @@ public:
     WINDOW_X(const WINDOW_X&);
     WINDOW_X& operator =(const WINDOW_X&);
 
-    void configure(const char* name, int width, int height, void* hinst);
+    void configure(const char* name, int width, int height);
     void make_current();
     void swap_buffers();
 };

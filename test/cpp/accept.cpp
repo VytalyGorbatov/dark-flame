@@ -23,6 +23,8 @@
 #include "logger.hpp"
 
 #include "window.hpp"
+#include "window_winapi.hpp"
+#include "window_x.hpp"
 #include "primitives.hpp"
 #include "viewport.hpp"
 #include "vector.hpp"
@@ -31,46 +33,11 @@ using namespace math;
 using namespace window;
 using namespace renderer;
 
-WINDOW* wnd = NULL;
-void *hinst = NULL;
+const int window_width = 800;
+const int window_height = 400;
 
-int main_test(void);
-
-/* create window (pseudo code to choose OS-dependent type) */
-
-#if defined (WINDOWS)
-#include "window_winapi.hpp"
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int main_test(WINDOW* wnd)
 {
-    WINDOW_WINAPI window_winapi;
-    wnd = &window_winapi;
-    hinst = hInstance;
-
-    return main_test();
-}
-#elif defined (LINUX)
-#include "window_x.hpp"
-int main()
-{
-    WINDOW_X window_x;
-    wnd = &window_x;
-    hinst = NULL;
-
-    return main_test();
-}
-#else
-#   error Current operating system is not supported yet.
-#endif
-
-int main_test(void)
-{
-    /* comment next line to logging */
-    DFLOG.deny();
-
-    int width = 800;
-    int height = 400;
-
-    wnd->configure("Accept test window", width, height, hinst);
     wnd->make_current();
 
     /* parameters for drawing objects */
@@ -81,10 +48,12 @@ int main_test(void)
     /* setting up camera and viewports */
     float z_near = 0.1f;
     float z_far = 50.0f;
-    VIEWPORT viewport1(0, 0, width / 2, height);
-    VIEWPORT viewport2(width / 2, 0, width / 2, height);
-    camera::MCAMERA* camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
-    camera::MCAMERA* camera2 = new PCAMERA(view_point, cube_origin, 90, (width / 2.0f) / height, z_near, z_far);
+    VIEWPORT viewport1(0, 0, window_width / 2, window_height);
+    VIEWPORT viewport2(window_width / 2, 0, window_width / 2, window_height);
+    camera::MCAMERA* camera1 = new OCAMERA(view_point, cube_origin,
+            -5, 5, 5, -5, z_near, z_far);
+    camera::MCAMERA* camera2 = new PCAMERA(view_point, cube_origin,
+            90, (window_width / 2.0f) / window_height, z_near, z_far);
 
     /* drawing cycle */
     while (1) {
@@ -105,3 +74,33 @@ int main_test(void)
 
     return 0;
 }
+
+/* create window (pseudo code to choose OS-dependent type) */
+
+#if defined (WINDOWS)
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+{
+    DFLOG.deny();
+
+    WINDOW_WINAPI wnd;
+    wnd.configure("Accept test window", window_width, window_height, hInstance);
+
+    return main_test();
+}
+
+#elif defined (LINUX)
+
+int main()
+{
+    DFLOG.deny();
+
+    WINDOW_X wnd;
+    wnd.configure("Accept test window", window_width, window_height);
+
+    return main_test(&wnd);
+}
+
+#else
+#   error Unsupported target platform.
+#endif
