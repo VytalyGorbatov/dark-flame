@@ -31,7 +31,36 @@ using namespace math;
 
 void PRIMITIVES::draw_background(const TEXTURE& image)
 {
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
 
+    glColor3f(1, 1, 1);
+    image.bind();
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(1, 1);
+    glVertex3f(-1, 1, -1);
+    glTexCoord2f(1, 0);
+    glVertex3f(1, 1, -1);
+    glTexCoord2f(0, 0);
+    glVertex3f(1, -1, -1);
+    glTexCoord2f(0, 1);
+    glVertex3f(-1, -1, -1);
+    glEnd();
+
+    glPopMatrix();
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_LIGHTING);
 }
 
 void PRIMITIVES::draw_normal(const P3D& position, const V3D& direction, const float length)

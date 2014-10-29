@@ -48,16 +48,26 @@ int main_test(WINDOW* wnd)
     /* setting up camera and viewports */
     float z_near = 0.1f;
     float z_far = 50.0f;
+
+    VIEWPORT viewport0(0, 0, window_width, window_height);
     VIEWPORT viewport1(0, 0, window_width / 2, window_height);
     VIEWPORT viewport2(window_width / 2, 0, window_width / 2, window_height);
+
     camera::MCAMERA* camera1 = new OCAMERA(view_point, cube_origin,
             -5, 5, 5, -5, z_near, z_far);
     camera::MCAMERA* camera2 = new PCAMERA(view_point, cube_origin,
             90, (window_width / 2.0f) / window_height, z_near, z_far);
 
+    /* textures */
+    TEXTURE bckgnd;
+
     /* drawing cycle */
     while (1) {
         VIEWPORT::clear();
+
+        /* draw logo */
+        viewport0.apply();
+        PRIMITIVES::draw_background(bckgnd);
 
         /* ortho */
         viewport1.apply();
