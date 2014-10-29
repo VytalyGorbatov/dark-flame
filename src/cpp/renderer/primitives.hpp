@@ -33,7 +33,7 @@ namespace renderer
 class PRIMITIVES
 {
 public:
-    static void draw_background(const TEXTURE& image);
+    static void draw_background(const TEXTURE& image, float attenuation = 1);
     static void draw_normal(const math::P3D& position, const math::V3D& direction, const float length);
     static void draw_aim(const camera::MCAMERA& camera, const TEXTURE& crest);
     static void draw_skybox(const camera::MCAMERA& camera, const TEXTURE& up, const TEXTURE& dn, const TEXTURE& ft, const TEXTURE& bk, const TEXTURE& lf, const TEXTURE& rt);

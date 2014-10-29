@@ -59,7 +59,7 @@ int main_test(WINDOW* wnd)
             90, (window_width / 2.0f) / window_height, z_near, z_far);
 
     /* textures */
-    TEXTURE bckgnd;
+    TEXTURE bckgnd("resources/logo.tga");
 
     /* drawing cycle */
     while (1) {
@@ -67,7 +67,7 @@ int main_test(WINDOW* wnd)
 
         /* draw logo */
         viewport0.apply();
-        PRIMITIVES::draw_background(bckgnd);
+        PRIMITIVES::draw_background(bckgnd, 0.5f);
 
         /* ortho */
         viewport1.apply();

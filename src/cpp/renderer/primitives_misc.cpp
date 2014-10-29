@@ -29,13 +29,15 @@ using namespace renderer;
 using namespace renderer::camera;
 using namespace math;
 
-void PRIMITIVES::draw_background(const TEXTURE& image)
+void PRIMITIVES::draw_background(const TEXTURE& image, float attenuation)
 {
+    attenuation = attenuation > 1 ? 1 : attenuation < 0 ? 0 : attenuation;
+
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
 
-    glColor3f(1, 1, 1);
+    glColor3f(attenuation, attenuation, attenuation);
     image.bind();
 
     glMatrixMode(GL_PROJECTION);
@@ -46,11 +48,11 @@ void PRIMITIVES::draw_background(const TEXTURE& image)
     glLoadIdentity();
 
     glBegin(GL_QUADS);
-    glTexCoord2f(1, 1);
+    glTexCoord2f(0, 0);
     glVertex3f(-1, 1, -1);
     glTexCoord2f(1, 0);
     glVertex3f(1, 1, -1);
-    glTexCoord2f(0, 0);
+    glTexCoord2f(1, 1);
     glVertex3f(1, -1, -1);
     glTexCoord2f(0, 1);
     glVertex3f(-1, -1, -1);
