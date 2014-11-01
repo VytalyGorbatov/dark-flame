@@ -19,24 +19,24 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __MODEL_HPP__
-#define __MODEL_HPP__
+#ifndef __MATERIAL_HPP__
+#define __MATERIAL_HPP__
 
-namespace model
+#include "texture.hpp"
+
+namespace model_data
 {
 
-/**
- * Entity view representation.
- */
-class MODEL
+/** Optical properties of the surface. */
+struct MATERIAL
 {
-public:
-    virtual ~MODEL() = 0;
-
-    virtual void render(float time = 0) const = 0;
-    virtual void update(float time = 0) = 0;
+    float ambient[4];                       // ambient RGBA intensity
+    float diffuse[4];                       // diffuse RGBA intensity
+    float specular[4];                      // specular RGBA intensity
+    float shine;                            // shininess
+    renderer::TEXTURE texture;              // base texture
 };
 
-} // namespace model
+} // namespace model_data
 
-#endif // __MODEL_HPP__
+#endif // __MATERIAL_HPP__
