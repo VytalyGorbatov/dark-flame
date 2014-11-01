@@ -31,7 +31,7 @@ namespace model
 class MODEL
 {
 public:
-    virtual ~MODEL() = 0;
+    virtual ~MODEL() {};
 
     virtual void render(float time = 0) const = 0;
     virtual void update(float time = 0) = 0;

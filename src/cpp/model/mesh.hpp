@@ -64,6 +64,11 @@ public:
     void render() const;
     void to_sub_mesh(const math::P3D& centre, float half_edge);
     void get_boundaries(math::P3D* min_xyz, math::P3D* max_xyz) const;
+
+    int enum_polygons() const
+    {
+        return array_cnt / 3;
+    }
 };
 
 } // namespace model_data

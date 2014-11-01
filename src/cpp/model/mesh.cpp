@@ -83,6 +83,8 @@ MESH& MESH::operator =(const MESH& m)
     memcpy(vertex, m.vertex, v_cnt * sizeof(float));
     memcpy(normal, m.normal, n_cnt * sizeof(float));
     memcpy(texture, m.texture, t_cnt * sizeof(float));
+
+    return *this;
 }
 
 void MESH::init(const P3D* vrtcs, const FACE* faces, int faces_cnt)
