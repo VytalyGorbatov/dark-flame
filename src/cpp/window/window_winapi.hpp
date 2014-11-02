@@ -27,8 +27,9 @@
 
 #if defined (WINDOWS)
 
-#include <gl\gl.h> 
 #include <windows.h>
+#include <GL\gl.h>
+#include <GL\glu.h>
 
 namespace window
 {
@@ -48,7 +49,7 @@ public:
     WINDOW_WINAPI(const WINDOW_WINAPI&);
     WINDOW_WINAPI& operator =(const WINDOW_WINAPI&);
 
-    void configure(const char* name, int width, int height, void* hinst);
+    void configure(const char* name, int width, int height, HINSTANCE hinst);
     void make_current();
     void swap_buffers();
 };

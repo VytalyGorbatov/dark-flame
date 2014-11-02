@@ -20,13 +20,10 @@
  */
 
 #include "arch.hpp"
-#include "logger.hpp"
 #include "window_winapi.hpp"
+#include "logger.hpp"
 
 #if defined (WINDOWS)
-
-#include <gl\gl.h> 
-#include <windows.h>
 
 using namespace window;
 
@@ -48,6 +45,13 @@ static LRESULT CALLBACK WndProc(HWND    hwnd,
     return (DefWindowProc(hwnd, message, wParam, lParam));
 }
 
+static wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
+{
+    wchar_t* wString = new wchar_t[4096];
+    MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
+    return wString;
+}
+
 WINDOW_WINAPI::WINDOW_WINAPI()
 {
     is_configured = false;
@@ -56,7 +60,6 @@ WINDOW_WINAPI::WINDOW_WINAPI()
 WINDOW_WINAPI::~WINDOW_WINAPI()
 {
     if (is_configured) {
-        ChangeDisplaySettings(NULL, 0);
         wglMakeCurrent(hdc, NULL);
         wglDeleteContext(hrc);
         ReleaseDC(hwnd, hdc);
@@ -75,7 +78,6 @@ WINDOW_WINAPI& WINDOW_WINAPI::operator =(const WINDOW_WINAPI& m)
     }
 
     if (is_configured) {
-        ChangeDisplaySettings(NULL, 0);
         wglMakeCurrent(hdc, NULL);
         wglDeleteContext(hrc);
         ReleaseDC(hwnd, hdc);
@@ -86,14 +88,13 @@ WINDOW_WINAPI& WINDOW_WINAPI::operator =(const WINDOW_WINAPI& m)
     return *this;
 }
 
-void WINDOW_WINAPI::configure(const char* name, int width, int height, void* hinst)
+void WINDOW_WINAPI::configure(const char* name, int width, int height, HINSTANCE hinst)
 {
 
     WNDCLASS wc;
     GLuint PixelFormat;
 
     if (is_configured) {
-        ChangeDisplaySettings(NULL, 0);
         wglMakeCurrent(hdc, NULL);
         wglDeleteContext(hrc);
         ReleaseDC(hwnd, hdc);
@@ -108,27 +109,27 @@ void WINDOW_WINAPI::configure(const char* name, int width, int height, void* hin
     wc.hCursor              = LoadCursor(NULL, IDC_ARROW);
     wc.hbrBackground        = NULL;
     wc.lpszMenuName         = NULL;
-    wc.lpszClassName        = "OpenGL WinClass";
+    wc.lpszClassName        = L"OpenGL WinClass";
 
     if (!RegisterClass(&wc)) {
         DFLOG.addf("WINDOW_WINAPI: fails to register window class\n");
+return;
     }
 
     hwnd = CreateWindow(
-            "OpenGL WinClass",
-            "Core_D",
-            WS_POPUP |
-            WS_CLIPCHILDREN |
-            WS_CLIPSIBLINGS,
+            L"OpenGL WinClass",
+            convertCharArrayToLPCWSTR(name),
+            WS_OVERLAPPEDWINDOW,
             0, 0,
             width, height,
+            (HWND)NULL,
             NULL,
-            NULL,
-            hinst,
+            (HINSTANCE)hinst,
             NULL);
 
     if (!hwnd) {
         DFLOG.addf("WINDOW_WINAPI: fails to create window\n");
+        return;
     }
 
     /* TODO: change to english comments */
@@ -170,21 +171,9 @@ void WINDOW_WINAPI::configure(const char* name, int width, int height, void* hin
         DFLOG.addf("WINDOW_WINAPI: can't make current\n");
     }
 
-    /*
-     * For full screen mode.
-    DEVMODE dmScreenSettings;
-
-    memset(&dmScreenSettings, 0, sizeof(DEVMODE));
-    dmScreenSettings.dmSize = sizeof(DEVMODE);
-    dmScreenSettings.dmPelsWidth    = width;
-    dmScreenSettings.dmPelsHeight   = height;
-    dmScreenSettings.dmFields       = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
-    ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
     ShowWindow(hwnd, SW_SHOW);
     UpdateWindow(hwnd);
     SetFocus(hwnd);
-    ::ShowCursor(false);
-    */
 
     is_configured = true;
 }

@@ -1,5 +1,5 @@
 /**
- * DarkFlame Copyright (C) 2014 Alexey Shumeiko
+ * DarkFlame Copyright (C) 2014 Alexey Shumeiko, Alexey Khomyakovsky
  *
  * This file is part of DarkFlame.
  *
@@ -20,69 +20,78 @@
  */
 
 #include "arch.hpp"
-#include "logger.hpp"
 
 #include "window.hpp"
 #include "window_winapi.hpp"
-#include "window_x.hpp"
+
 #include "primitives.hpp"
 #include "viewport.hpp"
 #include "vector.hpp"
+#include "logger.hpp"
 
 using namespace math;
 using namespace window;
 using namespace renderer;
 
+/* window settings */
 const int window_width = 800;
 const int window_height = 400;
 
-int main_test(WINDOW* wnd)
+/* setting up camera and viewports */
+const float z_near = 0.1f;
+const float z_far = 50.0f;
+
+/* parameters for drawing objects */
+P3D view_point(-2.1f, 2.8f, 3);
+P3D cube_origin(0, 0, 0);
+int cube_size(1);
+
+/* textures */
+TEXTURE *bckgnd;
+
+/* viewports */
+VIEWPORT *viewport0;
+VIEWPORT *viewport1;
+VIEWPORT *viewport2;
+
+/* cameras */
+camera::MCAMERA* camera1;
+camera::MCAMERA* camera2;
+
+void init_test(void)
 {
-    wnd->make_current();
+	bckgnd = new TEXTURE("resources/logo.tga");
 
-    /* parameters for drawing objects */
-    P3D view_point(-2.1f, 2.8f, 3);
-    P3D cube_origin(0, 0, 0);
-    int cube_size(1);
+	viewport0 = new VIEWPORT(0, 0, window_width, window_height);
+	viewport1 = new VIEWPORT(0, 0, window_width / 2, window_height);
+	viewport2 = new VIEWPORT(window_width / 2, 0, window_width / 2, window_height);
 
-    /* setting up camera and viewports */
-    float z_near = 0.1f;
-    float z_far = 50.0f;
+	camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
+	camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
+}
 
-    VIEWPORT viewport0(0, 0, window_width, window_height);
-    VIEWPORT viewport1(0, 0, window_width / 2, window_height);
-    VIEWPORT viewport2(window_width / 2, 0, window_width / 2, window_height);
+void main_test(WINDOW* wnd)
+{
+	wnd->make_current();
 
-    camera::MCAMERA* camera1 = new OCAMERA(view_point, cube_origin,
-            -5, 5, 5, -5, z_near, z_far);
-    camera::MCAMERA* camera2 = new PCAMERA(view_point, cube_origin,
-            90, (window_width / 2.0f) / window_height, z_near, z_far);
+	/* drawing cycle */
+	VIEWPORT::clear();
 
-    /* textures */
-    TEXTURE bckgnd("resources/logo.tga");
+	/* draw logo */
+	viewport0->apply();
+	PRIMITIVES::draw_background(*bckgnd, 0.5f);
 
-    /* drawing cycle */
-    while (1) {
-        VIEWPORT::clear();
+	/* ortho */
+	viewport1->apply();
+	camera1->apply();
+	PRIMITIVES::draw_cube(cube_origin, cube_size);
 
-        /* draw logo */
-        viewport0.apply();
-        PRIMITIVES::draw_background(bckgnd, 0.5f);
+	/* perspective */
+	viewport2->apply();
+	camera2->apply();
+	PRIMITIVES::draw_cube(cube_origin, cube_size);
 
-        /* ortho */
-        viewport1.apply();
-        camera1->apply();
-        PRIMITIVES::draw_cube(cube_origin, cube_size);
-
-        /* perspective */
-        viewport2.apply();
-        camera2->apply();
-        PRIMITIVES::draw_cube(cube_origin, cube_size);
-
-        wnd->swap_buffers();
-    }
-
-    return 0;
+	wnd->swap_buffers();
 }
 
 /* create window (pseudo code to choose OS-dependent type) */
@@ -91,12 +100,20 @@ int main_test(WINDOW* wnd)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	MSG msg;
     DFLOG.deny();
 
     WINDOW_WINAPI wnd;
     wnd.configure("Accept test window", window_width, window_height, hInstance);
+    init_test();
 
-    return main_test();
+	while (GetMessage(&msg, NULL, NULL, NULL)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+        main_test(&wnd);
+	}
+
+    return msg.wParam;
 }
 
 #elif defined (LINUX)
@@ -107,8 +124,13 @@ int main()
 
     WINDOW_X wnd;
     wnd.configure("Accept test window", window_width, window_height);
+    init_test();
 
-    return main_test(&wnd);
+    while (1) {
+        main_test(&wnd);
+    }
+
+    return 0;
 }
 
 #else
