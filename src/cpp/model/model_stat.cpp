@@ -59,6 +59,10 @@ MODEL_STAT::~MODEL_STAT()
 
 MODEL_STAT::MODEL_STAT(const MODEL_STAT& m)
 {
+    position = m.position;
+    rotation = m.rotation;
+    scale = m.scale;
+
     materials_cnt = m.materials_cnt;
     meshes_cnt = m.meshes_cnt;
 
@@ -76,6 +80,10 @@ MODEL_STAT& MODEL_STAT::operator =(const MODEL_STAT& m)
 
     delete[] materials;
     delete[] meshes;
+
+    position = m.position;
+    rotation = m.rotation;
+    scale = m.scale;
 
     materials_cnt = m.materials_cnt;
     meshes_cnt = m.meshes_cnt;
@@ -241,15 +249,15 @@ void MODEL_STAT::init(const char* file_path)
             file.read((char*)&faces[j].idx_a, sizeof(faces[j].idx_a));
             file.read((char*)&faces[j].idx_b, sizeof(faces[j].idx_b));
             file.read((char*)&faces[j].idx_c, sizeof(faces[j].idx_c));
-            file.read((char*)&faces[j].norm_a.dir.x, sizeof((char*)&faces[j].norm_a.dir.x));
-            file.read((char*)&faces[j].norm_a.dir.y, sizeof((char*)&faces[j].norm_a.dir.y));
-            file.read((char*)&faces[j].norm_a.dir.z, sizeof((char*)&faces[j].norm_a.dir.z));
-            file.read((char*)&faces[j].norm_b.dir.x, sizeof((char*)&faces[j].norm_b.dir.x));
-            file.read((char*)&faces[j].norm_b.dir.y, sizeof((char*)&faces[j].norm_b.dir.y));
-            file.read((char*)&faces[j].norm_b.dir.z, sizeof((char*)&faces[j].norm_b.dir.z));
-            file.read((char*)&faces[j].norm_c.dir.x, sizeof((char*)&faces[j].norm_c.dir.x));
-            file.read((char*)&faces[j].norm_c.dir.y, sizeof((char*)&faces[j].norm_c.dir.y));
-            file.read((char*)&faces[j].norm_c.dir.z, sizeof((char*)&faces[j].norm_c.dir.z));
+            file.read((char*)&faces[j].norm_a.dir.x, sizeof(faces[j].norm_a.dir.x));
+            file.read((char*)&faces[j].norm_a.dir.y, sizeof(faces[j].norm_a.dir.y));
+            file.read((char*)&faces[j].norm_a.dir.z, sizeof(faces[j].norm_a.dir.z));
+            file.read((char*)&faces[j].norm_b.dir.x, sizeof(faces[j].norm_b.dir.x));
+            file.read((char*)&faces[j].norm_b.dir.y, sizeof(faces[j].norm_b.dir.y));
+            file.read((char*)&faces[j].norm_b.dir.z, sizeof(faces[j].norm_b.dir.z));
+            file.read((char*)&faces[j].norm_c.dir.x, sizeof(faces[j].norm_c.dir.x));
+            file.read((char*)&faces[j].norm_c.dir.y, sizeof(faces[j].norm_c.dir.y));
+            file.read((char*)&faces[j].norm_c.dir.z, sizeof(faces[j].norm_c.dir.z));
             file.read((char*)&faces[j].text_a.x, sizeof(faces[j].text_a.x));
             file.read((char*)&faces[j].text_a.y, sizeof(faces[j].text_a.y));
             file.read((char*)&faces[j].text_a.z, sizeof(faces[j].text_a.z));
