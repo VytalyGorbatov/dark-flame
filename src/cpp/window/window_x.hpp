@@ -19,13 +19,13 @@
  * For more details see LICENSE file.
  */
 
+#if defined (LINUX)
+
 #ifndef __WINDOW_X_HPP__
 #define __WINDOW_X_HPP__
 
 #include "arch.hpp"
 #include "window.hpp"
-
-#if defined (LINUX)
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -57,6 +57,6 @@ public:
 
 } // namespace window
 
-#endif // LINUX
-
 #endif  // __WINDOW_X_HPP__
+
+#endif // LINUX
