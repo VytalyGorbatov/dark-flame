@@ -26,6 +26,7 @@
 #include "window_winapi.hpp"
 #include "window_x.hpp"
 
+#include "light.hpp"
 #include "model_stat.hpp"
 #include "primitives.hpp"
 #include "viewport.hpp"
@@ -60,6 +61,13 @@ VIEWPORT* viewport2;
 camera::MCAMERA* camera1;
 camera::MCAMERA* camera2;
 
+/* lights */
+LIGHT* light;
+math::P3D ambient(0.9f, 0.9f, 0.9f);
+math::P3D diffuse(0.9f, 0.9f, 0.9f);
+math::P3D specular(0.9f, 0.9f, 0.9f);
+math::V3D direction(cube_origin, view_point);
+
 /* static models */
 MODEL_STAT* mstat;
 
@@ -76,6 +84,10 @@ void init_test(void)
     camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
 
     bckgnd = new TEXTURE("resources/logo.tga");
+
+    light = new LIGHT();
+    light->apply(ambient, diffuse, specular, direction);
+    light->switch_off();
 
     mstat = new MODEL_STAT();
     mstat->init("resources/basis.cms");
@@ -95,12 +107,14 @@ void main_test(WINDOW* wnd)
     viewport1->apply();
     camera1->apply();
     PRIMITIVES::draw_cube(cube_origin, cube_size);
+    LIGHT::disable();
     mstat->render();
 
     /* perspective */
     viewport2->apply();
     camera2->apply();
     PRIMITIVES::draw_cube(cube_origin, cube_size);
+    LIGHT::disable();
     mstat->render();
 
     wnd->swap_buffers();
