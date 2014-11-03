@@ -26,13 +26,14 @@
 #include "window_winapi.hpp"
 #include "window_x.hpp"
 
+#include "model_stat.hpp"
 #include "primitives.hpp"
 #include "viewport.hpp"
 #include "vector.hpp"
 
-using namespace math;
 using namespace window;
 using namespace renderer;
+using namespace model;
 
 /* window settings */
 const int window_width = 800;
@@ -43,8 +44,8 @@ const float z_near = 0.1f;
 const float z_far = 50.0f;
 
 /* parameters for drawing objects */
-P3D view_point(-2.1f, 2.8f, 3);
-P3D cube_origin(0, 0, 0);
+math::P3D view_point(-2.1f, 2.8f, 3);
+math::P3D cube_origin(0, 0, 0);
 int cube_size(1);
 
 /* textures */
@@ -59,9 +60,14 @@ VIEWPORT* viewport2;
 camera::MCAMERA* camera1;
 camera::MCAMERA* camera2;
 
+/* stataic models */
+MODEL_STAT* mstat;
+
 /* init routine and loading resources */
 void init_test(void)
 {
+    RENDERER::init();
+
     viewport0 = new VIEWPORT(0, 0, window_width, window_height);
     viewport1 = new VIEWPORT(0, 0, window_width / 2, window_height);
     viewport2 = new VIEWPORT(window_width / 2, 0, window_width / 2, window_height);
@@ -70,6 +76,10 @@ void init_test(void)
     camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
 
     bckgnd = new TEXTURE("resources/logo.tga");
+
+    mstat = new MODEL_STAT();
+    mstat->init("resources/basis.cms");
+    mstat->scale.set_xyz(0.03f, 0.03f, 0.03f);
 }
 
 /* drawing cycle */
@@ -85,11 +95,13 @@ void main_test(WINDOW* wnd)
     viewport1->apply();
     camera1->apply();
     PRIMITIVES::draw_cube(cube_origin, cube_size);
+    mstat->render();
 
     /* perspective */
     viewport2->apply();
     camera2->apply();
     PRIMITIVES::draw_cube(cube_origin, cube_size);
+    mstat->render();
 
     wnd->swap_buffers();
 }
