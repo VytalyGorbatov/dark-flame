@@ -60,7 +60,7 @@ VIEWPORT* viewport2;
 camera::MCAMERA* camera1;
 camera::MCAMERA* camera2;
 
-/* stataic models */
+/* static models */
 MODEL_STAT* mstat;
 
 /* init routine and loading resources */
@@ -89,7 +89,7 @@ void main_test(WINDOW* wnd)
 
     /* draw logo */
     viewport0->apply();
-    PRIMITIVES::draw_background(*bckgnd, 0.5f);
+    PRIMITIVES::draw_background(*bckgnd, 0.8f);
 
     /* ortho */
     viewport1->apply();
