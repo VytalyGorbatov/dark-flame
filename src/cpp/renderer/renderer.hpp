@@ -29,7 +29,11 @@ namespace renderer
 {
 
 /* Later will be replaced with abstract class for several renderers. */
-class RENDERER;
+class RENDERER
+{
+public:
+    static void init();
+};
 
 }
 

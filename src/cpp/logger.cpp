@@ -155,6 +155,7 @@ void LFILE::add(const char* text)
     sprintf(line, "%s", text);
 
     fhdl->write((char*)line, strlen(line));
+    fhdl->flush();
     if(fhdl->fail()) {
         fhdl->close();
         delete fhdl;

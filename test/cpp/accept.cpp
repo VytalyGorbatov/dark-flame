@@ -20,18 +20,21 @@
  */
 
 #include "arch.hpp"
+#include "logger.hpp"
 
 #include "window.hpp"
 #include "window_winapi.hpp"
+#include "window_x.hpp"
 
+#include "light.hpp"
+#include "model_stat.hpp"
 #include "primitives.hpp"
 #include "viewport.hpp"
 #include "vector.hpp"
-#include "logger.hpp"
 
-using namespace math;
 using namespace window;
 using namespace renderer;
+using namespace model;
 
 /* window settings */
 const int window_width = 800;
@@ -42,56 +45,79 @@ const float z_near = 0.1f;
 const float z_far = 50.0f;
 
 /* parameters for drawing objects */
-P3D view_point(-2.1f, 2.8f, 3);
-P3D cube_origin(0, 0, 0);
+math::P3D view_point(-2.1f, 2.8f, 3);
+math::P3D cube_origin(0, 0, 0);
 int cube_size(1);
 
 /* textures */
-TEXTURE *bckgnd;
+TEXTURE* bckgnd;
 
 /* viewports */
-VIEWPORT *viewport0;
-VIEWPORT *viewport1;
-VIEWPORT *viewport2;
+VIEWPORT* viewport0;
+VIEWPORT* viewport1;
+VIEWPORT* viewport2;
 
 /* cameras */
 camera::MCAMERA* camera1;
 camera::MCAMERA* camera2;
 
+/* lights */
+LIGHT* light;
+math::P3D ambient(0.9f, 0.9f, 0.9f);
+math::P3D diffuse(0.9f, 0.9f, 0.9f);
+math::P3D specular(0.9f, 0.9f, 0.9f);
+math::V3D direction(cube_origin, view_point);
+
+/* static models */
+MODEL_STAT* mstat;
+
+/* init routine and loading resources */
 void init_test(void)
 {
-	bckgnd = new TEXTURE("resources/logo.tga");
+    RENDERER::init();
 
-	viewport0 = new VIEWPORT(0, 0, window_width, window_height);
-	viewport1 = new VIEWPORT(0, 0, window_width / 2, window_height);
-	viewport2 = new VIEWPORT(window_width / 2, 0, window_width / 2, window_height);
+    viewport0 = new VIEWPORT(0, 0, window_width, window_height);
+    viewport1 = new VIEWPORT(0, 0, window_width / 2, window_height);
+    viewport2 = new VIEWPORT(window_width / 2, 0, window_width / 2, window_height);
 
-	camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
-	camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
+    camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
+    camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
+
+    bckgnd = new TEXTURE("resources/logo.tga");
+
+    light = new LIGHT();
+    light->apply(ambient, diffuse, specular, direction);
+    light->switch_off();
+
+    mstat = new MODEL_STAT();
+    mstat->init("resources/basis.cms");
+    mstat->scale.set_xyz(0.03f, 0.03f, 0.03f);
 }
 
+/* drawing cycle */
 void main_test(WINDOW* wnd)
 {
-	wnd->make_current();
+    VIEWPORT::clear();
 
-	/* drawing cycle */
-	VIEWPORT::clear();
+    /* draw logo */
+    viewport0->apply();
+    PRIMITIVES::draw_background(*bckgnd, 0.8f);
 
-	/* draw logo */
-	viewport0->apply();
-	PRIMITIVES::draw_background(*bckgnd, 0.5f);
+    /* ortho */
+    viewport1->apply();
+    camera1->apply();
+    PRIMITIVES::draw_cube(cube_origin, cube_size);
+    LIGHT::disable();
+    mstat->render();
 
-	/* ortho */
-	viewport1->apply();
-	camera1->apply();
-	PRIMITIVES::draw_cube(cube_origin, cube_size);
+    /* perspective */
+    viewport2->apply();
+    camera2->apply();
+    PRIMITIVES::draw_cube(cube_origin, cube_size);
+    LIGHT::disable();
+    mstat->render();
 
-	/* perspective */
-	viewport2->apply();
-	camera2->apply();
-	PRIMITIVES::draw_cube(cube_origin, cube_size);
-
-	wnd->swap_buffers();
+    wnd->swap_buffers();
 }
 
 /* create window (pseudo code to choose OS-dependent type) */
@@ -100,18 +126,19 @@ void main_test(WINDOW* wnd)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	MSG msg;
+    MSG msg;
     DFLOG.deny();
 
     WINDOW_WINAPI wnd;
     wnd.configure("Accept test window", window_width, window_height, hInstance);
-    init_test();
+    wnd.make_current();
 
-	while (GetMessage(&msg, NULL, NULL, NULL)) {
+    init_test();
+    while (GetMessage(&msg, NULL, NULL, NULL)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
         main_test(&wnd);
-	}
+    }
 
     return (int)msg.wParam;
 }
@@ -124,8 +151,9 @@ int main()
 
     WINDOW_X wnd;
     wnd.configure("Accept test window", window_width, window_height);
-    init_test();
+    wnd.make_current();
 
+    init_test();
     while (1) {
         main_test(&wnd);
     }

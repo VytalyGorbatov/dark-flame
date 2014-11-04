@@ -19,13 +19,13 @@
  * For more details see LICENSE file.
  */
 
+#if defined (WINDOWS)
+
 #ifndef __WINDOW_WINAPI_HPP__
 #define __WINDOW_WINAPI_HPP__
 
 #include "arch.hpp"
 #include "window.hpp"
-
-#if defined (WINDOWS)
 
 #include <windows.h>
 #include <GL\gl.h>
@@ -56,6 +56,6 @@ public:
 
 } // namespace window
 
-#endif  // WINDOWS
-
 #endif  // __WINDOW_WINAPI_HPP__
+
+#endif  // WINDOWS

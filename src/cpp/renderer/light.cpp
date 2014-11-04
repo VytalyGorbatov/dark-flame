@@ -401,3 +401,13 @@ int LIGHT::get_sources_left()
 
     return cnt;
 }
+
+void LIGHT::enable()
+{
+    glEnable(GL_LIGHTING);
+}
+
+void LIGHT::disable()
+{
+    glDisable(GL_LIGHTING);
+}

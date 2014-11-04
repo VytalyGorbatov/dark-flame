@@ -77,6 +77,9 @@ public:
     void switch_on() const;
     void switch_off() const;
 
+    static void enable();
+    static void disable();
+
     static int get_max_sources();
     static int get_sources_left();
 };
