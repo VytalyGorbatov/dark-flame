@@ -29,6 +29,8 @@ using namespace std;
 using namespace renderer;
 using namespace renderer::texture;
 
+#if !defined (WINDOWS)
+
 #pragma push
 #pragma pack(1)
 
@@ -55,6 +57,8 @@ typedef struct tagBITMAPINFOHEADER {
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER;
 
 #pragma pop
+
+#endif // WINDOWS
 
 enum FILE_EXT {
     FEXT_unknown,

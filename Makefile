@@ -17,23 +17,149 @@
 #
 # For more details see LICENSE file.
 
-
-
 ##########
 # Target #
 ##########
 
-TARGET = host
+TARGET := linux
 
 #############
 # Compilers #
 #############
 
-CC        = g++
-LNK       = g++
-OBJ_EXT   = o
+ifeq 'windows' '$(TARGET)'
+  CC := cl
+endif
 
-LDFLAGS += -lglut -lGL -lGLU
+ifeq 'linux' '$(TARGET)'
+  CC := g++
+endif
+
+# ##############################
+# Error if CC no set.
+# ##############################
+
+ifeq (,$(CC))
+  $(error CC not set)
+endif
+
+# ##############################
+# Identify file extensions.
+# ##############################
+
+ifeq (cl,$(CC))
+  OBJ_EXT    = obj
+  OBJ_SUFFIX = .obj
+else
+  OBJ_EXT    = o
+  OBJ_SUFFIX = .o
+endif
+
+# ################################################
+# Set up environment in accordance with CC value.
+# ################################################
+
+MSVC_CONF_FILE := msvc_conf
+
+# Check for MSVC environment config file.
+ifeq '' '$(wildcard $(MSVC_CONF_FILE))'
+  $(error MSVC environment not set. May be you do not create $(MSVC_CONF_FILE) file)
+endif
+
+ifeq (cl,$(CC))
+  -include $(MSVC_CONF_FILE)
+endif
+
+# Build in Windows under Cygwin.
+ifeq (cl,$(CC))
+  PATH_ := $(shell cygpath -u --path '$(PATH_)')
+  export PATH := $(PATH_):$(PATH)
+endif
+
+# ###############
+# WARNING FLAGS.
+# ###############
+
+# /W0 - only errors, 
+# /W1, /W2, /W3 - extra warrings,
+# /W4 (/Wall) - and remarks
+ifeq (cl,$(CC))
+  WARNING_CFLAGS = /W3 /nologo
+else
+  WARNING_CFLAGS = -Wall -pedantic -Wno-long-long
+endif
+
+CFLAGS += $(WARNING_CFLAGS)
+
+# ##############################
+# Specify compiler options.
+# ##############################
+
+EMPTY =
+AR_Fo_OP = rs $(EMPTY)
+
+ifeq (cl,$(CC))
+  CC_c_OP = /c
+  CC_Fo_OP = /Fo
+  CC_Fe_OP = /Fe
+else
+  CC_c_OP = -c
+  CC_Fo_OP = -o $(EMPTY)
+  CC_Fe_OP = -o $(EMPTY)
+endif
+
+# ######################
+# OPTIMISATION FLAGS.
+# ######################
+
+ifeq 'cl' '$(CC)'
+  # /GS[-] enable security checks, /Gy[-] separate functions for linker,
+  # /O2 maximize speed, /Ob<n> inline expansion, /Ox max optimisation,
+  # /Oy[-] enable frame pointer omission
+  OPTIM_CFLAGS = /O2 /Ob2 /Ox
+else
+  # -O3 max safe optimisation
+  OPTIM_CFLAGS = -O3 -finline -fomit-frame-pointer
+endif
+
+CFLAGS += $(OPTIM_CFLAGS)
+
+# ######################
+# Other FLAGS.
+# ######################
+
+ifeq (cl,$(CC))
+    CFLAGS += /Oi 
+    CFLAGS += /Zl
+    CFLAGS += /D_CRT_SECURE_NO_WARNINGS
+    CFLAGS += /GL 
+    CFLAGS += /D "WIN32" 
+    CFLAGS += /D "NDEBUG" 
+    CFLAGS += /D "_UNICODE" /D "UNICODE" 
+    CFLAGS += /D "_CONSOLE"
+    CFLAGS += /Gm-
+    CFLAGS += /EHsc 
+    CFLAGS += /fp:precise 
+    CFLAGS += /Zc:wchar_t  
+    CFLAGS += /Zc:forScope 
+    CFLAGS += /Gd
+    CFLAGS += /analyze-
+endif
+
+# ######################
+# Include LIBS.
+# ######################
+
+ifeq (cl,$(CC))
+    LDFLAGS += libcmt.lib
+    LDFLAGS += advapi32.lib 
+    LDFLAGS += user32.lib 
+    LDFLAGS += opengl32.lib
+    LDFLAGS += glu32.lib
+    LDFLAGS += gdi32.lib 
+else
+    LDFLAGS += -lglut -lGL -lGLU
+endif
 
 ##################
 # Extended goals #
@@ -60,8 +186,14 @@ RENDERER_SRC_DIR   = src/cpp/renderer
 WINDOW_SRC_DIR     = src/cpp/window
 TEST_DIR           = test/cpp
 
+ifeq (cl,$(CC))
+BUILD_DIR          = build
+DIST_DIR           = dist
+else
 BUILD_DIR          = $(TMP_DIR)/build
 DIST_DIR           = $(TMP_DIR)/dist
+endif
+
 TARGET_BUILD_DIR   = $(BUILD_DIR)/$(TARGET)
 TARGET_DIST_DIR    = $(DIST_DIR)/$(TARGET)
 
@@ -139,7 +271,7 @@ clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR)
 
 $(VDIRS):
-	mkdir $@
+	mkdir -p $@
 
 $(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
 
@@ -147,20 +279,22 @@ $(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
 # Compilation and building #
 ############################
 
+LINK = $(CC) $(CC_Fe_OP)$3 $2 $1
+
 $(SRCS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
 
 $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
 
 $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
-	$(LNK) $^ $(CFLAGS) $(LDFLAGS) -o $@
+	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
 
 $(ATEST_OBJS): $(ATEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
 
 $(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
-	$(LNK) $^ $(CFLAGS) $(LDFLAGS) -o $@
+	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
 
 ################
 # Unit testing #

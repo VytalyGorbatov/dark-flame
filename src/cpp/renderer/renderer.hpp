@@ -22,11 +22,11 @@
 #ifndef __RENDERER_HPP__
 #define __RENDERER_HPP__
 
-namespace renderer
-{
-
 /* Use OpenGL interface. */
 #include "ogl.hpp"
+
+namespace renderer
+{
 
 /* Later will be replaced with abstract class for several renderers. */
 class RENDERER;

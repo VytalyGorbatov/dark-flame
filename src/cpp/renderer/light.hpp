@@ -51,11 +51,11 @@ private:
     float position[4];                      // position in homogeneous object coordinates, if w != 0 then not directional
     float direction[3];                     // direction in homogeneous object coordinates
 
-    float const_att[0];                     // attenuation factor
-    float line_att[0];                      // attenuation factor
-    float quad_att[0];                      // attenuation factor
-    float exponent[0];                      // intensity distribution [0, 128]
-    float cutoff[0];                        // maximum spread angle [0, 90]
+    float const_att[1];                     // attenuation factor
+    float line_att[1];                      // attenuation factor
+    float quad_att[1];                      // attenuation factor
+    float exponent[1];                      // intensity distribution [0, 128]
+    float cutoff[1];                        // maximum spread angle [0, 90]
 
 public:
     LIGHT();

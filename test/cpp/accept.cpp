@@ -113,7 +113,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         main_test(&wnd);
 	}
 
-    return msg.wParam;
+    return (int)msg.wParam;
 }
 
 #elif defined (LINUX)

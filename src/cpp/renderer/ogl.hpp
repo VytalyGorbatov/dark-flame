@@ -26,9 +26,24 @@
  * In order to speed up the development stage,
  * render through OpenGL directly.
  */
-#include <GL/gl.h>
-#include <GL/glext.h>
-#include <GL/glu.h>
+#include "arch.hpp"
+
+#if defined (WINDOWS)
+
+#include <windows.h>
+#undef near
+#undef far
+
+#elif defined (LINUX)
+
 #include <GL/glut.h>
+
+#else
+#   error Unsupported target platform.
+#endif
+
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glext.h>
 
 #endif // __OGL_HPP__
