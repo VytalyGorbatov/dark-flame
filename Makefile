@@ -54,6 +54,20 @@ else
   $(call error_unknown_value,toolchain)
 endif
 
+# Usage: $(call COMPILE,flags,input,output)
+ifeq 'msvc' '$(toolchain)'
+  COMPILE = $(CC) /Fo$(3) $(1) $(2)
+else ifeq 'gcc' '$(toolchain)'
+  COMPILE = $(CC) -o $(3) $(1) $(2)
+endif
+
+# Usage: $(call LINK,flags,input,output)
+ifeq 'msvc' '$(toolchain)'
+  LINK = $(CC) /Fe$3 $2 $1
+else ifeq 'gcc' '$(toolchain)'
+  LINK = $(CC) -o $3 $2 $1
+endif
+
 # File extensions.
 ifeq 'msvc' '$(toolchain)'
   OBJ_EXT    = obj
@@ -91,26 +105,8 @@ endif
 
 CFLAGS += $(WARNING_CFLAGS)
 
-# ##############################
-# Specify compiler options.
-# ##############################
-
-EMPTY =
-AR_Fo_OP = rs $(EMPTY)
-
-ifeq 'msvc' '$(toolchain)'
-  CC_c_OP = /c
-  CC_Fo_OP = /Fo
-  CC_Fe_OP = /Fe
-else ifeq 'gcc' '$(toolchain)'
-  CC_c_OP = -c
-  CC_Fo_OP = -o $(EMPTY)
-  CC_Fe_OP = -o $(EMPTY)
-endif
-
-# ######################
+################################################################
 # OPTIMISATION FLAGS.
-# ######################
 
 ifeq 'msvc' '$(toolchain)'
   # /GS[-] enable security checks, /Gy[-] separate functions for linker,
@@ -124,9 +120,8 @@ endif
 
 CFLAGS += $(OPTIM_CFLAGS)
 
-# ######################
+################################################################
 # Other FLAGS.
-# ######################
 
 ifeq 'msvc' '$(toolchain)'
     CFLAGS += /Oi 
@@ -274,19 +269,17 @@ $(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
 # Compilation and building #
 ############################
 
-LINK = $(CC) $(CC_Fe_OP)$3 $2 $1
-
 $(SRCS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
+	$(call COMPILE,$(CFLAGS) -c,$<,$@)
 
 $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
+	$(call COMPILE,$(CFLAGS) -c,$<,$@)
 
 $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
 	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
 
 $(ATEST_OBJS): $(ATEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
+	$(call COMPILE,$(CFLAGS) -c,$<,$@)
 
 $(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
 	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
