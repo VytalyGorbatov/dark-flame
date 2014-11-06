@@ -65,6 +65,8 @@ endif
 # Set up environment in accordance with CC value.
 # ################################################
 
+ifeq 'windows' '$(TARGET)'
+
 MSVC_CONF_FILE := msvc_conf
 
 # Check for MSVC environment config file.
@@ -80,6 +82,8 @@ endif
 ifeq (cl,$(CC))
   PATH_ := $(shell cygpath -u --path '$(PATH_)')
   export PATH := $(PATH_):$(PATH)
+endif
+
 endif
 
 # ###############
