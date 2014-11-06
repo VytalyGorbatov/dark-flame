@@ -124,19 +124,19 @@ CFLAGS += $(OPTIM_CFLAGS)
 # Other FLAGS.
 
 ifeq 'msvc' '$(toolchain)'
-    CFLAGS += /Oi 
+    CFLAGS += /Oi
     CFLAGS += /Zl
     CFLAGS += /D_CRT_SECURE_NO_WARNINGS
-    CFLAGS += /GL 
-    CFLAGS += /D "WIN32" 
-    CFLAGS += /D "NDEBUG" 
-    CFLAGS += /D "_UNICODE" /D "UNICODE" 
+    CFLAGS += /GL
+    CFLAGS += /D "WIN32"
+    CFLAGS += /D "NDEBUG"
+    CFLAGS += /D "_UNICODE" /D "UNICODE"
     CFLAGS += /D "_CONSOLE"
     CFLAGS += /Gm-
-    CFLAGS += /EHsc 
-    CFLAGS += /fp:precise 
-    CFLAGS += /Zc:wchar_t  
-    CFLAGS += /Zc:forScope 
+    CFLAGS += /EHsc
+    CFLAGS += /fp:precise
+    CFLAGS += /Zc:wchar_t
+    CFLAGS += /Zc:forScope
     CFLAGS += /Gd
     CFLAGS += /analyze-
 endif
@@ -147,11 +147,11 @@ endif
 
 ifeq 'msvc' '$(toolchain)'
     LDFLAGS += libcmt.lib
-    LDFLAGS += advapi32.lib 
-    LDFLAGS += user32.lib 
+    LDFLAGS += advapi32.lib
+    LDFLAGS += user32.lib
     LDFLAGS += opengl32.lib
     LDFLAGS += glu32.lib
-    LDFLAGS += gdi32.lib 
+    LDFLAGS += gdi32.lib
 else ifeq 'gcc' '$(toolchain)'
     LDFLAGS += -lglut -lGL -lGLU
 endif
