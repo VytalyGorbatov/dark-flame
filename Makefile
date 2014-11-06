@@ -17,11 +17,17 @@
 #
 # For more details see LICENSE file.
 
-##########
-# Target #
-##########
+###################################
+# Determine platform/environment. #
+###################################
 
 TARGET := linux
+ifneq '' '$(COMSPEC)'
+  ifneq '' '$(WINDIR)'
+    # Probably under Windows.
+    TARGET := windows
+  endif
+endif
 
 #############
 # Compilers #
