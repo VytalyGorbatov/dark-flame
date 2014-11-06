@@ -155,6 +155,7 @@ ifeq 'msvc' '$(toolchain)'
 else ifeq 'gcc' '$(toolchain)'
   LDFLAGS += -lglut -lGL -lGLU
   LDFLAGS += -lX11
+  LDFLAGS += -lpthread
 endif
 
 ##################
