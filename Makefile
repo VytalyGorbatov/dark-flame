@@ -29,9 +29,9 @@ ifneq '' '$(COMSPEC)'
   endif
 endif
 
-#############
-# Compilers #
-#############
+##############
+# Compilers. #
+##############
 
 ifeq 'windows' '$(TARGET)'
   CC := cl
@@ -41,17 +41,17 @@ ifeq 'linux' '$(TARGET)'
   CC := g++
 endif
 
-# ##############################
-# Error if CC no set.
-# ##############################
+#######################
+# Error if CC no set. #
+#######################
 
 ifeq (,$(CC))
   $(error CC not set)
 endif
 
-# ##############################
-# Identify file extensions.
-# ##############################
+#############################
+# Identify file extensions. #
+#############################
 
 ifeq (cl,$(CC))
   OBJ_EXT    = obj
@@ -61,9 +61,9 @@ else
   OBJ_SUFFIX = .o
 endif
 
-# ################################################
-# Set up environment in accordance with CC value.
-# ################################################
+###################################################
+# Set up environment in accordance with CC value. #
+###################################################
 
 ifeq 'windows' '$(TARGET)'
 
@@ -86,9 +86,9 @@ endif
 
 endif
 
-# ###############
-# WARNING FLAGS.
-# ###############
+##################
+# Warning flags. #
+##################
 
 # /W0 - only errors,
 # /W1, /W2, /W3 - extra warrings,
@@ -101,9 +101,9 @@ endif
 
 CFLAGS += $(WARNING_CFLAGS)
 
-# ##############################
-# Specify compiler options.
-# ##############################
+#############################
+# Specify compiler options. #
+#############################
 
 EMPTY =
 AR_Fo_OP = rs $(EMPTY)
@@ -118,9 +118,9 @@ else
   CC_Fe_OP = -o $(EMPTY)
 endif
 
-# ######################
-# OPTIMISATION FLAGS.
-# ######################
+#######################
+# Optimisation flags. #
+#######################
 
 ifeq 'cl' '$(CC)'
   # /GS[-] enable security checks, /Gy[-] separate functions for linker,
@@ -134,9 +134,9 @@ endif
 
 CFLAGS += $(OPTIM_CFLAGS)
 
-# ######################
-# Other FLAGS.
-# ######################
+################
+# Other flags. #
+################
 
 ifeq (cl,$(CC))
     CFLAGS += /Oi
@@ -156,9 +156,9 @@ ifeq (cl,$(CC))
     CFLAGS += /analyze-
 endif
 
-# ######################
-# Include LIBS.
-# ######################
+#################
+# Include libs. #
+#################
 
 ifeq (cl,$(CC))
     LDFLAGS += libcmt.lib
@@ -171,9 +171,9 @@ else
     LDFLAGS += -lglut -lGL -lGLU
 endif
 
-##################
-# Extended goals #
-##################
+###################
+# Extended goals. #
+###################
 
 $(filter clean-%,$(MAKECMDGOALS)):   clean
 $(filter build-%,$(MAKECMDGOALS)):   build
@@ -182,9 +182,9 @@ $(filter dist-%,$(MAKECMDGOALS)):    dist
 $(filter utest-%,$(MAKECMDGOALS)):   utest
 $(filter atest-%,$(MAKECMDGOALS)):   atest
 
-###############
-# Directories #
-###############
+################
+# Directories. #
+################
 
 TMP_DIR            = /tmp
 
@@ -238,9 +238,9 @@ CFLAGS += -I$(SRC_DIR)\
           -I$(RENDERER_SRC_DIR)\
           -I$(WINDOW_SRC_DIR)
 
-###########################
-# Source and object files #
-###########################
+############################
+# Source and object files. #
+############################
 
 SRC_OBJS        = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(SRC_DIR)/*.cpp))
 AI_OBJS         = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(AI_SRC_DIR)/*.cpp))
@@ -270,9 +270,9 @@ ATEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/accept*.cpp)
 ATEST_CPP      += utils.cpp
 ATEST_OBJS      = $(addprefix $(ATEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),$(ATEST_CPP)))
 
-###################
-# Default targets #
-###################
+####################
+# Default targets. #
+####################
 
 .PHONY: all clean rebuild dist
 
@@ -288,9 +288,9 @@ $(VDIRS):
 
 dist: $(VDIRS) $(SRCS_OBJS)
 
-############################
-# Compilation and building #
-############################
+#############################
+# Compilation and building. #
+#############################
 
 LINK = $(CC) $(CC_Fe_OP)$3 $2 $1
 
@@ -309,27 +309,27 @@ $(ATEST_OBJS): $(ATEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
 $(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
 	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
 
-################
-# Unit testing #
-################
+#################
+# Unit testing. #
+#################
 
 .PHONY: utest
 
 utest: $(VDIRS) $(UTEST_BUILD_DIR)/unit
 	$(UTEST_BUILD_DIR)/unit
 
-##################
-# Accept testing #
-##################
+###################
+# Accept testing. #
+###################
 
 .PHONY: atest
 
 atest: $(VDIRS) $(ATEST_BUILD_DIR)/accept
 	$(ATEST_BUILD_DIR)/accept
 
-######################
-# Debug the Makefile #
-######################
+#######################
+# Debug the Makefile. #
+#######################
 
 .PHONY: debug
 
