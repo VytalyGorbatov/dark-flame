@@ -90,7 +90,7 @@ endif
 # WARNING FLAGS.
 # ###############
 
-# /W0 - only errors, 
+# /W0 - only errors,
 # /W1, /W2, /W3 - extra warrings,
 # /W4 (/Wall) - and remarks
 ifeq (cl,$(CC))
@@ -139,19 +139,19 @@ CFLAGS += $(OPTIM_CFLAGS)
 # ######################
 
 ifeq (cl,$(CC))
-    CFLAGS += /Oi 
+    CFLAGS += /Oi
     CFLAGS += /Zl
     CFLAGS += /D_CRT_SECURE_NO_WARNINGS
-    CFLAGS += /GL 
-    CFLAGS += /D "WIN32" 
-    CFLAGS += /D "NDEBUG" 
-    CFLAGS += /D "_UNICODE" /D "UNICODE" 
+    CFLAGS += /GL
+    CFLAGS += /D "WIN32"
+    CFLAGS += /D "NDEBUG"
+    CFLAGS += /D "_UNICODE" /D "UNICODE"
     CFLAGS += /D "_CONSOLE"
     CFLAGS += /Gm-
-    CFLAGS += /EHsc 
-    CFLAGS += /fp:precise 
-    CFLAGS += /Zc:wchar_t  
-    CFLAGS += /Zc:forScope 
+    CFLAGS += /EHsc
+    CFLAGS += /fp:precise
+    CFLAGS += /Zc:wchar_t
+    CFLAGS += /Zc:forScope
     CFLAGS += /Gd
     CFLAGS += /analyze-
 endif
@@ -162,11 +162,11 @@ endif
 
 ifeq (cl,$(CC))
     LDFLAGS += libcmt.lib
-    LDFLAGS += advapi32.lib 
-    LDFLAGS += user32.lib 
+    LDFLAGS += advapi32.lib
+    LDFLAGS += user32.lib
     LDFLAGS += opengl32.lib
     LDFLAGS += glu32.lib
-    LDFLAGS += gdi32.lib 
+    LDFLAGS += gdi32.lib
 else
     LDFLAGS += -lglut -lGL -lGLU
 endif
