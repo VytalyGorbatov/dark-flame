@@ -17,9 +17,13 @@
 #
 # For more details see LICENSE file.
 
-###################################
-# Determine platform/environment. #
-###################################
+################################################################
+# Auxiliary macros.
+
+error_unknown_value = $(error Unknown $(1): '$($(1))')
+
+################################################################
+# Determine platform/environment.
 
 host_os := linux
 ifneq '' '$(COMSPEC)'
@@ -31,75 +35,57 @@ endif
 
 ifeq 'windows' '$(host_os)'
   TARGET := windows
+  toolchain := msvc
 else ifeq 'linux' '$(host_os)'
   TARGET := linux
+  toolchain := gcc
 else
-  $(error Unknown host_os: $(host_os))
+  $(call error_unknown_value,host_os)
 endif
 
-#############
-# Compilers #
-#############
+################################################################
+# Build tools definition.
 
-ifeq 'windows' '$(TARGET)'
+ifeq 'msvc' '$(toolchain)'
   CC := cl
-endif
-
-ifeq 'linux' '$(TARGET)'
+else ifeq 'gcc' '$(toolchain)'
   CC := g++
+else
+  $(call error_unknown_value,toolchain)
 endif
 
-# ##############################
-# Error if CC no set.
-# ##############################
-
-ifeq (,$(CC))
-  $(error CC not set)
-endif
-
-# ##############################
-# Identify file extensions.
-# ##############################
-
-ifeq (cl,$(CC))
+# File extensions.
+ifeq 'msvc' '$(toolchain)'
   OBJ_EXT    = obj
   OBJ_SUFFIX = .obj
-else
+else ifeq 'gcc' '$(toolchain)'
   OBJ_EXT    = o
   OBJ_SUFFIX = .o
 endif
 
-# ################################################
-# Set up environment in accordance with CC value.
-# ################################################
-
-MSVC_CONF_FILE := msvc_conf
-
-# Check for MSVC environment config file.
-ifeq '' '$(wildcard $(MSVC_CONF_FILE))'
-  $(error MSVC environment not set. May be you do not create $(MSVC_CONF_FILE) file)
+ifeq 'msvc' '$(toolchain)'
+  MSVC_CONF_FILE := msvc_conf
+  # Check for MSVC environment config file.
+  ifeq '' '$(wildcard $(MSVC_CONF_FILE))'
+    $(error MSVC environment not set. May be you forget to create $(MSVC_CONF_FILE) file)
+  endif
+  include $(MSVC_CONF_FILE)
+  # Build in Windows under Cygwin.
+  ifeq (cl,$(CC))
+    PATH_ := $(shell cygpath -u --path '$(PATH_)')
+    export PATH := $(PATH_):$(PATH)
+  endif
 endif
 
-ifeq (cl,$(CC))
-  -include $(MSVC_CONF_FILE)
-endif
-
-# Build in Windows under Cygwin.
-ifeq (cl,$(CC))
-  PATH_ := $(shell cygpath -u --path '$(PATH_)')
-  export PATH := $(PATH_):$(PATH)
-endif
-
-# ###############
+################################################################
 # WARNING FLAGS.
-# ###############
 
-# /W0 - only errors, 
-# /W1, /W2, /W3 - extra warrings,
+# /W0 - only errors
+# /W1, /W2, /W3 - extra warrings
 # /W4 (/Wall) - and remarks
-ifeq (cl,$(CC))
+ifeq 'msvc' '$(toolchain)'
   WARNING_CFLAGS = /W3 /nologo
-else
+else ifeq 'gcc' '$(toolchain)'
   WARNING_CFLAGS = -Wall -pedantic -Wno-long-long
 endif
 
@@ -112,11 +98,11 @@ CFLAGS += $(WARNING_CFLAGS)
 EMPTY =
 AR_Fo_OP = rs $(EMPTY)
 
-ifeq (cl,$(CC))
+ifeq 'msvc' '$(toolchain)'
   CC_c_OP = /c
   CC_Fo_OP = /Fo
   CC_Fe_OP = /Fe
-else
+else ifeq 'gcc' '$(toolchain)'
   CC_c_OP = -c
   CC_Fo_OP = -o $(EMPTY)
   CC_Fe_OP = -o $(EMPTY)
@@ -126,12 +112,12 @@ endif
 # OPTIMISATION FLAGS.
 # ######################
 
-ifeq 'cl' '$(CC)'
+ifeq 'msvc' '$(toolchain)'
   # /GS[-] enable security checks, /Gy[-] separate functions for linker,
   # /O2 maximize speed, /Ob<n> inline expansion, /Ox max optimisation,
   # /Oy[-] enable frame pointer omission
   OPTIM_CFLAGS = /O2 /Ob2 /Ox
-else
+else ifeq 'gcc' '$(toolchain)'
   # -O3 max safe optimisation
   OPTIM_CFLAGS = -O3 -finline -fomit-frame-pointer
 endif
@@ -142,7 +128,7 @@ CFLAGS += $(OPTIM_CFLAGS)
 # Other FLAGS.
 # ######################
 
-ifeq (cl,$(CC))
+ifeq 'msvc' '$(toolchain)'
     CFLAGS += /Oi 
     CFLAGS += /Zl
     CFLAGS += /D_CRT_SECURE_NO_WARNINGS
@@ -164,14 +150,14 @@ endif
 # Include LIBS.
 # ######################
 
-ifeq (cl,$(CC))
+ifeq 'msvc' '$(toolchain)'
     LDFLAGS += libcmt.lib
     LDFLAGS += advapi32.lib 
     LDFLAGS += user32.lib 
     LDFLAGS += opengl32.lib
     LDFLAGS += glu32.lib
     LDFLAGS += gdi32.lib 
-else
+else ifeq 'gcc' '$(toolchain)'
     LDFLAGS += -lglut -lGL -lGLU
 endif
 
@@ -200,13 +186,8 @@ RENDERER_SRC_DIR   = src/cpp/renderer
 WINDOW_SRC_DIR     = src/cpp/window
 TEST_DIR           = test/cpp
 
-ifeq (cl,$(CC))
-BUILD_DIR          = build
-DIST_DIR           = dist
-else
-BUILD_DIR          = $(TMP_DIR)/build
-DIST_DIR           = $(TMP_DIR)/dist
-endif
+BUILD_DIR          ?= build
+DIST_DIR           ?= dist
 
 TARGET_BUILD_DIR   = $(BUILD_DIR)/$(TARGET)
 TARGET_DIST_DIR    = $(DIST_DIR)/$(TARGET)
