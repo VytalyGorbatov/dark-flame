@@ -292,19 +292,20 @@ dist: $(VDIRS) $(SRCS_OBJS)
 # Compilation and building. #
 #############################
 
+COMPILE = $(CC) $(CC_Fo_OP)$3 -c $1 $2
 LINK = $(CC) $(CC_Fe_OP)$3 $2 $1
 
 $(SRCS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
+	$(call COMPILE,$(CFLAGS),$<,$@)
 
 $(UTEST_OBJS): $(UTEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
+	$(call COMPILE,$(CFLAGS),$<,$@)
 
 $(UTEST_BUILD_DIR)/unit: $(UTEST_OBJS) $(SRCS_OBJS)
 	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
 
 $(ATEST_OBJS): $(ATEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(CC_Fo_OP)$@ -c $<
+	$(CC) $(CC_Fo_OP)$@ -c $(CFLAGS) $<
 
 $(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
 	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
