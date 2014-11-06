@@ -153,7 +153,8 @@ ifeq 'msvc' '$(toolchain)'
     LDFLAGS += glu32.lib
     LDFLAGS += gdi32.lib
 else ifeq 'gcc' '$(toolchain)'
-    LDFLAGS += -lglut -lGL -lGLU
+  LDFLAGS += -lglut -lGL -lGLU
+  LDFLAGS += -lX11
 endif
 
 ##################
