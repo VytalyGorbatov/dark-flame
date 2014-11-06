@@ -77,7 +77,7 @@ static FILE_EXT get_file_ext(const char* name)
     string nf(name);
     int p = nf.rfind('.');
 
-    if (p > nf.size() || p <= 0) {
+    if (p > (int)nf.size() || p <= 0) {
         return FEXT_unknown;
     }
 
@@ -525,7 +525,6 @@ bool DF_TEXTURE::load_bmp(const char* name)
     file.seekg(h1.bfOffBits);
 
     int k = 0;
-    int i;
     char color[4];
     delete[] data;
 

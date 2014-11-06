@@ -260,7 +260,7 @@ void MESH::to_sub_mesh(const P3D& centre, float half_edge)
     float* v = new float[c_cnt * 3];
     float* t = new float[c_cnt * 2];
 
-    for (i = 0; i < array_cnt; ++i) {
+    for (i = 0, j = 0; i < array_cnt; ++i) {
         if (check[i]) {
             v[3 * j    ] = vertex[3 * i    ];
             v[3 * j + 1] = vertex[3 * i + 1];

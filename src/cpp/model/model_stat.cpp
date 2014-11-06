@@ -369,7 +369,6 @@ P3D MODEL_STAT::get_colision_point(const P3D& begin, const P3D& end, V3D* normal
 void MODEL_STAT::get_boundaries(math::P3D* min_xyz, math::P3D* max_xyz) const
 {
     P3D min, max;
-    int i;
 
     if (!min_xyz || !max_xyz) {
         return;

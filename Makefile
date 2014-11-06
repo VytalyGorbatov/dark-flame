@@ -96,7 +96,7 @@ endif
 ifeq (cl,$(CC))
   WARNING_CFLAGS = /W3 /nologo
 else
-  WARNING_CFLAGS = -Wall -pedantic -Wno-long-long
+  WARNING_CFLAGS = -Wall -pedantic -Wno-unknown-pragmas
 endif
 
 CFLAGS += $(WARNING_CFLAGS)

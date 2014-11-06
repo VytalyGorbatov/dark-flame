@@ -344,8 +344,8 @@ void EMITTER::init_particle(PARTICLE* p)
 
     float rnd;
     float vol = p_volume;
-    float p_spin = p_spin;
-    float p_ttl = p_ttl;
+    float spin = p_spin;
+    float ttl = p_ttl;
     V3D vel = p_velocity;
 
     if (p_delta_volume) {
@@ -354,11 +354,11 @@ void EMITTER::init_particle(PARTICLE* p)
     }
     if (p_delta_spin) {
         rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
-        p_spin += rnd * p_delta_spin;
+        spin += rnd * p_delta_spin;
     }
     if (p_delta_ttl) {
         rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
-        p_ttl += rnd * p_delta_ttl;
+        ttl += rnd * p_delta_ttl;
     }
 
     if (p_delta_velocity) {
@@ -371,6 +371,6 @@ void EMITTER::init_particle(PARTICLE* p)
     }
 
     rnd = rand() * 3.95f;
-    p->set_start(position, p_mass, vol, vel, p_spin, p_ttl);
+    p->set_start(position, p_mass, vol, vel, spin, ttl);
     p->set_final(p_f_volume, p_f_spin, rnd);
 }
