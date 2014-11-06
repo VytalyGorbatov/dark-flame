@@ -175,9 +175,12 @@ endif
 # Extended goals #
 ##################
 
-DIST_GOALS         = dist $(filter dist-%,$(MAKECMDGOALS))
-UTEST_GOALS        = utest $(filter utest-%,$(MAKECMDGOALS))
-ATEST_GOALS        = atest $(filter atest-%,$(MAKECMDGOALS))
+$(filter clean-%,$(MAKECMDGOALS)):   clean
+$(filter build-%,$(MAKECMDGOALS)):   build
+$(filter rebuild-%,$(MAKECMDGOALS)): rebuild
+$(filter dist-%,$(MAKECMDGOALS)):    dist
+$(filter utest-%,$(MAKECMDGOALS)):   utest
+$(filter atest-%,$(MAKECMDGOALS)):   atest
 
 ###############
 # Directories #
@@ -271,9 +274,9 @@ ATEST_OBJS      = $(addprefix $(ATEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),
 # Default targets #
 ###################
 
-.PHONY: all clean rebuild $(DIST_GOALS)
+.PHONY: all clean rebuild dist
 
-all: $(DIST_GOALS)
+all: dist
 
 rebuild: clean all
 
@@ -283,7 +286,7 @@ clean:
 $(VDIRS):
 	mkdir -p $@
 
-$(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
+dist: $(VDIRS) $(SRCS_OBJS)
 
 ############################
 # Compilation and building #
@@ -310,18 +313,18 @@ $(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
 # Unit testing #
 ################
 
-.PHONY: $(UTEST_GOALS)
+.PHONY: utest
 
-$(UTEST_GOALS): $(VDIRS) $(UTEST_BUILD_DIR)/unit
+utest: $(VDIRS) $(UTEST_BUILD_DIR)/unit
 	$(UTEST_BUILD_DIR)/unit
 
 ##################
 # Accept testing #
 ##################
 
-.PHONY: $(UTEST_GOALS)
+.PHONY: atest
 
-$(ATEST_GOALS): $(VDIRS) $(ATEST_BUILD_DIR)/accept
+atest: $(VDIRS) $(ATEST_BUILD_DIR)/accept
 	$(ATEST_BUILD_DIR)/accept
 
 ######################
