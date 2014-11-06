@@ -21,12 +21,20 @@
 # Determine platform/environment. #
 ###################################
 
-TARGET := linux
+host_os := linux
 ifneq '' '$(COMSPEC)'
   ifneq '' '$(WINDIR)'
     # Probably under Windows.
-    TARGET := windows
+    host_os := windows
   endif
+endif
+
+ifeq 'windows' '$(host_os)'
+  TARGET := windows
+else ifeq 'linux' '$(host_os)'
+  TARGET := linux
+else
+  $(error Unknown host_os: $(host_os))
 endif
 
 #############
