@@ -153,9 +153,8 @@ ifeq 'msvc' '$(toolchain)'
     CFLAGS += /analyze-
 endif
 
-# ######################
-# Include LIBS.
-# ######################
+################################################################
+# Include libs.
 
 ifeq 'msvc' '$(toolchain)'
     LDFLAGS += libcmt.lib
@@ -170,17 +169,18 @@ else ifeq 'gcc' '$(toolchain)'
   LDFLAGS += -lpthread
 endif
 
-##################
-# Extended goals #
-##################
+################################################################
+# Extended goals.
 
-DIST_GOALS         = dist $(filter dist-%,$(MAKECMDGOALS))
-UTEST_GOALS        = utest $(filter utest-%,$(MAKECMDGOALS))
-ATEST_GOALS        = atest $(filter atest-%,$(MAKECMDGOALS))
+$(filter clean-%,$(MAKECMDGOALS)):   clean
+$(filter build-%,$(MAKECMDGOALS)):   build
+$(filter rebuild-%,$(MAKECMDGOALS)): rebuild
+$(filter dist-%,$(MAKECMDGOALS)):    dist
+$(filter utest-%,$(MAKECMDGOALS)):   utest
+$(filter atest-%,$(MAKECMDGOALS)):   atest
 
-###############
-# Directories #
-###############
+################################################################
+# Directories.
 
 TMP_DIR            = /tmp
 
@@ -229,9 +229,8 @@ CFLAGS += -I$(SRC_DIR)\
           -I$(RENDERER_SRC_DIR)\
           -I$(WINDOW_SRC_DIR)
 
-###########################
-# Source and object files #
-###########################
+################################################################
+# Source and object files.
 
 SRC_OBJS        = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(SRC_DIR)/*.cpp))
 AI_OBJS         = $(patsubst $(SRC_DIR)/%.cpp,$(TARGET_BUILD_DIR)/%.$(OBJ_EXT),$(wildcard $(AI_SRC_DIR)/*.cpp))
@@ -261,13 +260,12 @@ ATEST_CPP       = $(patsubst $(TEST_DIR)/%,%,$(wildcard $(TEST_DIR)/accept*.cpp)
 ATEST_CPP      += utils.cpp
 ATEST_OBJS      = $(addprefix $(ATEST_BUILD_DIR)/,$(patsubst %.cpp,%.$(OBJ_EXT),$(ATEST_CPP)))
 
-###################
-# Default targets #
-###################
+################################################################
+# Default targets.
 
-.PHONY: all clean rebuild $(DIST_GOALS)
+.PHONY: all clean rebuild dist
 
-all: $(DIST_GOALS)
+all: dist
 
 rebuild: clean all
 
@@ -277,11 +275,10 @@ clean:
 $(VDIRS):
 	mkdir -p $@
 
-$(DIST_GOALS): $(VDIRS) $(SRCS_OBJS)
+dist: $(VDIRS) $(SRCS_OBJS)
 
-############################
-# Compilation and building #
-############################
+################################################################
+# Compilation and building.
 
 $(SRCS_OBJS): $(TARGET_BUILD_DIR)/%.$(OBJ_EXT): $(SRC_DIR)/%.cpp
 	$(call COMPILE,$(CFLAGS) -c,$<,$@)
@@ -298,27 +295,24 @@ $(ATEST_OBJS): $(ATEST_BUILD_DIR)/%.$(OBJ_EXT): $(TEST_DIR)/%.cpp
 $(ATEST_BUILD_DIR)/accept: $(ATEST_OBJS) $(SRCS_OBJS)
 	$(call LINK,$(CFLAGS) $(LDFLAGS),$^,$@)
 
-################
-# Unit testing #
-################
+################################################################
+# Unit testing.
 
-.PHONY: $(UTEST_GOALS)
+.PHONY: utest
 
-$(UTEST_GOALS): $(VDIRS) $(UTEST_BUILD_DIR)/unit
+utest: $(VDIRS) $(UTEST_BUILD_DIR)/unit
 	$(UTEST_BUILD_DIR)/unit
 
-##################
-# Accept testing #
-##################
+################################################################
+# Accept testing.
 
-.PHONY: $(UTEST_GOALS)
+.PHONY: atest
 
-$(ATEST_GOALS): $(VDIRS) $(ATEST_BUILD_DIR)/accept
+atest: $(VDIRS) $(ATEST_BUILD_DIR)/accept
 	$(ATEST_BUILD_DIR)/accept
 
-######################
-# Debug the Makefile #
-######################
+################################################################
+# Debug the Makefile.
 
 .PHONY: debug
 
