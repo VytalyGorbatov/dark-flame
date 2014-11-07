@@ -112,7 +112,7 @@ endif
 ifeq 'msvc' '$(toolchain)'
   WARNING_CFLAGS = /W3 /nologo
 else ifeq 'gcc' '$(toolchain)'
-  WARNING_CFLAGS = -Wall -pedantic -Wno-long-long
+  WARNING_CFLAGS = -Wall -pedantic -Wno-unknown-pragmas
 endif
 
 CFLAGS += $(WARNING_CFLAGS)
