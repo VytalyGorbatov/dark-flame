@@ -8,3 +8,4 @@ GTAGS
 *.diff
 *.patch
 *.log
+*.config
