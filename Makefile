@@ -18,6 +18,18 @@
 # For more details see LICENSE file.
 
 ################################################################
+# During development you can redefine some behaviour
+# in Makefile.config.
+
+# Available for customization:
+#   bprefix - build dir prefix
+#   prefix  - install dir prefix
+
+ifneq '' '$(wildcard Makefile.config)'
+  include Makefile.config
+endif
+
+################################################################
 # Auxiliary macros.
 
 error_unknown_value = $(error Unknown $(1): '$($(1))')
@@ -183,8 +195,8 @@ RENDERER_SRC_DIR   = src/cpp/renderer
 WINDOW_SRC_DIR     = src/cpp/window
 TEST_DIR           = test/cpp
 
-BUILD_DIR          ?= build
-DIST_DIR           ?= dist
+BUILD_DIR          ?= $(bprefix)build
+DIST_DIR           ?= $(bprefix)dist
 
 TARGET_BUILD_DIR   = $(BUILD_DIR)/$(TARGET)
 TARGET_DIST_DIR    = $(DIST_DIR)/$(TARGET)
