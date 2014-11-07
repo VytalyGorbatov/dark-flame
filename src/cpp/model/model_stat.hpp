@@ -49,11 +49,6 @@ protected:
     int meshes_cnt;
 
 public:
-    math::P3D position;                     // origin
-    math::P3D rotation;                     // pitch roll yaw
-    math::P3D scale;                        // scale the model
-
-public:
     MODEL_STAT();
     ~MODEL_STAT();
 

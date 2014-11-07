@@ -22,6 +22,8 @@
 #ifndef __MODEL_HPP__
 #define __MODEL_HPP__
 
+#include "vector.hpp"
+
 namespace model
 {
 
@@ -30,6 +32,11 @@ namespace model
  */
 class MODEL
 {
+public:
+    math::P3D position;                     // origin
+    math::P3D rotation;                     // pitch roll yaw
+    math::P3D scale;                        // scale the model
+
 public:
     virtual ~MODEL() {};
 
