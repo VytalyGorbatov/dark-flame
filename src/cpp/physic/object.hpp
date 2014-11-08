@@ -29,6 +29,16 @@ namespace physic
 
 class OBJECT
 {
+public:
+    math::P3D position;                     // origin
+    math::P3D rotation;                     // pitch roll yaw
+    math::P3D scale;                        // scale the model
+
+public:
+    OBJECT();
+    virtual ~OBJECT();
+
+    virtual void update(float time = 0) = 0;
 };
 
 } // namespace physic
