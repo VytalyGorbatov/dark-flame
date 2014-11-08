@@ -22,6 +22,7 @@
 #ifndef __OBJECT_HPP__
 #define __OBJECT_HPP__
 
+#include <list>
 #include "vector.hpp"
 
 namespace physic
@@ -34,11 +35,13 @@ public:
     math::P3D rotation;                     // pitch roll yaw
     math::P3D scale;                        // scale the model
 
+    math::V3D external_force;               // applied external force
+
 public:
     OBJECT();
     virtual ~OBJECT();
 
-    virtual void update(float delta_time = 0) = 0;
+    virtual void update(float delta_time, std::list<OBJECT*> objs) = 0;
 };
 
 } // namespace physic
