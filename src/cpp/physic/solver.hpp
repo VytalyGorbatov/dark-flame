@@ -23,6 +23,7 @@
 #define __SOLVER_HPP__
 
 #include <list>
+#include "enviroment.hpp"
 #include "vector.hpp"
 #include "object.hpp"
 
@@ -31,22 +32,23 @@ namespace physic
 
 class SOLVER
 {
-private:
+public:
     std::list<PHYS_OBJECT* const> act_objs;
     std::list<PHYS_OBJECT* const> dis_objs;
 
+    void register_object(PHYS_OBJECT*);
+    void unregister_object(const PHYS_OBJECT*);
+    void enable_object(const PHYS_OBJECT*);
+    void disable_object(const PHYS_OBJECT*);
+
 public:
+    ENVIROMENT env;                         // settings
+
     SOLVER();
     ~SOLVER();
 
     SOLVER(const SOLVER&);
     SOLVER& operator =(const SOLVER&);
-
-    void add_object(PHYS_OBJECT*);
-    void enable_object(const PHYS_OBJECT*);
-    void disable_object(const PHYS_OBJECT*);
-
-    void update(float delta_time = 0);
 };
 
 } // namespace physic
