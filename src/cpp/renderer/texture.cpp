@@ -124,8 +124,7 @@ DF_TEXTURE::DF_TEXTURE(const DF_TEXTURE& m)
     bpp = m.bpp;
     format = m.format;
     data = new char[x * y];
-    for (int i = 0; i < x * y; ++i)
-        data[i] = m.data[i];
+    memcpy(data, m.data, sizeof(data));
 }
 
 DF_TEXTURE& DF_TEXTURE::operator =(const DF_TEXTURE& m)
@@ -141,10 +140,7 @@ DF_TEXTURE& DF_TEXTURE::operator =(const DF_TEXTURE& m)
 
     delete[] data;
     data = new char[x * y];
-
-    for (int i = 0; i < x * y; ++i) {
-        data[i] = m.data[i];
-    }
+    memcpy(data, m.data, sizeof(data));
 
     return *this;
 }
@@ -638,16 +634,16 @@ void TEXTURE::init(const char* file_name, bool mip_map, bool clamp_to_edge)
         delete_from_list(pntr);
     }
 
+    DFLOG.addf("Loading texture: %s", file_name);
+
     if (is_in_list(file_name)) {
 
-        DFLOG.addf("Loading texture: %s", file_name);
         DFLOG.addf("\t...texture already exist.\n");
         pntr = add_to_list(file_name);
         return;
 
     } else {
 
-        DFLOG.addf("Loading texture: %s", file_name);
         pntr = add_to_list(file_name);
 
         /* loading the image */
@@ -703,14 +699,14 @@ void TEXTURE::init(void* data, int x, int y, const char* name, bool mip_map, boo
         delete_from_list(pntr);
     }
 
+    DFLOG.addf("Loading texture: %s", name);
+
     if (is_in_list(name)) {
-        DFLOG.addf("Loading texture: %s", name);
         DFLOG.addf("\t...texture already exist.\n");
         pntr = add_to_list(name);
         return;
     }
 
-    DFLOG.addf("Loading texture: %s", name);
     pntr = add_to_list(name);
     glGenTextures(1, &list[pntr].id);
     glBindTexture(GL_TEXTURE_2D, list[pntr].id);
@@ -865,37 +861,41 @@ bool TEXTURE::delete_from_list(int p)
 
 int TEXTURE::add_to_list(const char* name)
 {
+    /* check if texture already loaded */
     for (int i = 0; i < list_size; ++i) {
         if (strstr(list[i].name, name) != NULL) {
             list[i].count++;
+            DFLOG.addf("Increase texture %s usage counter.\n", list[i].name);
             return i;
         }
     }
 
+    /* realloc texture list */
     LIST_TEXT* temp = new LIST_TEXT[list_size + 1];
 
-    if (list != NULL) {
+    if (temp == NULL) {
+        DFLOG.addf("ERROR: realloc textures list failed.\n");
+        return NIL;
+    }
 
+    /* adding new texture to the end of the list */
+    temp[list_size].count = 1;
+    strcpy(temp[list_size].name, name);
+
+    if (list != NULL) {
+        /* move old data to new list */
         for (int i = 0; i < list_size; ++i) {
             temp[i] = list[i];
         }
-        temp[list_size].count = 1;
-        strcpy(temp[list_size].name, name);
+        /* release old list */
         delete[] list;
-
-    } else {
-
-        temp[list_size].count = 1;
-        strcpy(temp[list_size].name, name);
     }
 
     list_size++;
-    list = new LIST_TEXT[list_size];
-    for (int i = 0; i < list_size; ++i) {
-        list[i] = temp[i];
-    }
-    delete[] temp;
+    list = temp;
+    temp = NULL;
 
+    DFLOG.addf("New texture %s added to list successfully.\n", list[list_size - 1].name);
     return (list_size - 1);
 }
 

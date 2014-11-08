@@ -56,9 +56,9 @@ public:
 
 struct LIST_TEXT
 {
-    GLuint id; // texture ID
-    char name[255];      // name of texture (key for resource manager)
-    int count;           // count of user of the texture
+    GLuint id;      // texture ID
+    char name[255]; // name of texture (key for resource manager)
+    int count;      // count of user of the texture
 };
 
 } // namespace texture
@@ -69,7 +69,7 @@ private:
     static texture::LIST_TEXT* list;
     static int list_size;
 
-    int pntr;            // list index
+    int pntr; // list index
 
 private:
     bool is_in_list(const char* name);

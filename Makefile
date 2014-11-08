@@ -90,7 +90,7 @@ else ifeq 'gcc' '$(toolchain)'
 endif
 
 ifeq 'msvc' '$(toolchain)'
-  MSVC_CONF_FILE := msvc_conf
+  MSVC_CONF_FILE := msvc.config
   # Check for MSVC environment config file.
   ifeq '' '$(wildcard $(MSVC_CONF_FILE))'
     $(error MSVC environment not set. May be you forget to create $(MSVC_CONF_FILE) file)

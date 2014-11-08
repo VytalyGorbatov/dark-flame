@@ -64,10 +64,11 @@ int LIGHT::srcs_cnt = MAX_SRCS;
 
 int LIGHT::get_source()
 {
-    int i = 0;
-    while (i < srcs_cnt && actv[i++]);
+    int i;
 
-    return i == srcs_cnt ? NIL : i;
+    for (i = 0; i < srcs_cnt && actv[i]; i++);
+
+    return (i == srcs_cnt) ? NIL : i;
 }
 
 void LIGHT::free_source(int idx)
@@ -94,16 +95,18 @@ LIGHT::~LIGHT()
 
 LIGHT::LIGHT(const LIGHT& m)
 {
-    idx = m.idx == NIL ? NIL : get_source();
+    idx = (m.idx == NIL) ? NIL : get_source();
 
     ambient[0] = m.ambient[0];
     ambient[1] = m.ambient[1];
     ambient[2] = m.ambient[2];
     ambient[3] = m.ambient[3];
+
     diffuse[0] = m.diffuse[0];
     diffuse[1] = m.diffuse[1];
     diffuse[2] = m.diffuse[2];
     diffuse[3] = m.diffuse[3];
+
     specular[0] = m.specular[0];
     specular[1] = m.specular[1];
     specular[2] = m.specular[2];
@@ -113,6 +116,7 @@ LIGHT::LIGHT(const LIGHT& m)
     position[1] = m.position[1];
     position[2] = m.position[2];
     position[3] = m.position[3];
+
     direction[0] = m.direction[0];
     direction[1] = m.direction[1];
     direction[2] = m.direction[2];
@@ -136,16 +140,18 @@ LIGHT& LIGHT::operator =(const LIGHT& m)
 
     free_source(idx);
 
-    idx = m.idx == NIL ? NIL : get_source();
+    idx = (m.idx == NIL) ? NIL : get_source();
 
     ambient[0] = m.ambient[0];
     ambient[1] = m.ambient[1];
     ambient[2] = m.ambient[2];
     ambient[3] = m.ambient[3];
+
     diffuse[0] = m.diffuse[0];
     diffuse[1] = m.diffuse[1];
     diffuse[2] = m.diffuse[2];
     diffuse[3] = m.diffuse[3];
+
     specular[0] = m.specular[0];
     specular[1] = m.specular[1];
     specular[2] = m.specular[2];
@@ -155,6 +161,7 @@ LIGHT& LIGHT::operator =(const LIGHT& m)
     position[1] = m.position[1];
     position[2] = m.position[2];
     position[3] = m.position[3];
+
     direction[0] = m.direction[0];
     direction[1] = m.direction[1];
     direction[2] = m.direction[2];
@@ -179,10 +186,12 @@ void LIGHT::apply(const P3D& ambient, const P3D& diffuse, const P3D& specular,
     this->ambient[1] = ambient.y;
     this->ambient[2] = ambient.z;
     this->ambient[3] = 1;
+
     this->diffuse[0] = diffuse.x;
     this->diffuse[1] = diffuse.y;
     this->diffuse[2] = diffuse.z;
     this->diffuse[3] = 1;
+
     this->specular[0] = specular.x;
     this->specular[1] = specular.y;
     this->specular[2] = specular.z;
@@ -213,10 +222,12 @@ void LIGHT::apply(const P3D& ambient, const P3D& diffuse, const P3D& specular,
     this->ambient[1] = ambient.y;
     this->ambient[2] = ambient.z;
     this->ambient[3] = 1;
+
     this->diffuse[0] = diffuse.x;
     this->diffuse[1] = diffuse.y;
     this->diffuse[2] = diffuse.z;
     this->diffuse[3] = 1;
+
     this->specular[0] = specular.x;
     this->specular[1] = specular.y;
     this->specular[2] = specular.z;
@@ -247,10 +258,12 @@ void LIGHT::apply(const P3D& ambient, const P3D& diffuse, const P3D& specular,
     this->ambient[1] = ambient.y;
     this->ambient[2] = ambient.z;
     this->ambient[3] = 1;
+
     this->diffuse[0] = diffuse.x;
     this->diffuse[1] = diffuse.y;
     this->diffuse[2] = diffuse.z;
     this->diffuse[3] = 1;
+
     this->specular[0] = specular.x;
     this->specular[1] = specular.y;
     this->specular[2] = specular.z;
@@ -287,10 +300,12 @@ void LIGHT::apply(const P3D& ambient, const P3D& diffuse, const P3D& specular,
     this->ambient[1] = ambient.y;
     this->ambient[2] = ambient.z;
     this->ambient[3] = 1;
+
     this->diffuse[0] = diffuse.x;
     this->diffuse[1] = diffuse.y;
     this->diffuse[2] = diffuse.z;
     this->diffuse[3] = 1;
+
     this->specular[0] = specular.x;
     this->specular[1] = specular.y;
     this->specular[2] = specular.z;
@@ -367,6 +382,7 @@ void LIGHT::apply_direction()
             return;
         }
     }
+
     glLightfv(srcs[idx], GL_POSITION, position);
     glLightfv(srcs[idx], GL_SPOT_DIRECTION, direction);
 }
@@ -392,9 +408,10 @@ int LIGHT::get_max_sources()
 
 int LIGHT::get_sources_left()
 {
-    int i = 0, cnt = 0;
-    while (i < srcs_cnt) {
-        if (!actv[i++]) {
+    int cnt = 0;
+
+    for (int i = 0; i < srcs_cnt; i++) {
+        if (!actv[i]) {
             cnt++;
         }
     }
