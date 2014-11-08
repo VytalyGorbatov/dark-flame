@@ -41,7 +41,7 @@ public:
     PHYS_OBJECT();
     virtual ~PHYS_OBJECT();
 
-    virtual void update(float delta_time, std::list<PHYS_OBJECT*> objs) = 0;
+    virtual void update(float delta_time) = 0;
 };
 
 } // namespace physic
