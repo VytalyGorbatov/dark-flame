@@ -19,30 +19,18 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __FUNCTION_HPP__
-#define __FUNCTION_HPP__
+#include "function.hpp"
 
-#include <istream>
-#include "model.hpp"
-#include "phys_object.hpp"
+using namespace model;
+using namespace physic;
 
-/**
- * Simple multiply or once-triggered actions.
- */
-class FUNCTION
+void FUNCTION::render(float delta_time) const
 {
-protected:
-    model::MODEL* model;
-    physic::PHYS_OBJECT* object;
+    model->render(delta_time);
+}
 
-    /* Some interface to receive events from others. */
-
-public:
-    virtual ~FUNCTION() {}
-
-    virtual void init(std::istream src) = 0;
-    virtual void render(float delta_time = 0) const;
-    virtual void update(float delta_time = 0);
-};
-
-#endif // __FUNCTION_HPP__
+void FUNCTION::update(float delta_time)
+{
+    model->update(delta_time);
+    object->update(delta_time);
+}
