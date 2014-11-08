@@ -55,8 +55,8 @@ public:
     MODEL_STAT(const MODEL_STAT&);
     MODEL_STAT& operator =(const MODEL_STAT&);
 
-    virtual void render(float time = 0) const;
-    virtual void update(float time = 0);
+    virtual void render(float delta_time = 0) const;
+    virtual void update(float delta_time = 0);
 
     void init(const char* file_path);
     math::P3D get_colision_point(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL);

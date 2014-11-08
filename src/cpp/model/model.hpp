@@ -40,8 +40,8 @@ public:
 public:
     virtual ~MODEL() {};
 
-    virtual void render(float time = 0) const = 0;
-    virtual void update(float time = 0) = 0;
+    virtual void render(float delta_time = 0) const = 0;
+    virtual void update(float delta_time = 0) = 0;
 };
 
 } // namespace model

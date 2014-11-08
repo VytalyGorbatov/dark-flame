@@ -38,7 +38,7 @@ public:
     OBJECT();
     virtual ~OBJECT();
 
-    virtual void update(float time = 0) = 0;
+    virtual void update(float delta_time = 0) = 0;
 };
 
 } // namespace physic

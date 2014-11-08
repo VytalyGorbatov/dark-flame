@@ -46,7 +46,7 @@ public:
     void enable_object(const OBJECT*);
     void disable_object(const OBJECT*);
 
-    void update(float time = 0);
+    void update(float delta_time = 0);
 };
 
 } // namespace physic

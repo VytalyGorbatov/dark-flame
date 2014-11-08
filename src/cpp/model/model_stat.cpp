@@ -114,7 +114,7 @@ void MODEL_STAT::to_sub_model(const P3D& centre, float half_edge)
     }
 }
 
-void MODEL_STAT::render(float time) const
+void MODEL_STAT::render(float delta_time) const
 {
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
@@ -140,7 +140,7 @@ void MODEL_STAT::render(float time) const
     glPopMatrix();
 }
 
-void MODEL_STAT::update(float time)
+void MODEL_STAT::update(float delta_time)
 {
 
 }
