@@ -19,8 +19,8 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __BORDER_HPP__
-#define __BORDER_HPP__
+#ifndef __ROD_HPP__
+#define __ROD_HPP__
 
 #include <list>
 #include "object.hpp"
@@ -29,20 +29,19 @@
 namespace physic
 {
 
-/** Represent outer world borders as rectangular parallelepiped. */
-class BORDER : public PHYS_OBJECT
+/** Represent a short rod. */
+class ROD : public PHYS_OBJECT
 {
 private:
-    math::P3D mix_xyz;                     // the nearest point to coordinates origin
-    math::P3D max_xyz;                     // the most far point from coordinates origin
+    float length;                           // length of rod
 
 public:
-    BORDER();
-    ~BORDER();
+    ROD();
+    ~ROD();
 
-    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
+    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // checks for collisions
 };
 
 } // namespace physic
 
-#endif // __BORDER_HPP__
+#endif // __ROD_HPP__

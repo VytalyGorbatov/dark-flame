@@ -19,30 +19,29 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __BORDER_HPP__
-#define __BORDER_HPP__
+#ifndef __DIVER_HPP__
+#define __DIVER_HPP__
 
-#include <list>
-#include "object.hpp"
-#include "vector.hpp"
+#include "entity.hpp"
 
 namespace physic
 {
 
-/** Represent outer world borders as rectangular parallelepiped. */
-class BORDER : public PHYS_OBJECT
+/** Represent a diver. */
+class DIVER : public ENTITY
 {
-private:
-    math::P3D mix_xyz;                     // the nearest point to coordinates origin
-    math::P3D max_xyz;                     // the most far point from coordinates origin
-
 public:
-    BORDER();
-    ~BORDER();
+    DIVER();
+    ~DIVER();
 
-    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
+    DIVER(const DIVER&);
+    DIVER& operator =(const DIVER&);
+
+    void init(std::istream src);
+    void render(float delta_time = 0);
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
 
-#endif // __BORDER_HPP__
+#endif // __DIVER_HPP__

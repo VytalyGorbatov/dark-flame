@@ -19,8 +19,8 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __FISH_HPP__
-#define __FISH_HPP__
+#ifndef __SPHERE_HPP__
+#define __SPHERE_HPP__
 
 #include <list>
 #include "object.hpp"
@@ -29,19 +29,20 @@
 namespace physic
 {
 
-/** Represent angry fish. */
-class FISH : public OBJECT
+/** Represent objects as spheres. */
+class SPHERE : public PHYS_OBJECT
 {
 private:
-    float affected_radius;                  // vital space (sphere)
+    math::P3D coord;                        // coordinates of sphere's centre
+    float radius;                           // radius of the sphere
 
 public:
-    FISH();
-    ~FISH();
+    SPHERE();
+    ~SPHERE();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // implements moving states
+    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
 };
 
 } // namespace physic
 
-#endif // __FISH_HPP__
+#endif // __SPHERE_HPP__

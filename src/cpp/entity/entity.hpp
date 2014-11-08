@@ -22,13 +22,27 @@
 #ifndef __ENTITY_HPP__
 #define __ENTITY_HPP__
 
+#include <istream>
+#include "model.hpp"
+#include "phys_object.hpp"
+
 /**
  * Basic 'smart' object interface.
  */
 class ENTITY
 {
+protected:
+    model::MODEL* model;
+    physics::PHYS_OBJECT* object;
+
+    /* Some interface to controls entities: AI or UI. */
+
 public:
-    virtual ~Entity() = 0;
+    virtual ~ENTITY() {}
+
+    virtual void init(std::istream src) = 0;
+    virtual void render(float delta_time = 0) const = 0;
+    virtual void update(float delta_time = 0) = 0;
 };
 
 #endif // __ENTITY_HPP__

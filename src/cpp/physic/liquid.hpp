@@ -19,8 +19,8 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __DIVER_HPP__
-#define __DIVER_HPP__
+#ifndef __LIQUID_HPP__
+#define __LIQUID_HPP__
 
 #include <list>
 #include "object.hpp"
@@ -29,19 +29,20 @@
 namespace physic
 {
 
-/** Represent diver (player). */
-class DIVER : public OBJECT
+/** Represent liquid as surface and included volume. */
+class LIQUID : public PHYS_OBJECT
 {
 private:
-    float affected_radius;                  // vital space (sphere)
+    math::P3D mix_xyz;                     // the nearest point to coordinates origin
+    math::P3D max_xyz;                     // the most far point from coordinates origin
 
 public:
-    DIVER();
-    ~DIVER();
+    LIQUID();
+    ~LIQUID();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // implements moving states
+    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
 };
 
 } // namespace physic
 
-#endif // __DIVER_HPP__
+#endif // __LIQUID_HPP__

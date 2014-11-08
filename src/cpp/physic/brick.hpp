@@ -19,31 +19,31 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __OBJECT_HPP__
-#define __OBJECT_HPP__
+#ifndef __BRICK_HPP__
+#define __BRICK_HPP__
 
 #include <list>
+#include "object.hpp"
 #include "vector.hpp"
 
 namespace physic
 {
 
-class OBJECT
+/** Represent 'brick' objects. */
+class BRICK : public OBJECT
 {
-public:
-    math::P3D position;                     // origin
-    math::P3D rotation;                     // pitch roll yaw
-    math::P3D scale;                        // scale the model
-
-    math::V3D external_force;               // applied external force
+private:
+    float length;
+    float width;
+    float height;
 
 public:
-    OBJECT();
-    virtual ~OBJECT();
+    BRICK();
+    ~BRICK();
 
-    virtual void update(float delta_time, std::list<OBJECT*> objs) = 0;
+    void update(float delta_time, std::list<OBJECT*> objs); // check for collisions and control linked objects
 };
 
 } // namespace physic
 
-#endif // __OBJECT_HPP__
+#endif // __BRICK_HPP__

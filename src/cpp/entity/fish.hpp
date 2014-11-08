@@ -19,29 +19,29 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __BULLET_HPP__
-#define __BULLET_HPP__
+#ifndef __FISH_HPP__
+#define __FISH_HPP__
 
-#include <list>
-#include "object.hpp"
-#include "vector.hpp"
+#include "entity.hpp"
 
 namespace physic
 {
 
-/** Represent flying bullet as a short rod. */
-class BULLET : public OBJECT
+/** Represent angry fish. */
+class FISH : public ENTITY
 {
-private:
-    float length;                           // length of rod
-
 public:
-    BULLET();
-    ~BULLET();
+    FISH();
+    ~FISH();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // checks for collisions
+    FISH(const FISH&);
+    FISH& operator =(const FISH&);
+
+    void init(std::istream src);
+    void render(float delta_time = 0);
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
 
-#endif // __BULLET_HPP__
+#endif // __FISH_HPP__

@@ -32,8 +32,8 @@ namespace physic
 class SOLVER
 {
 private:
-    std::list<OBJECT* const> act_objs;
-    std::list<OBJECT* const> dis_objs;
+    std::list<PHYS_OBJECT* const> act_objs;
+    std::list<PHYS_OBJECT* const> dis_objs;
 
 public:
     SOLVER();
@@ -42,9 +42,9 @@ public:
     SOLVER(const SOLVER&);
     SOLVER& operator =(const SOLVER&);
 
-    void add_object(OBJECT*);
-    void enable_object(const OBJECT*);
-    void disable_object(const OBJECT*);
+    void add_object(PHYS_OBJECT*);
+    void enable_object(const PHYS_OBJECT*);
+    void disable_object(const PHYS_OBJECT*);
 
     void update(float delta_time = 0);
 };

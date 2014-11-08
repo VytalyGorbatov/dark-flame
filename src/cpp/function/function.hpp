@@ -22,13 +22,27 @@
 #ifndef __FUNCTION_HPP__
 #define __FUNCTION_HPP__
 
+#include <istream>
+#include "model.hpp"
+#include "phys_object.hpp"
+
 /**
  * Simple multiply or once-triggered actions.
  */
 class FUNCTION
 {
+protected:
+    model::MODEL* model;
+    physics::PHYS_OBJECT* object;
+
+    /* Some interface to receive events from others. */
+
 public:
-    virtual ~Function() = 0;
+    virtual ~FUNCTION() {}
+
+    virtual void init(std::istream src) = 0;
+    virtual void render(float delta_time = 0) const = 0;
+    virtual void update(float delta_time = 0) = 0;
 };
 
 #endif // __FUNCTION_HPP__

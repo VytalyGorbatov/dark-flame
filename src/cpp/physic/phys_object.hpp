@@ -19,30 +19,31 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __WATER_HPP__
-#define __WATER_HPP__
+#ifndef __PHYS_OBJECT_HPP__
+#define __PHYS_OBJECT_HPP__
 
 #include <list>
-#include "object.hpp"
 #include "vector.hpp"
 
 namespace physic
 {
 
-/** Represent water as surface and included volume. */
-class WATER : public OBJECT
+class PHYS_OBJECT
 {
-private:
-    math::P3D mix_xyz;                     // the nearest point to coordinates origin (bottom plane)
-    math::P3D max_xyz;                     // the most far point from coordinates origin (waves' plane)
+public:
+    math::P3D position;                     // origin
+    math::P3D rotation;                     // pitch roll yaw
+    math::P3D scale;                        // scale the model
+
+    math::V3D external_force;               // applied external force
 
 public:
-    WATER();
-    ~WATER();
+    PHYS_OBJECT();
+    virtual ~PHYS_OBJECT();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // calculates Archimedes' force for objects
+    virtual void update(float delta_time, std::list<PHYS_OBJECT*> objs) = 0;
 };
 
 } // namespace physic
 
-#endif // __WATER_HPP__
+#endif // __PHYS_OBJECT_HPP__

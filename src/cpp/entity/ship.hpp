@@ -19,30 +19,29 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __ROPE_HPP__
-#define __ROPE_HPP__
+#ifndef __SHIP_HPP__
+#define __SHIP_HPP__
 
-#include <list>
-#include "object.hpp"
-#include "vector.hpp"
+#include "entity.hpp"
 
 namespace physic
 {
 
-/** Represent rope between two objects. */
-class ROPE : public OBJECT
+/** Represent a ship. */
+class SHIP : public ENTITY
 {
-private:
-    OBJECT* obj_a;
-    OBJECT* obj_b;
-
 public:
-    ROPE();
-    ~ROPE();
+    SHIP();
+    ~SHIP();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // corrects the objects' coordinates acording to tension force
+    SHIP(const SHIP&);
+    SHIP& operator =(const SHIP&);
+
+    void init(std::istream src);
+    void render(float delta_time = 0);
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
 
-#endif // __ROPE_HPP__
+#endif // __SHIP_HPP__

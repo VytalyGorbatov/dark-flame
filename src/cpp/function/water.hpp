@@ -19,30 +19,30 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __BORDER_HPP__
-#define __BORDER_HPP__
+#ifndef __WATER_HPP__
+#define __WATER_HPP__
 
-#include <list>
-#include "object.hpp"
+#include "function.hpp"
 #include "vector.hpp"
 
 namespace physic
 {
 
-/** Represent outer world borders as rectangular parallelepiped. */
-class BORDER : public PHYS_OBJECT
+/** Represent a water. */
+class WATER : public FUNCTION
 {
-private:
-    math::P3D mix_xyz;                     // the nearest point to coordinates origin
-    math::P3D max_xyz;                     // the most far point from coordinates origin
-
 public:
-    BORDER();
-    ~BORDER();
+    WATER();
+    ~WATER();
 
-    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
+    WATER(const WATER&);
+    WATER& operator =(const WATER&);
+
+    void init(std::istream src);
+    void render(float delta_time = 0) const;
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
 
-#endif // __BORDER_HPP__
+#endif // __WATER_HPP__

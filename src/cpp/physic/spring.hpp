@@ -19,8 +19,8 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __BORDER_HPP__
-#define __BORDER_HPP__
+#ifndef __SPRING_HPP__
+#define __SPRING_HPP__
 
 #include <list>
 #include "object.hpp"
@@ -29,20 +29,20 @@
 namespace physic
 {
 
-/** Represent outer world borders as rectangular parallelepiped. */
-class BORDER : public PHYS_OBJECT
+/** Represent spring (link or some kind of rope) between two objects. */
+class SPRING : public OBJECT
 {
 private:
-    math::P3D mix_xyz;                     // the nearest point to coordinates origin
-    math::P3D max_xyz;                     // the most far point from coordinates origin
+    OBJECT* obj_a;
+    OBJECT* obj_b;
 
 public:
-    BORDER();
-    ~BORDER();
+    SPRING();
+    ~SPRING();
 
-    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
+    void update(float delta_time, std::list<OBJECT*> objs); // corrects the objects' coordinates acording to tension force
 };
 
 } // namespace physic
 
-#endif // __BORDER_HPP__
+#endif // __SPRING_HPP__

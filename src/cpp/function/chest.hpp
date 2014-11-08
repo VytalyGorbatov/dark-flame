@@ -19,31 +19,29 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __SHIP_HPP__
-#define __SHIP_HPP__
+#ifndef __CHEST_HPP__
+#define __CHEST_HPP__
 
-#include <list>
-#include "object.hpp"
-#include "vector.hpp"
+#include "function.hpp"
 
 namespace physic
 {
 
-/** Represent ship as 'brick'. */
-class SHIP : public OBJECT
+/** Represent box. */
+class CHEST : public FUNCTION
 {
-private:
-    float length;
-    float width;
-    float height;
-
 public:
-    SHIP();
-    ~SHIP();
+    CHEST();
+    ~CHEST();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // check for collisions and control linked objects
+    CHEST(const CHEST&);
+    CHEST& operator =(const CHEST&);
+
+    void init(std::istream src);
+    void render(float delta_time = 0) const;
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
 
-#endif // __SHIP_HPP__
+#endif // __CHEST_HPP__

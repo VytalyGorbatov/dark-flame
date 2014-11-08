@@ -19,30 +19,29 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __CHEST_HPP__
-#define __CHEST_HPP__
+#ifndef __ROPE_HPP__
+#define __ROPE_HPP__
 
-#include <list>
-#include "object.hpp"
-#include "vector.hpp"
+#include "function.hpp"
 
 namespace physic
 {
 
-/** Represent box with treasures. */
-class CHEST : public OBJECT
+/** Represent rope between two objects. */
+class ROPE : public FUNCTION
 {
-private:
-    float length;
-    float width;
-    float height;
 public:
-    CHEST();
-    ~CHEST();
+    ROPE();
+    ~ROPE();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // corrects the objects' coordinates acording to limits
+    ROPE(const ROPE&);
+    ROPE& operator =(const ROPE&);
+
+    void init(std::istream src);
+    void render(float delta_time = 0) const;
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
 
-#endif // __CHEST_HPP__
+#endif // __ROPE_HPP__
