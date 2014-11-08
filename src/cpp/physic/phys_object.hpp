@@ -30,7 +30,7 @@ namespace physic
 
 class PHYS_OBJECT
 {
-public:
+protected:
     math::P3D position;                     // origin
     math::P3D rotation;                     // pitch roll yaw
     math::P3D scale;                        // scale the model
