@@ -19,30 +19,18 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __ENTITY_HPP__
-#define __ENTITY_HPP__
+#include "entity.hpp"
 
-#include <istream>
-#include "model.hpp"
-#include "phys_object.hpp"
+using namespace model;
+using namespace physic;
 
-/**
- * Basic 'smart' object interface.
- */
-class ENTITY
+void ENTITY::render(float delta_time) const
 {
-protected:
-    model::MODEL* model;
-    physic::PHYS_OBJECT* object;
+    model->render(delta_time);
+}
 
-    /* Some interface to controls entities: AI or UI. */
-
-public:
-    virtual ~ENTITY() {}
-
-    virtual void init(std::istream src) = 0;
-    virtual void render(float delta_time = 0) const;
-    virtual void update(float delta_time = 0);
-};
-
-#endif // __ENTITY_HPP__
+void ENTITY::update(float delta_time)
+{
+    model->update(delta_time);
+    object->update(delta_time);
+}
