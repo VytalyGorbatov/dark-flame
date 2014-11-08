@@ -36,7 +36,7 @@ public:
     char* data;
     int   x;
     int   y;
-    char  bpp;
+    int   bpp;
     GLenum format;
 
 private:

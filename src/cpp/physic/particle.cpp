@@ -117,7 +117,7 @@ bool PARTICLE::update(float dt, const float env_density, const V3D* env_force, c
 
 bool PARTICLE::is_alive() const
 {
-    return ttl;
+    return (ttl == 0) ? false : true;
 }
 
 EMITTER::EMITTER()
@@ -301,7 +301,7 @@ void EMITTER::update(float dt)
 
     /* create new particles */
     if (is_active) {
-        float rnd = rand() * 3.0517578125E-5; // (0..1)
+        float rnd = rand() * 3.0517578125E-5f; // (0..1)
         float fquantity = pps * dt;
         int iquantity = (int)fquantity; // emitted particles for this frame
 
@@ -349,24 +349,24 @@ void EMITTER::init_particle(PARTICLE* p)
     V3D vel = p_velocity;
 
     if (p_delta_volume) {
-        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
+        rnd = rand() * 6.103515625E-5f - 1; // (-1..1)
         vol += rnd * p_delta_volume;
     }
     if (p_delta_spin) {
-        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
+        rnd = rand() * 6.103515625E-5f - 1; // (-1..1)
         spin += rnd * p_delta_spin;
     }
     if (p_delta_ttl) {
-        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
+        rnd = rand() * 6.103515625E-5f - 1; // (-1..1)
         ttl += rnd * p_delta_ttl;
     }
 
     if (p_delta_velocity) {
-        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
+        rnd = rand() * 6.103515625E-5f - 1; // (-1..1)
         vel.dir.x += rnd * p_delta_velocity;
-        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
+        rnd = rand() * 6.103515625E-5f - 1; // (-1..1)
         vel.dir.y += rnd * p_delta_velocity;
-        rnd = rand() * 6.103515625E-5 - 1; // (-1..1)
+        rnd = rand() * 6.103515625E-5f - 1; // (-1..1)
         vel.dir.z += rnd * p_delta_velocity;
     }
 

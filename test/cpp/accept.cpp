@@ -47,7 +47,7 @@ const float z_far = 50.0f;
 /* parameters for drawing objects */
 math::P3D view_point(-2.1f, 2.8f, 3);
 math::P3D cube_origin(0, 0, 0);
-int cube_size(1);
+const float cube_size = 1;
 
 /* textures */
 TEXTURE* bckgnd;

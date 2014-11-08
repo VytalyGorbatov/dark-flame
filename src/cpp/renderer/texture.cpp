@@ -75,9 +75,9 @@ static FILE_EXT get_file_ext(const char* name)
 {
     string ext;
     string nf(name);
-    int p = nf.rfind('.');
+    size_t p = nf.rfind('.');
 
-    if (p > (int)nf.size() || p <= 0) {
+    if (p > nf.size() || p <= 0) {
         return FEXT_unknown;
     }
 
