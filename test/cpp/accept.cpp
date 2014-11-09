@@ -105,7 +105,7 @@ void init_test(void)
 void main_test(WINDOW* wnd)
 {
     static float att = 1.0f;
-    att -= att > 0.0f ? timer->dt() * 0.2f : 0.0f;
+    att = att > 0.0f ? att -  0.2f * timer->dt() : 0.0f;
 
     VIEWPORT::clear();
 
