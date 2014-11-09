@@ -22,6 +22,7 @@
 #ifndef __PARTICLE_HPP__
 #define __PARTICLE_HPP__
 
+#include "solver.hpp"
 #include "vector.hpp"
 
 namespace physic
@@ -54,7 +55,7 @@ public:
     bool is_alive() const;
 };
 
-class EMITTER
+class EMITTER : public PHYS_OBJECT
 {
 private:
     PARTICLE**  particles;
@@ -68,10 +69,7 @@ private:
 public:
 
     /* emitter properties */
-    math::P3D   position;
-
     float       pps;         // particles per second;
-    float       scale;
     float       env_density;
     math::V3D   ext_force;
 

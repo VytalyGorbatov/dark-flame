@@ -128,7 +128,7 @@ EMITTER::EMITTER()
     is_active = false;
 
     pps = 0;
-    scale = 1;
+    scale.set_xyz(1, 1, 1);
     env_density = 0;
 
     p_mass = 0;
@@ -158,7 +158,7 @@ EMITTER::EMITTER(const P3D& position, float pps, int particles_cnt_max)
     is_active = false;
 
     this->pps = pps;
-    scale = 1;
+    scale.set_xyz(1, 1, 1);
     env_density = 0;
 
     p_mass = 0;
