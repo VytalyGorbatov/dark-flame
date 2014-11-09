@@ -275,32 +275,23 @@ void EMITTER::stop_emission()
 
 void EMITTER::update(float dt)
 {
-    int i = 0, k = 0, d = 0;
+    int active_cnt = 0;
+    int emitted_cnt = 0;
 
-    /* remove inactive particles */
-    for (i = 0; i < particles_cnt; ++i) {
+    PARTICLE** new_particles = NULL;
+    PARTICLE** emitted_particles = NULL;
+
+    /* calculate active particles count */
+    active_cnt = particles_cnt;
+    for (int i = 0; i < particles_cnt; ++i) {
         if (!particles[i]->is_alive()) {
-            d++;
+            active_cnt--;
         }
     }
 
-    PARTICLE** temp;
-    temp = new PARTICLE*[particles_cnt - d];
-    k = 0;
-    for (i = 0; i < particles_cnt; ++i) {
-        if (particles[i]->is_alive()) {
-            temp[k++] = particles[i];
-        } else {
-            delete particles[i];
-        }
-    }
-
-    particles_cnt -= d;
-    delete[] particles;
-    particles = temp;
-
-    /* create new particles */
+    /* calculate emitted particles count */
     if (is_active) {
+
         float rnd = rand() * 3.0517578125E-5f; // (0..1)
         float fquantity = pps * dt;
         int iquantity = (int)fquantity; // emitted particles for this frame
@@ -309,24 +300,42 @@ void EMITTER::update(float dt)
             iquantity++;
         }
 
-        if (iquantity + particles_cnt > particles_cnt_max) {
-            iquantity = particles_cnt_max - particles_cnt;
+        if (iquantity + active_cnt > particles_cnt_max) {
+            iquantity = particles_cnt_max - active_cnt;
         }
 
-        temp = new PARTICLE*[particles_cnt + iquantity];
-        for (int i = 0; i < particles_cnt; ++i) {
-            temp[i] = particles[i];
-        }
+        /* create new particles for this frame */
+        emitted_cnt = iquantity;
+        emitted_particles = new PARTICLE*[emitted_cnt];
 
-        particles_cnt += iquantity;
-        for (int i = particles_cnt - iquantity; i < particles_cnt; ++i) {
-            temp[i] = new PARTICLE;
-            init_particle(temp[i]);
+        for (int i = 0; i < emitted_cnt; ++i) {
+            new_particles[i] = new PARTICLE;
+            init_particle(new_particles[i]);
         }
-
-        delete[] particles;
-        particles = temp;
     }
+
+    /* create new particles array */
+    new_particles = new PARTICLE*[active_cnt + emitted_cnt];
+
+    for (int i = 0, k = 0; i < particles_cnt; ++i) {
+        if (particles[i]->is_alive()) {
+            /* active particles copy to new array */
+            new_particles[k++] = particles[i];
+        } else {
+            /* remove inactive particles */
+            delete particles[i];
+        }
+    }
+
+    for (int i = 0; i < emitted_cnt; ++i) {
+        /* add emitted particles to array */
+        new_particles[active_cnt + i] = emitted_particles[i];
+    }
+    
+    /* update particles */
+    delete[] particles;
+    particles = new_particles;
+    particles_cnt = active_cnt + emitted_cnt;
 
     /* computing */
     for (int i = 0; i < particles_cnt; ++i) {
