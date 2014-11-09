@@ -23,6 +23,8 @@
 
 #if defined WINDOWS
 
+#include <Winbase.h>
+
 void TIMER::config_timer()
 {
     i64 freq = 0;
