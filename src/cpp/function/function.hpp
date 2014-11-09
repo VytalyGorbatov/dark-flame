@@ -24,7 +24,7 @@
 
 #include <istream>
 #include "model.hpp"
-#include "phys_object.hpp"
+#include "solver.hpp"
 
 /**
  * Simple multiply or once-triggered actions.

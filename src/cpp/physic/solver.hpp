@@ -25,21 +25,67 @@
 #include <list>
 #include "enviroment.hpp"
 #include "vector.hpp"
-#include "object.hpp"
 
 namespace physic
 {
 
+class SOLVER;
+
+class PHYS_OBJECT
+{
+protected:
+    math::P3D position;                     // origin
+    math::P3D rotation;                     // pitch roll yaw
+    math::P3D scale;                        // scale the model
+    math::V3D external_force;               // applied external force
+    SOLVER* const world;                    // native world
+
+    std::list<PHYS_OBJECT*> get_actors();
+    void put_in_world() const;
+    void remove_from_world() const;
+
+public:
+    PHYS_OBJECT();
+    PHYS_OBJECT(SOLVER& world);
+    PHYS_OBJECT(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl);
+    virtual ~PHYS_OBJECT();
+
+    const math::P3D& get_position() const
+    {
+        return position;
+    }
+
+    const math::P3D& get_rotation() const
+    {
+        return rotation;
+    }
+
+    const math::P3D& get_scale() const
+    {
+        return scale;
+    }
+
+    virtual void update(float delta_time) = 0;
+    void collapse();
+};
+
 class SOLVER
 {
-public:
-    std::list<PHYS_OBJECT* const> act_objs;
-    std::list<PHYS_OBJECT* const> dis_objs;
+friend class PHYS_OBJECT;
 
-    void register_object(PHYS_OBJECT*);
-    void unregister_object(const PHYS_OBJECT*);
-    void enable_object(const PHYS_OBJECT*);
-    void disable_object(const PHYS_OBJECT*);
+private:
+    std::list<PHYS_OBJECT*> act_objs;
+    std::list<PHYS_OBJECT*> dis_objs;
+
+    std::list<PHYS_OBJECT*> get_actors()
+    {
+        return act_objs;
+    }
+
+    void register_object(const PHYS_OBJECT* const);
+    void unregister_object(const PHYS_OBJECT* const);
+    void enable_object(const PHYS_OBJECT* const);
+    void disable_object(const PHYS_OBJECT* const);
 
 public:
     ENVIROMENT env;                         // settings

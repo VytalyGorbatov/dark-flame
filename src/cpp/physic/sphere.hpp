@@ -23,7 +23,7 @@
 #define __SPHERE_HPP__
 
 #include <list>
-#include "object.hpp"
+#include "solver.hpp"
 #include "vector.hpp"
 
 namespace physic
