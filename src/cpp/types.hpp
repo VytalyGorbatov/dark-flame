@@ -31,15 +31,15 @@
     #define false 0
     #define true 1
 
-    typedef __int8 i8;
-    typedef __int16 i16;
-    typedef __int32 i32;
-    typedef __int64 i64;
+    typedef __int8 int8_t;
+    typedef __int16 int16_t;
+    typedef __int32 int32_t;
+    typedef __int64 int64_t;
 
-    typedef unsigned __int8 u8;
-    typedef unsigned __int16 u16;
-    typedef unsigned __int32 u32;
-    typedef unsigned __int64 u64;
+    typedef unsigned __int8 uint8_t;
+    typedef unsigned __int16 uint16_t;
+    typedef unsigned __int32 uint32_t;
+    typedef unsigned __int64 uint64_t;
 
 #elif (!defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(LINUX)) \
     || (defined(__INTEL_COMPILER) && !defined(LINUX))
@@ -48,15 +48,15 @@
     #define false 0
     #define true 1
 
-    typedef char i8;
-    typedef short i16;
-    typedef int i32;
-    typedef long long i64;
+    typedef char int8_t;
+    typedef short int16_t;
+    typedef int int32_t;
+    typedef long long int64_t;
 
-    typedef unsigned char u8;
-    typedef unsigned short u16;
-    typedef unsigned int u32;
-    typedef unsigned long long u64;
+    typedef unsigned char uint8_t;
+    typedef unsigned short uint16_t;
+    typedef unsigned int uint32_t;
+    typedef unsigned long long uint64_t;
 
 #elif defined(LINUX) && defined(__INTEL_COMPILER)
 
@@ -66,15 +66,15 @@
     #define false 0
     #define true 1
 
-    typedef char i8;
-    typedef short i16;
-    typedef int i32;
-    typedef long long i64;
+    typedef char int8_t;
+    typedef short int16_t;
+    typedef int int32_t;
+    typedef long long int64_t;
 
-    typedef unsigned char u8;
-    typedef unsigned short u16;
-    typedef unsigned int u32;
-    typedef unsigned long long u64;
+    typedef unsigned char uint8_t;
+    typedef unsigned short uint16_t;
+    typedef unsigned int uint32_t;
+    typedef unsigned long long uint64_t;
 
 #else
 
@@ -94,14 +94,13 @@
 
 /** CPU word. */
 #if defined(WORD32)
-    typedef i32 word_t;
-    typedef u32 uword_t;
-    typedef i64 dword_t;
-    typedef u64 udword_t;
+    typedef int32_t word_t;
+    typedef uint32_t uword_t;
+    typedef int64_t dword_t;
+    typedef uint64_t udword_t;
 #elif defined(WORD64)
-    typedef i64 word_t;
-    typedef u64 uword_t;
-#   error Undefined 128 bit type.
+    typedef int64_t word_t;
+    typedef uint64_t uword_t;
     // typedef i128 dword_t;
     // typedef u128 udword_t;
 #endif

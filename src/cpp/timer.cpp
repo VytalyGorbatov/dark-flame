@@ -27,7 +27,7 @@
 
 void TIMER::config_timer()
 {
-    i64 freq = 0;
+    int64_t freq = 0;
 
     if (QueryPerformanceFrequency(&freq) && freq > 0) {
         QueryPerformanceCounter(&mark);
@@ -38,11 +38,10 @@ void TIMER::config_timer()
     }
 }
 
-float TIMER::get_time()
+float TIMER::get_dt()
 {
     float dtime = 0;
-    i64 time = 0;
-
+    int64_t time = 0;
     if (resolution) {
         QueryPerformanceCounter(&time);
         dtime = (float)(time - mark);
@@ -56,15 +55,34 @@ float TIMER::get_time()
 
 #if defined LINUX
 
+#include <time.h>
+
 void TIMER::config_timer()
 {
-    // TODO
+    timespec res;
+
+    if (!clock_getres(CLOCK_MONOTONIC_RAW, &res) && res.tv_nsec > 0) {
+        resolution = 1e-9f;
+    } else {
+        mark = 0;
+        resolution = 0;
+    }
 }
 
-float TIMER::get_time()
+float TIMER::get_dt()
 {
-    // TODO
-    return 0;
+    float dtime = 0;
+    timespec time;
+
+    if (resolution) {
+        clock_gettime(CLOCK_MONOTONIC_RAW, &time);
+        dtime = (0 > time.tv_nsec - mark)
+                ? (float)(time.tv_nsec - mark + 1000000000)
+                : (float)(time.tv_nsec - mark);
+        mark = time.tv_nsec;
+    }
+
+    return dtime;
 }
 
 #endif  // LINUX

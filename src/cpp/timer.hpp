@@ -28,11 +28,11 @@ class TIMER
 {
 private:
     bool is_active;
-    i64 mark;
+    int64_t mark;
     float resolution;
 
     void config_timer();
-    i64 get_dt();
+    float get_dt();
 
 public:
     TIMER();
@@ -40,6 +40,6 @@ public:
     void start();                           // start timer
     void stop();                            // stop timer
     float dt();                             // delta time elapsed since the last call (seconds)
-}
+};
 
 #endif // __TIMER_HPP__
