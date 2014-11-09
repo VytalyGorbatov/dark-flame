@@ -309,8 +309,8 @@ void EMITTER::update(float dt)
         emitted_particles = new PARTICLE*[emitted_cnt];
 
         for (int i = 0; i < emitted_cnt; ++i) {
-            new_particles[i] = new PARTICLE;
-            init_particle(new_particles[i]);
+            emitted_particles[i] = new PARTICLE;
+            init_particle(emitted_particles[i]);
         }
     }
 
