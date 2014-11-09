@@ -36,13 +36,13 @@ list<PHYS_OBJECT*> PHYS_OBJECT::get_actors()
 
 void PHYS_OBJECT::put_in_world() const
 {
-    world->register_object(this);
+    world->register_object((PHYS_OBJECT*)this);
 }
 
 void PHYS_OBJECT::remove_from_world() const
 {
     if (world) {
-        world->unregister_object(this);
+        world->unregister_object((PHYS_OBJECT*)this);
     }
 }
 
@@ -74,24 +74,26 @@ void PHYS_OBJECT::collapse()
     *(SOLVER**)&world = NULL;
 }
 
-void SOLVER::register_object(const PHYS_OBJECT* const po)
+void SOLVER::register_object(PHYS_OBJECT*po)
 {
-
+    act_objs.push_back(po);
 }
 
-void SOLVER::unregister_object(const PHYS_OBJECT* const po)
+void SOLVER::unregister_object(PHYS_OBJECT* po)
 {
-
+    act_objs.remove(po);
 }
 
-void SOLVER::enable_object(const PHYS_OBJECT* const po)
+void SOLVER::enable_object(PHYS_OBJECT* po)
 {
-
+    act_objs.push_back(po);
+    dis_objs.remove(po);
 }
 
-void SOLVER::disable_object(const PHYS_OBJECT* const po)
+void SOLVER::disable_object(PHYS_OBJECT* po)
 {
-
+    act_objs.remove(po);
+    dis_objs.push_back(po);
 }
 
 SOLVER::SOLVER()

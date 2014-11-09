@@ -82,10 +82,10 @@ private:
         return act_objs;
     }
 
-    void register_object(const PHYS_OBJECT* const);
-    void unregister_object(const PHYS_OBJECT* const);
-    void enable_object(const PHYS_OBJECT* const);
-    void disable_object(const PHYS_OBJECT* const);
+    void register_object(PHYS_OBJECT*);
+    void unregister_object(PHYS_OBJECT*);
+    void enable_object(PHYS_OBJECT*);
+    void disable_object(PHYS_OBJECT*);
 
 public:
     ENVIROMENT env;                         // settings
