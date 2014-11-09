@@ -21,6 +21,39 @@
 
 #include "timer.hpp"
 
+#if defined WINDOWS
+
+void TIMER::config_timer()
+{
+    i64 freq = 0;
+
+    if (QueryPerformanceFrequency(&freq) && freq > 0) {
+        QueryPerformanceCounter(&mark);
+        resolution = (float)(1.0f / (double)freq) * 1000.0f;
+    } else {
+        mark = 0;
+        resolution = 0;
+    }
+}
+
+float TIMER::get_time()
+{
+    float dtime = 0;
+    i64 time = 0;
+
+    if (resolution) {
+        QueryPerformanceCounter(&time);
+        dtime = (float)(time - mark);
+        mark = time;
+    }
+
+    return dtime;
+}
+
+#endif  // WINDOWS
+
+#if defined LINUX
+
 void TIMER::config_timer()
 {
     // TODO
@@ -28,8 +61,11 @@ void TIMER::config_timer()
 
 float TIMER::get_time()
 {
-    return 0; // TODO
+    // TODO
+    return 0;
 }
+
+#endif  // LINUX
 
 TIMER::TIMER()
 {
@@ -40,7 +76,7 @@ TIMER::TIMER()
 
 void TIMER::start()
 {
-    mark = get_dt();
+    get_dt();
     is_active = true;
 }
 
