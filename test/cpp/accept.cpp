@@ -31,6 +31,7 @@
 #include "primitives.hpp"
 #include "viewport.hpp"
 #include "vector.hpp"
+#include "timer.hpp"
 
 using namespace window;
 using namespace renderer;
@@ -48,6 +49,9 @@ const float z_far = 50.0f;
 math::P3D view_point(-2.1f, 2.8f, 3);
 math::P3D cube_origin(0, 0, 0);
 const float cube_size = 1;
+
+/* timer */
+TIMER* timer;
 
 /* textures */
 TEXTURE* bckgnd;
@@ -83,6 +87,9 @@ void init_test(void)
     camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
     camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
 
+    timer = new TIMER();
+    timer->start();
+
     bckgnd = new TEXTURE("resources/logo.tga");
 
     light = new LIGHT();
@@ -97,11 +104,14 @@ void init_test(void)
 /* drawing cycle */
 void main_test(WINDOW* wnd)
 {
+    static float att = 1.0f;
+    att -= att > 0.0f ? timer->dt() * 0.2f : 0.0f;
+
     VIEWPORT::clear();
 
     /* draw logo */
     viewport0->apply();
-    PRIMITIVES::draw_background(*bckgnd, 0.8f);
+    PRIMITIVES::draw_background(*bckgnd, att);
 
     /* ortho */
     viewport1->apply();
