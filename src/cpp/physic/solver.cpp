@@ -46,12 +46,14 @@ void PHYS_OBJECT::remove_from_world() const
     }
 }
 
-PHYS_OBJECT::PHYS_OBJECT() : world(NULL)
-{
-}
+PHYS_OBJECT::PHYS_OBJECT() : world(NULL) {}
 
 PHYS_OBJECT::PHYS_OBJECT(SOLVER& w) : world(&w)
 {
+    position.set_xyz(0, 0, 0);
+    rotation.set_xyz(0, 0, 0);
+    scale.set_xyz(1, 1, 1);
+    put_in_world();
 }
 
 PHYS_OBJECT::PHYS_OBJECT(SOLVER& w, const P3D& pos, const P3D& rot, const P3D& scl) : world(&w)
