@@ -115,3 +115,20 @@ SOLVER::~SOLVER()
         (*i)->collapse();
     }
 }
+
+SOLVER::SOLVER(const SOLVER&)
+{
+
+}
+
+SOLVER& SOLVER::operator =(const SOLVER& m)
+{
+    if (this == &m) {
+        return *this;
+    }
+
+    act_objs.clear();
+    dis_objs.clear();
+
+    return *this;
+}
