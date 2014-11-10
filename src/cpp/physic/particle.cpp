@@ -130,6 +130,7 @@ EMITTER::EMITTER(SOLVER& world) : PHYS_OBJECT(world)
     pps = 0;
     scale.set_xyz(1, 1, 1);
     env_density = 0;
+    ext_force.dir.set_xyz(0, 0, 0);
 
     p_mass = 0;
     p_delta_mass = 0;
@@ -160,6 +161,7 @@ EMITTER::EMITTER(SOLVER& world, const P3D& position, float pps, int particles_cn
     this->pps = pps;
     scale.set_xyz(1, 1, 1);
     env_density = 0;
+    ext_force.dir.set_xyz(0, 0, 0);
 
     p_mass = 0;
     p_delta_mass = 0;
@@ -197,6 +199,7 @@ EMITTER::EMITTER(const EMITTER& m) : PHYS_OBJECT(m)
     particles_cnt_max = m.particles_cnt_max;
     pps = m.pps;
     env_density = m.env_density;
+    ext_force = m.ext_force;
 
     p_mass = m.p_mass;
     p_volume = m.p_volume;
@@ -237,6 +240,7 @@ EMITTER& EMITTER::operator =(const EMITTER& m)
     particles_cnt_max = m.particles_cnt_max;
     pps = m.pps;
     env_density = m.env_density;
+    ext_force = m.ext_force;
 
     p_mass = m.p_mass;
     p_volume = m.p_volume;
@@ -341,9 +345,7 @@ void EMITTER::update(float dt)
 
     /* computing */
     for (int i = 0; i < particles_cnt; ++i) {
-        particles[i]->update(dt, env_density, NULL, NULL);
-        // TODO: apply external forces
-        // particles[i]->update(dt, env_density, &ConstForce, &CrPrm.Gravity);
+        particles[i]->update(dt, env_density, &ext_force, &world->env.gravity);
     }
 }
 

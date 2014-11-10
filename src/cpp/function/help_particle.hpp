@@ -33,7 +33,8 @@ namespace function
 class HELP_PARTICLE : public FUNCTION, public physic::EMITTER
 {
 public:
-    HELP_PARTICLE(physic::SOLVER& world);
+    HELP_PARTICLE(const physic::EMITTER&);
+    HELP_PARTICLE(physic::SOLVER&);
     ~HELP_PARTICLE();
 
     HELP_PARTICLE(const HELP_PARTICLE&);

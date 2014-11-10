@@ -22,11 +22,18 @@
 #include <cstddef>
 #include "help_particle.hpp"
 #include "particle.hpp"
+#include "primitives.hpp"
 
 using namespace function;
 using namespace physic;
+using namespace renderer;
 
-HELP_PARTICLE::HELP_PARTICLE(physic::SOLVER& world) : EMITTER(world)
+HELP_PARTICLE::HELP_PARTICLE(const EMITTER& m) : EMITTER(m)
+{
+
+}
+
+HELP_PARTICLE::HELP_PARTICLE(SOLVER& world) : EMITTER(world)
 {
 
 }
@@ -59,10 +66,13 @@ void HELP_PARTICLE::init(std::istream src)
 
 void HELP_PARTICLE::render(float delta_time) const
 {
-
+    PRIMITIVES::draw_cube(position, 0.08f);
+    for (int i = 0; i < particles_cnt; ++i) {
+        PRIMITIVES::draw_cube(particles[i]->position, 0.01f);
+    }
 }
 
 void HELP_PARTICLE::update(float delta_time)
 {
-
+    EMITTER::update(delta_time);
 }

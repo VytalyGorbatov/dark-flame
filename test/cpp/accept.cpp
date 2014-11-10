@@ -32,10 +32,13 @@
 #include "viewport.hpp"
 #include "vector.hpp"
 #include "timer.hpp"
+#include "help_particle.hpp"
 
 using namespace window;
 using namespace renderer;
 using namespace model;
+using namespace physic;
+using namespace function;
 
 /* window settings */
 const int window_width = 800;
@@ -49,6 +52,8 @@ const float z_far = 50.0f;
 math::P3D view_point(-2.1f, 2.8f, 3);
 math::P3D cube_origin(0, 0, 0);
 const float cube_size = 1;
+
+/* XXX: using global pointers to one-time allocated dynamic memory (never freed) */
 
 /* timer */
 TIMER* timer;
@@ -75,6 +80,10 @@ math::V3D direction(cube_origin, view_point);
 /* static models */
 MODEL_STAT* mstat;
 
+/* physics emulating */
+SOLVER world;
+HELP_PARTICLE* fn_emitter;
+
 /* init routine and loading resources */
 void init_test(void)
 {
@@ -99,33 +108,56 @@ void init_test(void)
     mstat = new MODEL_STAT();
     mstat->init("resources/basis.cms");
     mstat->scale.set_xyz(0.03f, 0.03f, 0.03f);
+
+    world.env.gravity.dir.set_xyz(0, 0, -9.8f);
+    EMITTER ph_emitter(world, cube_origin, 5, 100);
+    fn_emitter = new HELP_PARTICLE(ph_emitter);
+    fn_emitter->p_velocity.dir.set_xyz(0, 0, 10);
+    fn_emitter->start_emission();
 }
 
 /* drawing cycle */
 void main_test(WINDOW* wnd)
 {
     static float att = 1.0f;
-    att = att > 0.0f ? att -  0.2f * timer->dt() : 0.0f;
 
     VIEWPORT::clear();
 
-    /* draw logo */
-    viewport0->apply();
-    PRIMITIVES::draw_background(*bckgnd, att);
+    if (att > 0) {
+        att -=  0.5f * timer->dt();
 
-    /* ortho */
-    viewport1->apply();
-    camera1->apply();
-    PRIMITIVES::draw_cube(cube_origin, cube_size);
-    LIGHT::disable();
-    mstat->render();
+        /* draw logo */
+        viewport0->apply();
+        PRIMITIVES::draw_background(*bckgnd, att);
 
-    /* perspective */
-    viewport2->apply();
-    camera2->apply();
-    PRIMITIVES::draw_cube(cube_origin, cube_size);
-    LIGHT::disable();
-    mstat->render();
+        /* ortho */
+        viewport1->apply();
+        camera1->apply();
+        PRIMITIVES::draw_cube(cube_origin, cube_size);
+        LIGHT::disable();
+        mstat->render();
+
+        /* perspective */
+        viewport2->apply();
+        camera2->apply();
+        PRIMITIVES::draw_cube(cube_origin, cube_size);
+        LIGHT::disable();
+        mstat->render();
+
+    } else {
+
+        fn_emitter->update(timer->dt());
+
+        /* ortho */
+        viewport1->apply();
+        camera1->apply();
+        fn_emitter->render();
+
+        /* perspective */
+        viewport2->apply();
+        camera2->apply();
+        fn_emitter->render();
+    }
 
     wnd->swap_buffers();
 }
