@@ -30,8 +30,10 @@ namespace physic
 
 class PARTICLE
 {
-private:
+public:
     math::P3D position;
+
+private:
     float     mass;
     math::V3D velocity;
     float     volume;
