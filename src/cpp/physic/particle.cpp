@@ -97,7 +97,7 @@ bool PARTICLE::update(float dt, const float env_density, const V3D* env_force, c
     }
 
     if (gravity) {
-        V3D av = *gravity;      // additional velocity coused by gravity
+        V3D av = *gravity;      // additional velocity caused by gravity
         av.mult_by(dt);
         if (env_density > 0) {
             V3D arh = *gravity; // Archimedes' force
