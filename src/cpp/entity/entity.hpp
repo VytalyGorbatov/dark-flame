@@ -34,9 +34,6 @@ namespace entity
  */
 class ENTITY
 {
-protected:
-    model::MODEL* model;
-    physic::PHYS_OBJECT* object;
 
     /* Some interface to controls entities: AI or UI. */
 

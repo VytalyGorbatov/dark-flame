@@ -120,7 +120,7 @@ bool PARTICLE::is_alive() const
     return (ttl == 0) ? false : true;
 }
 
-EMITTER::EMITTER()
+EMITTER::EMITTER(SOLVER& world) : PHYS_OBJECT(world)
 {
     particles = NULL;
     particles_cnt = 0;
@@ -144,7 +144,7 @@ EMITTER::EMITTER()
     p_f_spin = 0;
 }
 
-EMITTER::EMITTER(const P3D& position, float pps, int particles_cnt_max)
+EMITTER::EMITTER(SOLVER& world, const P3D& position, float pps, int particles_cnt_max) : PHYS_OBJECT(world)
 {
     if (pps < 0) {
         pps = 0;
@@ -183,7 +183,7 @@ EMITTER::~EMITTER()
     delete[] particles;
 }
 
-EMITTER::EMITTER(const EMITTER& m)
+EMITTER::EMITTER(const EMITTER& m) : PHYS_OBJECT(m)
 {
     particles_cnt = m.particles_cnt;
     particles = new PARTICLE*[particles_cnt];
@@ -217,6 +217,8 @@ EMITTER& EMITTER::operator =(const EMITTER& m)
     if (&m == this) {
         return *this;
     }
+
+    PHYS_OBJECT::operator =(m);
 
     for (int i = 0; i < particles_cnt; ++i) {
         delete particles[i];

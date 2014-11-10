@@ -23,15 +23,17 @@
 #define __HELP_PARTICLE_HPP__
 
 #include "function.hpp"
+#include "solver.hpp"
+#include "particle.hpp"
 
 namespace function
 {
 
 /** Helpful class to visualize the physic::EMITTER's work. */
-class HELP_PARTICLE : public FUNCTION
+class HELP_PARTICLE : public FUNCTION, public physic::EMITTER
 {
 public:
-    HELP_PARTICLE();
+    HELP_PARTICLE(physic::SOLVER& world);
     ~HELP_PARTICLE();
 
     HELP_PARTICLE(const HELP_PARTICLE&);

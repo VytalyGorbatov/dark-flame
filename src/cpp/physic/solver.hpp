@@ -45,10 +45,12 @@ protected:
     void remove_from_world() const;
 
 public:
-    PHYS_OBJECT();
     PHYS_OBJECT(SOLVER& world);
     PHYS_OBJECT(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl);
     virtual ~PHYS_OBJECT();
+
+    PHYS_OBJECT(const PHYS_OBJECT&);
+    PHYS_OBJECT& operator =(const PHYS_OBJECT&);
 
     const math::P3D& get_position() const
     {

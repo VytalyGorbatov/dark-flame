@@ -34,18 +34,16 @@ namespace function
  */
 class FUNCTION
 {
-protected:
-    model::MODEL* model;
-    physic::PHYS_OBJECT* object;
 
     /* Some interface to receive events from others. */
 
 public:
+    FUNCTION() {}
     virtual ~FUNCTION() {}
 
     virtual void init(std::istream src) = 0;
-    virtual void render(float delta_time = 0) const;
-    virtual void update(float delta_time = 0);
+    virtual void render(float delta_time = 0) const {};
+    virtual void update(float delta_time = 0) {};
 };
 
 } // namespace function

@@ -57,7 +57,7 @@ public:
 
 class EMITTER : public PHYS_OBJECT
 {
-private:
+protected:
     PARTICLE**  particles;
     int         particles_cnt;
     int         particles_cnt_max;
@@ -89,7 +89,8 @@ public:
 
 public:
     EMITTER();
-    EMITTER(const math::P3D& position, float particles_per_second, int max_particles);
+    EMITTER(SOLVER& world);
+    EMITTER(SOLVER& world, const math::P3D& position, float particles_per_second, int max_particles);
     ~EMITTER();
 
     EMITTER(const EMITTER&);

@@ -49,8 +49,9 @@ static void test_particle_ttl(void)
 
 static void test_emitter(void)
 {
+    SOLVER g;
     P3D p(1, 2, 3);
-    EMITTER e;
+    EMITTER e(g);
 
     e.init(p, 100, 10000);
     e.p_ttl = 1000;

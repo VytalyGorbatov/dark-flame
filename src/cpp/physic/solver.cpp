@@ -46,11 +46,6 @@ void PHYS_OBJECT::remove_from_world() const
     }
 }
 
-PHYS_OBJECT::PHYS_OBJECT() : world(NULL)
-{
-
-}
-
 PHYS_OBJECT::PHYS_OBJECT(SOLVER& w) : world(&w)
 {
     position.set_xyz(0, 0, 0);
@@ -70,6 +65,31 @@ PHYS_OBJECT::PHYS_OBJECT(SOLVER& w, const P3D& pos, const P3D& rot, const P3D& s
 PHYS_OBJECT::~PHYS_OBJECT()
 {
     remove_from_world();
+}
+
+PHYS_OBJECT::PHYS_OBJECT(const PHYS_OBJECT& m) : world(m.world)
+{
+    position = m.position;
+    rotation = m.rotation;
+    scale = m.scale;
+    put_in_world();
+}
+
+PHYS_OBJECT& PHYS_OBJECT::operator =(const PHYS_OBJECT& m)
+{
+    if (&m == this) {
+        return *this;
+    }
+
+    remove_from_world();
+
+    *(SOLVER**)&world = m.world;
+    position = m.position;
+    rotation = m.rotation;
+    scale = m.scale;
+    put_in_world();
+
+    return *this;
 }
 
 void PHYS_OBJECT::collapse()

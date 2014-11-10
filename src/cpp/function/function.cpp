@@ -24,14 +24,3 @@
 using namespace function;
 using namespace model;
 using namespace physic;
-
-void FUNCTION::render(float delta_time) const
-{
-    model->render(delta_time);
-}
-
-void FUNCTION::update(float delta_time)
-{
-    model->update(delta_time);
-    object->update(delta_time);
-}

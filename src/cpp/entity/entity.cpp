@@ -24,14 +24,3 @@
 using namespace entity;
 using namespace model;
 using namespace physic;
-
-void ENTITY::render(float delta_time) const
-{
-    model->render(delta_time);
-}
-
-void ENTITY::update(float delta_time)
-{
-    model->update(delta_time);
-    object->update(delta_time);
-}
