@@ -46,7 +46,10 @@ void PHYS_OBJECT::remove_from_world() const
     }
 }
 
-PHYS_OBJECT::PHYS_OBJECT() : world(NULL) {}
+PHYS_OBJECT::PHYS_OBJECT() : world(NULL)
+{
+
+}
 
 PHYS_OBJECT::PHYS_OBJECT(SOLVER& w) : world(&w)
 {
