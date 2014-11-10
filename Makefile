@@ -104,7 +104,7 @@ ifeq 'msvc' '$(toolchain)'
 endif
 
 ################################################################
-# WARNING FLAGS.
+# Warning flags.
 
 # /W0 - only errors
 # /W1, /W2, /W3 - extra warrings
@@ -118,7 +118,7 @@ endif
 CFLAGS += $(WARNING_CFLAGS)
 
 ################################################################
-# OPTIMISATION FLAGS.
+# Optimisation flags.
 
 ifeq 'msvc' '$(toolchain)'
   # /GS[-] enable security checks, /Gy[-] separate functions for linker,
