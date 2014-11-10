@@ -24,7 +24,7 @@
 
 #include "function.hpp"
 
-namespace physic
+namespace function
 {
 
 /** Represent box. */
@@ -42,6 +42,6 @@ public:
     void update(float delta_time = 0);
 };
 
-} // namespace physic
+} // namespace function
 
 #endif // __CHEST_HPP__

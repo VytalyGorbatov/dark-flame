@@ -25,7 +25,7 @@
 #include "function.hpp"
 #include "vector.hpp"
 
-namespace physic
+namespace function
 {
 
 /** Represent a water. */
@@ -43,6 +43,6 @@ public:
     void update(float delta_time = 0);
 };
 
-} // namespace physic
+} // namespace function
 
 #endif // __WATER_HPP__

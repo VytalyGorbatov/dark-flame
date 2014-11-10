@@ -21,6 +21,7 @@
 
 #include "function.hpp"
 
+using namespace function;
 using namespace model;
 using namespace physic;
 

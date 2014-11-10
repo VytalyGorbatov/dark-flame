@@ -21,6 +21,7 @@
 
 #include "entity.hpp"
 
+using namespace entity;
 using namespace model;
 using namespace physic;
 

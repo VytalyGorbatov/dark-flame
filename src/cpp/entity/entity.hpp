@@ -26,6 +26,9 @@
 #include "model.hpp"
 #include "solver.hpp"
 
+namespace entity
+{
+
 /**
  * Basic 'smart' object interface.
  */
@@ -44,5 +47,7 @@ public:
     virtual void render(float delta_time = 0) const;
     virtual void update(float delta_time = 0);
 };
+
+} // namespace entity
 
 #endif // __ENTITY_HPP__

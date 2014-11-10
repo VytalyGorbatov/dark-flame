@@ -24,7 +24,7 @@
 
 #include "entity.hpp"
 
-namespace physic
+namespace entity
 {
 
 /** Represent angry fish. */
@@ -42,6 +42,6 @@ public:
     void update(float delta_time = 0);
 };
 
-} // namespace physic
+} // namespace entity
 
 #endif // __FISH_HPP__
