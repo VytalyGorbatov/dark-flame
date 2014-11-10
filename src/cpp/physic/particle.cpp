@@ -333,7 +333,7 @@ void EMITTER::update(float dt)
         /* add emitted particles to array */
         new_particles[active_cnt + i] = emitted_particles[i];
     }
-    
+
     /* update particles */
     delete[] particles;
     particles = new_particles;
