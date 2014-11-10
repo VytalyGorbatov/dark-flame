@@ -106,5 +106,12 @@ SOLVER::SOLVER()
 
 SOLVER::~SOLVER()
 {
+    list<PHYS_OBJECT*>::iterator i;
 
+    for (i = act_objs.begin(); i != act_objs.end(); ++i) {
+        (*i)->collapse();
+    }
+    for (i = dis_objs.begin(); i != dis_objs.end(); ++i) {
+        (*i)->collapse();
+    }
 }
