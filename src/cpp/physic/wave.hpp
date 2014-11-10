@@ -56,7 +56,7 @@ public:
     WAVE& operator =(const WAVE&);
 
     void init(int dimension);
-    void update(float dt = 0);
+    void update(float delta_time = 0);
     void randomize();
 
     /* TODO:

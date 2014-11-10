@@ -99,7 +99,7 @@ public:
     void init(const math::P3D& position, float particles_per_second, int max_particles);
     void start_emission();
     void stop_emission();
-    void update(float dt = 0);
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
