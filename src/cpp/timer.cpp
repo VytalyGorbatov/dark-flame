@@ -63,6 +63,8 @@ void TIMER::config_timer()
 
     if (!clock_getres(CLOCK_MONOTONIC_RAW, &res) && res.tv_nsec > 0) {
         resolution = 1e-9f;
+    } else if (!clock_getres(CLOCK_MONOTONIC, &res) && res.tv_nsec > 0) {
+        resolution = 1e-9f;
     } else {
         mark = 0;
         resolution = 0;
@@ -75,7 +77,9 @@ float TIMER::get_dt()
     timespec time;
 
     if (resolution) {
-        clock_gettime(CLOCK_MONOTONIC_RAW, &time);
+        if (clock_gettime(CLOCK_MONOTONIC_RAW, &time)) {
+            clock_gettime(CLOCK_MONOTONIC, &time);
+        }
         dtime = (0 > time.tv_nsec - mark)
                 ? (float)(time.tv_nsec - mark + 1000000000)
                 : (float)(time.tv_nsec - mark);
