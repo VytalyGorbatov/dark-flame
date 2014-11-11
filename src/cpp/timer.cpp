@@ -20,10 +20,10 @@
  */
 
 #include "timer.hpp"
+#include "logger.hpp"
 
 #if defined (WINDOWS)
 
-//#include <Winbase.h>
 #include <windows.h>
 #include <stdio.h>
 
@@ -37,7 +37,7 @@ void TIMER::config_timer()
     if (QueryPerformanceFrequency(&freq) && freq.QuadPart > 0) {
         QueryPerformanceCounter(&start);
         mark = start.QuadPart;
-        resolution = (float)(1.0f / (double)freq.QuadPart) * 1000.0f;
+        resolution = (float)(1.0f / (double)freq.QuadPart);
     } else {
         mark = 0;
         resolution = 0;
@@ -47,12 +47,12 @@ void TIMER::config_timer()
 float TIMER::get_dt()
 {
     float dtime = 0;
-    LARGE_INTEGER stop = {0};
+    LARGE_INTEGER time = {0};
 
     if (resolution) {
-        QueryPerformanceCounter(&stop);
-        dtime = (float)(stop.QuadPart - mark);
-        mark = stop.QuadPart;
+        QueryPerformanceCounter(&time);
+        dtime = (float)(time.QuadPart - mark);
+        mark = time.QuadPart;
     }
 
     return dtime;
