@@ -21,17 +21,23 @@
 
 #include "timer.hpp"
 
-#if defined WINDOWS
+#if defined (WINDOWS)
 
-#include <Winbase.h>
+//#include <Winbase.h>
+#include <windows.h>
+#include <stdio.h>
+
+using namespace std;
 
 void TIMER::config_timer()
 {
-    int64_t freq = 0;
+    LARGE_INTEGER freq = {0};
+    LARGE_INTEGER start = {0};
 
-    if (QueryPerformanceFrequency(&freq) && freq > 0) {
-        QueryPerformanceCounter(&mark);
-        resolution = (float)(1.0f / (double)freq) * 1000.0f;
+    if (QueryPerformanceFrequency(&freq) && freq.QuadPart > 0) {
+        QueryPerformanceCounter(&start);
+        mark = start.QuadPart;
+        resolution = (float)(1.0f / (double)freq.QuadPart) * 1000.0f;
     } else {
         mark = 0;
         resolution = 0;
@@ -41,11 +47,12 @@ void TIMER::config_timer()
 float TIMER::get_dt()
 {
     float dtime = 0;
-    int64_t time = 0;
+    LARGE_INTEGER stop = {0};
+
     if (resolution) {
-        QueryPerformanceCounter(&time);
-        dtime = (float)(time - mark);
-        mark = time;
+        QueryPerformanceCounter(&stop);
+        dtime = (float)(stop.QuadPart - mark);
+        mark = stop.QuadPart;
     }
 
     return dtime;

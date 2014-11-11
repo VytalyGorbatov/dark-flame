@@ -27,10 +27,6 @@
 /** Try to assign type aliases. */
 #if defined(_MSC_VER) && !defined(__INTEL_COMPILER)
 
-    typedef int bool;
-    #define false 0
-    #define true 1
-
     typedef __int8 int8_t;
     typedef __int16 int16_t;
     typedef __int32 int32_t;
