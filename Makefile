@@ -236,7 +236,8 @@ DIRS := $(dir $(SRC_OBJS))\
         $(dir $(ATEST_OBJS))\
         $(TARGET_DIST_DIR)
 
-DIRS := $(patsubst %,%,$(DIRS))
+DIRS := $(patsubst %/,%,$(DIRS))
+DIRS := $(patsubst %,%/,$(DIRS))
 DIRS := $(sort $(DIRS))
 
 $(DIRS):
