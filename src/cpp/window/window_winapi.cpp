@@ -192,6 +192,7 @@ void WINDOW_WINAPI::make_current()
 void WINDOW_WINAPI::swap_buffers()
 {
     SwapBuffers(hdc);
+    InvalidateRect(hwnd, NULL, false);
 }
 
 #endif  // WINDOWS
