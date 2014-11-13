@@ -126,8 +126,12 @@ ifeq 'msvc' '$(toolchain)'
   # /Oy[-] enable frame pointer omission
   OPTIM_CFLAGS = /O2 /Ob2 /Ox
 else ifeq 'gcc' '$(toolchain)'
-  # -O3 max safe optimisation
-  OPTIM_CFLAGS = -O3 -finline -fomit-frame-pointer
+  ifeq '' '$(filter %-debug,$(MAKECMDGOALS))'
+    # -O3 max safe optimisation
+    OPTIM_CFLAGS = -O3 -finline -fomit-frame-pointer
+  else
+    OPTIM_CFLAGS = -g -O0
+  endif
 endif
 
 CFLAGS += $(OPTIM_CFLAGS)
