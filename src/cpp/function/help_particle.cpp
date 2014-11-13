@@ -23,10 +23,12 @@
 #include "help_particle.hpp"
 #include "particle.hpp"
 #include "primitives.hpp"
+#include "vector.hpp"
 
 using namespace function;
 using namespace physic;
 using namespace renderer;
+using namespace math;
 
 HELP_PARTICLE::HELP_PARTICLE(const EMITTER& m) : EMITTER(m)
 {
@@ -66,9 +68,12 @@ void HELP_PARTICLE::init(std::istream src)
 
 void HELP_PARTICLE::render(float delta_time) const
 {
-    PRIMITIVES::draw_cube(position, 0.08f);
+    P3D src_color(0.3f, 0.6f, 0.9f);
+    P3D prt_color(0.2f, 0.75f, 0.75f);
+
+    PRIMITIVES::draw_cube(position, 0.08f, src_color);
     for (int i = 0; i < particles_cnt; ++i) {
-        PRIMITIVES::draw_cube(particles[i]->position, 0.01f);
+        PRIMITIVES::draw_cube(particles[i]->position, 0.01f, prt_color);
     }
 }
 
