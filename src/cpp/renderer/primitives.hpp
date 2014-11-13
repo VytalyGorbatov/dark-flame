@@ -38,6 +38,7 @@ public:
     static void draw_aim(const camera::MCAMERA& camera, const TEXTURE& crest);
     static void draw_skybox(const camera::MCAMERA& camera, const TEXTURE& up, const TEXTURE& dn, const TEXTURE& ft, const TEXTURE& bk, const TEXTURE& lf, const TEXTURE& rt);
     static void draw_cube(const math::P3D& centre, float half_edge);
+    static void draw_cube(const math::P3D& centre, float half_edge, const math::P3D& color);
     static void draw_box(const math::P3D& centre, const math::P3D& size_xyz);
 };
 

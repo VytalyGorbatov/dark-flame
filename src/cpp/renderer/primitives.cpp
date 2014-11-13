@@ -85,9 +85,15 @@ void PRIMITIVES::draw_skybox(const MCAMERA& camera,
 
 void PRIMITIVES::draw_cube(const P3D& c, float h)
 {
+    P3D d(0.7f, 0.72f, 0.2f);
+    draw_cube(c, h, d);
+}
+
+void PRIMITIVES::draw_cube(const P3D& c, float h, const P3D& color)
+{
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
-    glColor3f(0.7f, 0.72f, 0.2f);
+    glColor3f(color.x, color.y, color.z);
 
     glBegin(GL_LINE_STRIP);
     glVertex3f(c.x - h, c.y - h, c.z - h);
