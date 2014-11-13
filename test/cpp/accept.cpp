@@ -110,9 +110,20 @@ void init_test(void)
     mstat->scale.set_xyz(0.03f, 0.03f, 0.03f);
 
     world.env.gravity.dir.set_xyz(0, 0, -9.8f);
-    EMITTER ph_emitter(world, cube_origin, 5, 100);
+    EMITTER ph_emitter(world, cube_origin, 10, 1000);
     fn_emitter = new HELP_PARTICLE(ph_emitter);
+    fn_emitter->p_mass = 1;
+    fn_emitter->p_volume = 1;
     fn_emitter->p_velocity.dir.set_xyz(0, 0, 10);
+    fn_emitter->p_spin = 3;
+    fn_emitter->p_ttl = 2;
+    fn_emitter->p_f_volume = 1;
+    fn_emitter->p_f_spin = 0;
+    fn_emitter->p_delta_mass = 0.5f;
+    fn_emitter->p_delta_volume = 0.2f;
+    fn_emitter->p_delta_velocity = 1.5f;
+    fn_emitter->p_delta_spin = 2;
+    fn_emitter->p_delta_ttl = 0.3f;
     fn_emitter->start_emission();
 }
 
