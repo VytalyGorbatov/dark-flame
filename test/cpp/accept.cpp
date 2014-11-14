@@ -187,9 +187,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     wnd.make_current();
 
     init_test();
-    while (GetMessage(&msg, NULL, NULL, NULL)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
+    while (1) {
+        // check the message queue
+        while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+            if (GetMessage(&msg, NULL, 0, 0)) {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
+        // close window
+        if (WM_QUIT == msg.message) {
+            break;
+        }
+        // run test
         main_test(&wnd);
     }
 
