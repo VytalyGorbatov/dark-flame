@@ -64,18 +64,20 @@ WAVE::WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math
     prev = field_a;
     next = field_b;
 
-    memset(vertecies, 0, v_cnt * sizeof(vertex));
-    memset(field_a, 0, v_cnt * sizeof(float));
-    memset(field_b, 0, v_cnt * sizeof(float));
-
     for (int i = 0; i < dim; ++i) {
         for (int j = 0; j < dim; ++j) {
             register int idx = dim * i + j;
 
             vertecies[idx].coord.x = 1.0f - 2.0f * i / (dim - 1);
             vertecies[idx].coord.y = 1.0f - 2.0f * j / (dim - 1);
+            vertecies[idx].coord.z = 0.0f;
+            vertecies[idx].norm.dir.x = 0.0f;
+            vertecies[idx].norm.dir.y = 0.0f;
             vertecies[idx].norm.dir.z = -4.0f / (dim - 1);
             vertecies[idx].is_active = true;
+
+            field_a[idx] = 0.0f;
+            field_b[idx] = 0.0f;
         }
     }
 }
@@ -111,8 +113,8 @@ WAVE::WAVE(const WAVE& m) : PHYS_OBJECT(m)
     memcpy(field_a, m.field_a, v_cnt * sizeof(float));
     memcpy(field_b, m.field_b, v_cnt * sizeof(float));
 
-    prev = m.prev;
-    next = m.next;
+    prev = m.prev == m.field_a ? field_a : field_b;
+    next = m.next == m.field_a ? field_a : field_b;
 }
 
 WAVE& WAVE::operator =(const WAVE& m)
@@ -149,8 +151,8 @@ WAVE& WAVE::operator =(const WAVE& m)
     memcpy(field_a, m.field_a, v_cnt * sizeof(float));
     memcpy(field_b, m.field_b, v_cnt * sizeof(float));
 
-    prev = m.prev;
-    next = m.next;
+    prev = m.prev == m.field_a ? field_a : field_b;
+    next = m.next == m.field_a ? field_a : field_b;
 
     return *this;
 }
