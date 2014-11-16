@@ -188,11 +188,16 @@ void main_test(WINDOW* wnd)
 
     } else if (sc3.is_active()) {
 
-        static TIMER_ONCE rt(0.7f);
-        fn_wave->update(dt);
+        /* TODO: fix WAVE::update() function to take delta_time correctly */
+        static TIMER_ONCE ut(0.03f);
+        if (ut.is_trigged()) {
+            fn_wave->update();
+            ut.set(0.03f);
+        }
+        static TIMER_ONCE rt(0.55f);
         if (rt.is_trigged()) {
-            fn_wave->randomize(30);
-            rt.set(0.7f);
+            fn_wave->randomize(6);
+            rt.set(0.4f);
         }
 
         math::P3D near_vp(view_point.x / 3, view_point.y / 3, view_point.z / 3);
