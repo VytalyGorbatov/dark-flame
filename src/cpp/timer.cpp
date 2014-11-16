@@ -35,8 +35,6 @@ void TIMER::config_timer()
     LARGE_INTEGER start = {0};
 
     if (QueryPerformanceFrequency(&freq) && freq.QuadPart > 0) {
-        QueryPerformanceCounter(&start);
-        mark = start.QuadPart;
         resolution = (float)(1.0f / (double)freq.QuadPart);
     } else {
         mark = 0;
@@ -51,7 +49,9 @@ float TIMER::get_dt()
 
     if (resolution) {
         QueryPerformanceCounter(&time);
-        dtime = (float)(time.QuadPart - mark);
+        dtime = (mark)
+              ? (float)(time.QuadPart - mark)
+              : 0;
         mark = time.QuadPart;
     }
 
