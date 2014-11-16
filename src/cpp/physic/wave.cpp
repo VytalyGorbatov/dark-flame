@@ -67,12 +67,15 @@ WAVE::WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math
     memset(vertecies, 0, v_cnt * sizeof(vertex));
     memset(field_a, 0, v_cnt * sizeof(float));
     memset(field_b, 0, v_cnt * sizeof(float));
+
     for (int i = 0; i < dim; ++i) {
-        for (int j = 0; j < dim; ++i) {
-            vertecies[dim * i + j].coord.x = 1.0f - 2.0f * i / (dim - 1);
-            vertecies[dim * i + j].coord.y = 1.0f - 2.0f * j / (dim - 1);
-            vertecies[dim * i + j].norm.dir.z = -4.0f / 127.0f;
-            vertecies[dim * i + j].is_active = true;
+        for (int j = 0; j < dim; ++j) {
+            register int idx = dim * i + j;
+
+            vertecies[idx].coord.x = 1.0f - 2.0f * i / (dim - 1);
+            vertecies[idx].coord.y = 1.0f - 2.0f * j / (dim - 1);
+            vertecies[idx].norm.dir.z = -4.0f / (dim - 1);
+            vertecies[idx].is_active = true;
         }
     }
 }
