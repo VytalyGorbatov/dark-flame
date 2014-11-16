@@ -127,7 +127,7 @@ TIMER_COUNTING::TIMER_COUNTING(float t)
     etime = t;
 }
 
-void TIMER_COUNTING::set_time(float t)
+void TIMER_COUNTING::set(float t)
 {
     ::TIMER();
     etime = t;
@@ -140,4 +140,26 @@ bool TIMER_COUNTING::is_active()
     }
 
     return etime > 0;
+}
+
+TIMER_ONCE::TIMER_ONCE(float t)
+{
+    ::TIMER();
+    etime = t;
+}
+
+void TIMER_ONCE::set(float t)
+{
+    ::TIMER();
+    etime = t;
+}
+
+bool TIMER_ONCE::is_trigged()
+{
+    if (etime > 0) {
+        etime -= get_dt() * resolution;
+        return etime <= 0;
+    }
+
+    return false;
 }

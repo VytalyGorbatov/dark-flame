@@ -51,8 +51,24 @@ private:
 public:
     TIMER_COUNTING(float t);
 
-    void set_time(float t);
+    void set(float t);
     bool is_active();
+
+    void start() {}
+    void stop() {}
+    float dt() { return 0; }
+};
+
+class TIMER_ONCE : public TIMER
+{
+private:
+    float etime;
+
+public:
+    TIMER_ONCE(float t);
+
+    void set(float t);
+    bool is_trigged();
 
     void start() {}
     void stop() {}
