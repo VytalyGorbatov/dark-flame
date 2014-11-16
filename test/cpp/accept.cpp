@@ -188,8 +188,12 @@ void main_test(WINDOW* wnd)
 
     } else if (sc3.is_active()) {
 
-        // TODO: crash later time
-        // fn_wave->update(dt);
+        static TIMER_ONCE rt(0.7f);
+        fn_wave->update(dt);
+        if (rt.is_trigged()) {
+            fn_wave->randomize(30);
+            rt.set(0.7f);
+        }
 
         math::P3D near_vp(view_point.x / 3, view_point.y / 3, view_point.z / 3);
 
