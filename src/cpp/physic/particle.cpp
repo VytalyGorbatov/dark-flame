@@ -20,7 +20,6 @@
  */
 
 #include <stdlib.h>
-#include <math.h>
 #include "particle.hpp"
 
 using namespace math;
