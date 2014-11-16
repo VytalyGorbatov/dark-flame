@@ -130,11 +130,16 @@ void init_test(void)
 /* drawing cycle */
 void main_test(WINDOW* wnd)
 {
-    static float att = 1.0f;
+
+    /* times for every presented scene */
+    static TIMER_COUNTING sc1(3);
+    static TIMER_COUNTING sc2(3);
 
     VIEWPORT::clear();
 
-    if (att > 0) {
+    if (sc1.is_active()) {
+
+        static float att = 1.0f;
         att -=  0.5f * timer->dt();
 
         /* draw logo */
@@ -155,7 +160,7 @@ void main_test(WINDOW* wnd)
         LIGHT::disable();
         mstat->render();
 
-    } else {
+    } else if (sc2.is_active()) {
 
         fn_emitter->update(timer->dt());
 
@@ -168,6 +173,12 @@ void main_test(WINDOW* wnd)
         viewport2->apply();
         camera2->apply();
         fn_emitter->render();
+
+    } else {
+
+        /* last scene */
+        viewport0->apply();
+        PRIMITIVES::draw_background(*bckgnd, 0.9f);
     }
 
     wnd->swap_buffers();
