@@ -71,7 +71,6 @@ void HELP_WAVE::render(float delta_time) const
     P3D* pnts = new P3D[dim];
 
     for (int i = 0; i < dim; ++i) {
-
         for (int j = 0; j < dim; ++j) {
             pnts[j] = vertecies[dim * i + j].coord;
         }
@@ -81,9 +80,8 @@ void HELP_WAVE::render(float delta_time) const
     }
 
     for (int j = 0; j < dim; ++j) {
-
         for (int i = 0; i < dim; ++i) {
-            pnts[i] = vertecies[dim * j + i].coord;
+            pnts[i] = vertecies[dim * i + j].coord;
         }
 
         PRIMITIVES::draw_line_strip(pnts, dim, color);
