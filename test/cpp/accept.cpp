@@ -33,6 +33,7 @@
 #include "vector.hpp"
 #include "timer.hpp"
 #include "help_particle.hpp"
+#include "help_wave.hpp"
 
 using namespace window;
 using namespace renderer;
@@ -83,6 +84,7 @@ MODEL_STAT* mstat;
 /* physics emulating */
 SOLVER world;
 HELP_PARTICLE* fn_emitter;
+HELP_WAVE* fn_wave;
 
 /* init routine and loading resources */
 void init_test(void)
@@ -110,6 +112,7 @@ void init_test(void)
     mstat->scale.set_xyz(0.03f, 0.03f, 0.03f);
 
     world.env.gravity.dir.set_xyz(0, 0, -9.8f);
+
     EMITTER ph_emitter(world, cube_origin, 10, 1000);
     fn_emitter = new HELP_PARTICLE(ph_emitter);
     fn_emitter->p_mass = 1;
@@ -125,22 +128,31 @@ void init_test(void)
     fn_emitter->p_delta_spin = 2;
     fn_emitter->p_delta_ttl = 0.3f;
     fn_emitter->start_emission();
+
+    /* TODO: does not work yet (object coordinates) */
+    math::P3D pos(0, 0, 0);
+    math::P3D rot(0, 0, 0);
+    math::P3D scl(1, 1, 1);
+    WAVE ph_wave(world, pos, rot, scl, 32, 0.02f);
+    fn_wave = new HELP_WAVE(ph_wave);
 }
 
 /* drawing cycle */
 void main_test(WINDOW* wnd)
 {
+    float dt = timer->dt();
 
     /* times for every presented scene */
     static TIMER_COUNTING sc1(3);
     static TIMER_COUNTING sc2(3);
+    static TIMER_COUNTING sc3(3);
 
     VIEWPORT::clear();
 
     if (sc1.is_active()) {
 
         static float att = 1.0f;
-        att -=  0.5f * timer->dt();
+        att -=  0.5f * dt;
 
         /* draw logo */
         viewport0->apply();
@@ -162,7 +174,7 @@ void main_test(WINDOW* wnd)
 
     } else if (sc2.is_active()) {
 
-        fn_emitter->update(timer->dt());
+        fn_emitter->update(dt);
 
         /* ortho */
         viewport1->apply();
@@ -173,6 +185,24 @@ void main_test(WINDOW* wnd)
         viewport2->apply();
         camera2->apply();
         fn_emitter->render();
+
+    } else if (sc3.is_active()) {
+
+        // TODO: crash later time
+        // fn_wave->update(dt);
+
+        math::P3D near_vp(view_point.x / 3, view_point.y / 3, view_point.z / 3);
+
+        /* ortho */
+        viewport1->apply();
+        ((OCAMERA*)camera1)->set_camera(-1.5f, 1.5f, 1.5f, -1.5f);
+        camera1->apply(near_vp, cube_origin);
+        fn_wave->render();
+
+        /* perspective */
+        viewport2->apply();
+        camera2->apply(near_vp, cube_origin);
+        fn_wave->render();
 
     } else {
 
