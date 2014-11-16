@@ -144,8 +144,8 @@ void main_test(WINDOW* wnd)
 
     /* times for every presented scene */
     static TIMER_COUNTING sc1(3);
-    static TIMER_COUNTING sc2(3);
-    static TIMER_COUNTING sc3(3);
+    static TIMER_COUNTING sc2(6);
+    static TIMER_COUNTING sc3(9);
 
     VIEWPORT::clear();
 
