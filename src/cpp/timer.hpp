@@ -29,11 +29,10 @@ class TIMER
 private:
     bool is_active;
     int64_t mark;
-    float resolution;
-
     void config_timer();
 
 protected:
+    float resolution;
     float get_dt();
 
 public:

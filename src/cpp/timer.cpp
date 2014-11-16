@@ -118,7 +118,7 @@ void TIMER::stop()
 
 float TIMER::dt()
 {
-    return is_active ? (float)get_dt() * resolution : 0;
+    return is_active ? get_dt() * resolution : 0;
 }
 
 TIMER_COUNTING::TIMER_COUNTING(float t)
@@ -136,7 +136,7 @@ void TIMER_COUNTING::set_time(float t)
 bool TIMER_COUNTING::is_active()
 {
     if (etime > 0) {
-        etime -= get_dt();
+        etime -= get_dt() * resolution;
     }
 
     return etime > 0;
