@@ -163,3 +163,19 @@ void PRIMITIVES::draw_box(const P3D& c, const P3D& h)
     glColor3f(1, 1, 1);
 }
 
+void PRIMITIVES::draw_line_strip(const P3D* pnts, int pnts_cnt, const P3D& color)
+{
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(color.x, color.y, color.z);
+
+    glBegin(GL_LINE_STRIP);
+    for (int i = 0; i < pnts_cnt; ++i) {
+        glVertex3f(pnts[i].x, pnts[i].y, pnts[i].z);
+    }
+    glEnd();
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1, 1, 1);
+}

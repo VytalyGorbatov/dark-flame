@@ -40,6 +40,7 @@ public:
     static void draw_cube(const math::P3D& centre, float half_edge);
     static void draw_cube(const math::P3D& centre, float half_edge, const math::P3D& color);
     static void draw_box(const math::P3D& centre, const math::P3D& size_xyz);
+    static void draw_line_strip(const math::P3D* pnts, int pnts_cnt, const math::P3D& color);
 };
 
 } // namespace renderer
