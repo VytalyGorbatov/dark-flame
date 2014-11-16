@@ -36,6 +36,7 @@ void PRIMITIVES::draw_background(const TEXTURE& image, float attenuation)
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
 
     glColor3f(attenuation, attenuation, attenuation);
     image.bind();
@@ -63,6 +64,7 @@ void PRIMITIVES::draw_background(const TEXTURE& image, float attenuation)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
     glEnable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
 }
 
 void PRIMITIVES::draw_normal(const P3D& position, const V3D& direction, const float length)
