@@ -159,7 +159,7 @@ WAVE& WAVE::operator =(const WAVE& m)
 
 void WAVE::update(float delta_time)
 {
-    if (0 == dim || 0 == v_cnt || 0 == delta_time) {
+    if (0 == dim || 0 == v_cnt) {
         return;
     }
 
