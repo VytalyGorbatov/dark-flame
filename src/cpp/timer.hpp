@@ -32,6 +32,8 @@ private:
     float resolution;
 
     void config_timer();
+
+protected:
     float get_dt();
 
 public:
@@ -40,6 +42,22 @@ public:
     void start();                           // start timer
     void stop();                            // stop timer
     float dt();                             // delta time elapsed since the last call (seconds)
+};
+
+class TIMER_COUNTING : public TIMER
+{
+private:
+    float etime;
+
+public:
+    TIMER_COUNTING(float t);
+
+    void set_time(float t);
+    bool is_active();
+
+    void start() {}
+    void stop() {}
+    float dt() { return 0; }
 };
 
 #endif // __TIMER_HPP__

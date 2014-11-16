@@ -120,3 +120,24 @@ float TIMER::dt()
 {
     return is_active ? (float)get_dt() * resolution : 0;
 }
+
+TIMER_COUNTING::TIMER_COUNTING(float t)
+{
+    ::TIMER();
+    etime = t;
+}
+
+void TIMER_COUNTING::set_time(float t)
+{
+    ::TIMER();
+    etime = t;
+}
+
+bool TIMER_COUNTING::is_active()
+{
+    if (etime > 0) {
+        etime -= get_dt();
+    }
+
+    return etime > 0;
+}
