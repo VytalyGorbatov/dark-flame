@@ -42,6 +42,7 @@ public:
 
     virtual void render(float delta_time = 0) const = 0;
     virtual void update(float delta_time = 0) = 0;
+    virtual math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL) = 0;
 };
 
 } // namespace model

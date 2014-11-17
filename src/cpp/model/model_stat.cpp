@@ -322,7 +322,7 @@ void MODEL_STAT::init(const char* file_path)
     file.close();
 }
 
-P3D MODEL_STAT::get_colision_point(const P3D& begin, const P3D& end, V3D* normal)
+P3D MODEL_STAT::get_collision(const P3D& begin, const P3D& end, V3D* normal)
 {
     V3D r(begin, end);
     P3D result = end;
