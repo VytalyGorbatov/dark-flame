@@ -179,3 +179,20 @@ void PRIMITIVES::draw_line_strip(const P3D* pnts, int pnts_cnt, const P3D& color
     glEnable(GL_TEXTURE_2D);
     glColor3f(1, 1, 1);
 }
+
+
+void PRIMITIVES::draw_wire_sphere(const math::P3D& centre, float radius, const math::P3D& color)
+{
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(color.x, color.y, color.z);
+
+    glPushMatrix();
+    glTranslatef(centre.x, centre.y, centre.z);
+    glutWireSphere(radius, 12, 10);
+    glPopMatrix();
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1, 1, 1);
+}
