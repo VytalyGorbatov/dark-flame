@@ -22,7 +22,6 @@
 #ifndef __SPHERE_HPP__
 #define __SPHERE_HPP__
 
-#include <list>
 #include "solver.hpp"
 #include "vector.hpp"
 
@@ -32,15 +31,20 @@ namespace physic
 /** Represent objects as spheres. */
 class SPHERE : public PHYS_OBJECT
 {
-private:
-    math::P3D coord;                        // coordinates of sphere's centre
-    float radius;                           // radius of the sphere
+protected:
+    float mass;
+    float radius;
+    float volume;
 
 public:
-    SPHERE();
+    SPHERE(SOLVER& world);
+    SPHERE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, float mass, float radius)
     ~SPHERE();
 
-    void update(float delta_time, std::list<PHYS_OBJECT*> objs); // corrects the objects' coordinates acording to limits
+    SPHERE(const SPHERE&);
+    SPHERE& operator =(const SPHERE&);
+
+    void update(float delta_time = 0);
 };
 
 } // namespace physic
