@@ -188,12 +188,8 @@ void main_test(WINDOW* wnd)
 
     } else if (sc3.is_active()) {
 
-        /* TODO: fix WAVE::update() function to take delta_time correctly */
-        static TIMER_ONCE ut(0.03f);
-        if (ut.is_trigged()) {
-            fn_wave->update();
-            ut.set(0.03f);
-        }
+        fn_wave->update(dt);
+
         static TIMER_ONCE rt(0.55f);
         if (rt.is_trigged()) {
             fn_wave->randomize(6);

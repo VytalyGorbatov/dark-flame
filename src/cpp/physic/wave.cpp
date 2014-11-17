@@ -30,6 +30,8 @@ using namespace physic::wave;
 WAVE::WAVE(SOLVER& world) : PHYS_OBJECT(world)
 {
     wh = 0;
+    dtpf = 0;
+    rtpf = 0;
     dim = 0;
     v_cnt = 0;
     vertecies = NULL;
@@ -39,11 +41,13 @@ WAVE::WAVE(SOLVER& world) : PHYS_OBJECT(world)
     next = NULL;
 }
 
-WAVE::WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, int dimension, float wave_height) : PHYS_OBJECT(world, pos, rot, scl)
+WAVE::WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, int dimension, float wave_height, float frames_per_second) : PHYS_OBJECT(world, pos, rot, scl)
 {
 
-    if (dimension <= 0) {
+    if (dimension <= 0 || frames_per_second <= 0.01f) {
         wh = 0;
+        dtpf = 0;
+        rtpf = 0;
         dim = 0;
         v_cnt = 0;
         vertecies = NULL;
@@ -55,6 +59,8 @@ WAVE::WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math
     }
 
     wh = wave_height < 1 ? wave_height > 0 ? wave_height : 0 : 1;
+    dtpf = 1 / frames_per_second;
+    rtpf = 0;
     dim = dimension;
     v_cnt = dimension * dimension;
 
@@ -93,6 +99,8 @@ WAVE::WAVE(const WAVE& m) : PHYS_OBJECT(m)
 {
     if (m.v_cnt <=0) {
         wh = 0;
+        dtpf = 0;
+        rtpf = 0;
         v_cnt = 0;
         vertecies = NULL;
         field_a = NULL;
@@ -103,6 +111,8 @@ WAVE::WAVE(const WAVE& m) : PHYS_OBJECT(m)
     }
 
     wh = m.wh;
+    dtpf = m.dtpf;
+    rtpf = 0;
     dim = m.dim;
     v_cnt = m.v_cnt;
 
@@ -131,6 +141,8 @@ WAVE& WAVE::operator =(const WAVE& m)
 
     if (m.v_cnt <=0) {
         wh = 0;
+        dtpf = 0;
+        rtpf = 0;
         v_cnt = 0;
         vertecies = NULL;
         field_a = NULL;
@@ -141,6 +153,8 @@ WAVE& WAVE::operator =(const WAVE& m)
     }
 
     wh = m.wh;
+    dtpf = m.dtpf;
+    rtpf = m.rtpf;
     dim = m.dim;
     v_cnt = m.v_cnt;
 
@@ -163,31 +177,38 @@ void WAVE::update(float delta_time)
         return;
     }
 
-    for (int i = 1; i < dim - 1; ++i) {
-        for (int j = 1; j < dim - 1; ++j) {
-            register int idx = dim * i + j;
+    delta_time += rtpf;
+    while (delta_time > dtpf) {
 
-            vertecies[idx].coord.z = next[idx];
-            vertecies[idx].norm.dir.x = next[idx - dim] - next[idx + dim];
-            vertecies[idx].norm.dir.y = next[idx - 1] - next[idx + 1];
+        for (int i = 1; i < dim - 1; ++i) {
+            for (int j = 1; j < dim - 1; ++j) {
+                register int idx = dim * i + j;
 
-            if (vertecies[idx].is_active) {
-                float laplas = -next[idx]
-                        + 0.175f
-                        * (next[idx - dim] + next[idx + dim] + next[idx + 1] + next[idx - 1])
-                        + 0.075f
-                        * (next[idx - dim - 1] + next[idx - dim + 1] + next[idx + dim - 1] + next[idx + dim + 1]);
+                vertecies[idx].coord.z = next[idx];
+                vertecies[idx].norm.dir.x = next[idx - dim] - next[idx + dim];
+                vertecies[idx].norm.dir.y = next[idx - 1] - next[idx + 1];
 
-                prev[idx] = (2.0f - wh) * next[idx] - (1.0f - wh) * prev[idx] + laplas;
+                if (vertecies[idx].is_active) {
+                    float laplas = -next[idx]
+                            + 0.175f
+                            * (next[idx - dim] + next[idx + dim] + next[idx + 1] + next[idx - 1])
+                            + 0.075f
+                            * (next[idx - dim - 1] + next[idx - dim + 1] + next[idx + dim - 1] + next[idx + dim + 1]);
 
-            } else {
+                    prev[idx] = (2.0f - wh) * next[idx] - (1.0f - wh) * prev[idx] + laplas;
 
-                prev[idx] = 0;
+                } else {
+
+                    prev[idx] = 0;
+                }
             }
         }
+        float* sw = prev; prev = next; next = sw;
+
+        delta_time -= dtpf;
     }
 
-    float* sw = prev; prev = next; next = sw;
+    rtpf = delta_time;
 }
 
 void WAVE::randomize(float f)

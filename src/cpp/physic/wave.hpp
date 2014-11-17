@@ -51,10 +51,12 @@ protected:
     int dim;
     int v_cnt;
     float wh;
+    float dtpf;
+    float rtpf;
 
 public:
     WAVE(SOLVER& world);
-    WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, int dimension, float wave_height);
+    WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, int dimension, float wave_height, float frames_per_second = 30);
     ~WAVE();
 
     WAVE(const WAVE&);
