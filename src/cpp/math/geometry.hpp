@@ -88,6 +88,21 @@ public:
     void set_piramid_vis(const float* proj, const float* modl);
 };
 
+class TRIANGLE
+{
+public:
+    P3D     A, B, C;                // triangle vertecies coordinates
+    V3D     normal;                 // normal to triangle plane
+    float   d;                      // parameter in the plane equation
+
+public:
+    TRIANGLE(const P3D& a, const P3D& b, const P3D& c);
+
+    V3D get_normal() const;
+    P3D get_collision(const P3D& begin, const P3D& end) const;
+    P3D get_collision(const P3D& position, const V3D& vector) const;
+};
+
 } // namespace math
 
 #endif // __GEOMETRY_HPP__

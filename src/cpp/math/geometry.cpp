@@ -328,3 +328,90 @@ void GEOMETRY::set_piramid_vis(const float* proj, const float* modl)
     piramid_vis[5][2] /= t;
     piramid_vis[5][3] /= t;
 }
+
+TRIANGLE::TRIANGLE(const P3D& a, const P3D& b, const P3D& c) : A(a), B(b), C(c)
+{
+    V3D v1(A, B);
+    V3D v2(A, C);
+
+    normal = v1 * v2;
+
+    if (0 == normal.get_length()) {
+        normal.dir.set_xyz(0, 0, 0);
+        d = 0;
+    } else {
+        normal.set_length(1.0f);
+        d = normal.abs_mult(A);
+    }
+}
+
+V3D TRIANGLE::get_normal() const
+{
+    return normal;
+}
+
+P3D TRIANGLE::get_collision(const P3D& b, const P3D& e) const
+{
+    float d1 = b.x * normal.dir.x + b.y * normal.dir.y + b.z * normal.dir.z - d;
+    float d2 = e.x * normal.dir.x + e.y * normal.dir.y + e.z * normal.dir.z - d;
+
+    if (d1 * d2 >= 0) {
+        return e;
+    }
+
+    V3D r(b, e);
+    r.set_length(1.0f);
+    float t = (d - normal.abs_mult(b)) / r.abs_mult(normal);
+    r.set_length(t);
+    P3D result = r.add_to(b);
+
+    // The method is based on determination of the relation of projections of vectors to a normal
+    // V3D cv(b, e);
+    // V3D ca(b, A);
+    // float k = ca.abs_mult(normal) / cv.abs_mult(normal);
+    // if (k < 0 || k > 1) {
+    //     return e;
+    // }
+    // cv.mult_by(k);
+    // P3D result = cv.add_to(b);
+
+    V3D i(result, A);
+    V3D j(result, B);
+    V3D k(result, C);
+    i.set_length(1.0f);
+    j.set_length(1.0f);
+    k.set_length(1.0f);
+
+    float sum = acos(i.abs_mult(j)) + acos(j.abs_mult(k)) + acos(k.abs_mult(i));
+    if (sum < 6.2829f) {
+        return e;
+    }
+
+    return result;
+}
+
+P3D TRIANGLE::get_collision(const P3D& p, const V3D& v) const
+{
+    V3D r(v);
+    r.set_length(1);
+    V3D rs = r;
+    float t = (d - normal.abs_mult(p)) / r.abs_mult(normal);
+    r.set_length(t);
+    P3D result = r.add_to(p);
+
+    V3D i(result, A);
+    V3D j(result, B);
+    V3D k(result, C);
+    i.set_length(1);
+    j.set_length(1);
+    k.set_length(1);
+
+    float sum = acos(i.abs_mult(j)) + acos(j.abs_mult(k)) + acos(k.abs_mult(i));
+    if (sum < 6.2829f) {
+        t = (d - normal.abs_mult(p)) / rs.abs_mult(normal);
+        rs.set_length(t);
+        result = rs.add_to(p);
+    }
+
+    return result;
+}
