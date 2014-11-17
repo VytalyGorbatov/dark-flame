@@ -40,6 +40,7 @@ struct vertex
 
 } // namespace wave
 
+/** Represent a liquid surface with waves. */
 class WAVE : public PHYS_OBJECT
 {
 protected:
