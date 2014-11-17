@@ -345,6 +345,11 @@ TRIANGLE::TRIANGLE(const P3D& a, const P3D& b, const P3D& c) : A(a), B(b), C(c)
     }
 }
 
+bool TRIANGLE::is_degenerate() const
+{
+    return 0 == d;
+}
+
 V3D TRIANGLE::get_normal() const
 {
     return normal;

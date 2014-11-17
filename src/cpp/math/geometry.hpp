@@ -98,6 +98,7 @@ public:
 public:
     TRIANGLE(const P3D& a, const P3D& b, const P3D& c);
 
+    bool is_degenerate() const;
     V3D get_normal() const;
     P3D get_collision(const P3D& begin, const P3D& end) const;
     P3D get_collision(const P3D& position, const V3D& vector) const;
