@@ -22,6 +22,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "wave.hpp"
+#include "geometry.hpp"
 
 using namespace math;
 using namespace physic;
@@ -225,5 +226,93 @@ void WAVE::randomize(float f)
 
 P3D WAVE::get_collision(const P3D& begin, const P3D& end, V3D* normal)
 {
-    return end;
+    V3D n(0, 0, 0);
+    V3D r(begin, end);
+    P3D cp = end;
+
+    float rl = r.get_length();
+
+    /*
+     * Surface of squads is split into array of 2 type of triangles:
+     * higher and lower ABC, ACD (counterclockwise for '-z' direction)
+     *
+     * D       C
+     *   +------+
+     *   +     /+
+     *   +    / +
+     *   +   /  +
+     *   +  /   +
+     *   + /    +
+     *   +------+
+     * A        B
+     *
+     *
+     * XXX: Improve array bypass.
+     */
+
+    for (int i = 0; i < dim - 1; ++i) {
+        for (int j = 0; j < dim - 1; ++j) {
+
+            register int idx = dim * i + j;
+            TRIANGLE tria(
+                    vertecies[idx].coord,
+                    vertecies[idx + 1].coord,
+                    vertecies[idx + dim + 1].coord);
+
+            if (tria.is_degenerate()) {
+                continue;
+
+            } else {
+
+                P3D c = tria.get_collision(begin, end);
+                V3D v(begin, c);
+
+                /* is there a  nearer point */
+                float l = v.get_length();
+                if (rl <= l) {
+                    continue;
+                }
+
+                rl = l;
+                cp = c;
+                n = tria.get_normal();
+            }
+        }
+    }
+
+    for (int i = 0; i < dim - 1; ++i) {
+        for (int j = 0; j < dim - 1; ++j) {
+
+            register int idx = dim * i + j;
+            TRIANGLE tria(
+                    vertecies[idx].coord,
+                    vertecies[idx + dim + 1].coord,
+                    vertecies[idx + dim].coord);
+
+            if (tria.is_degenerate()) {
+                continue;
+
+            } else {
+
+                P3D c = tria.get_collision(begin, end);
+                V3D v(begin, c);
+
+                /* is there a  nearer point */
+                float l = v.get_length();
+                if (rl <= l) {
+                    continue;
+                }
+
+                rl = l;
+                cp = c;
+                n = tria.get_normal();
+            }
+        }
+    }
+
+    if (normal) {
+        *normal = n;
+    }
+
+    return cp;
 }
