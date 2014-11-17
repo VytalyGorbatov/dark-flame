@@ -222,3 +222,8 @@ void WAVE::randomize(float f)
 
     next[dim * ri + rj] -= wh * f;
 }
+
+P3D WAVE::get_collision(const P3D& begin, const P3D& end, V3D* normal)
+{
+    return end;
+}

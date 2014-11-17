@@ -68,6 +68,7 @@ public:
     }
 
     virtual void update(float delta_time) = 0;
+    virtual math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL) = 0;
     void collapse();
 };
 
