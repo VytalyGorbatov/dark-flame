@@ -352,6 +352,10 @@ V3D TRIANGLE::get_normal() const
 
 P3D TRIANGLE::get_collision(const P3D& b, const P3D& e) const
 {
+    if (0 == d) {
+        return e;
+    }
+
     float d1 = b.x * normal.dir.x + b.y * normal.dir.y + b.z * normal.dir.z - d;
     float d2 = e.x * normal.dir.x + e.y * normal.dir.y + e.z * normal.dir.z - d;
 
@@ -392,6 +396,10 @@ P3D TRIANGLE::get_collision(const P3D& b, const P3D& e) const
 
 P3D TRIANGLE::get_collision(const P3D& p, const V3D& v) const
 {
+    if (0 == d) {
+        return p;
+    }
+
     V3D r(v);
     r.set_length(1);
     V3D rs = r;
