@@ -26,25 +26,14 @@
 #include "material.hpp"
 #include "mesh.hpp"
 
-namespace model_data
-{
-
-class MESH_M : public MESH
-{
-public:
-    int m_idx;                              // external index of used material
-};
-
-} // namespace model_data
-
 namespace model
 {
 
 class MODEL_STAT : public MODEL
 {
 protected:
-    model_data::MATERIAL* materials;        // list of used materials
-    model_data::MESH_M* meshes;             // all meshes of the model
+    renderer::MATERIAL* materials;          // list of used materials
+    renderer::MESH* meshes;                 // all meshes of the model
     int materials_cnt;
     int meshes_cnt;
 

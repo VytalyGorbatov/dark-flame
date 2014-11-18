@@ -24,7 +24,7 @@
 
 #include "texture.hpp"
 
-namespace model_data
+namespace renderer
 {
 
 /** Optical properties of the surface. */
@@ -37,6 +37,6 @@ struct MATERIAL
     renderer::TEXTURE texture;              // base texture
 };
 
-} // namespace model_data
+} // namespace renderer
 
 #endif // __MATERIAL_HPP__

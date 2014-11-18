@@ -24,7 +24,7 @@
 
 #include "vector.hpp"
 
-namespace model_data
+namespace renderer
 {
 
 /** Triangle with vertecies, normals and texture coordinates. */
@@ -54,6 +54,9 @@ private:
     int array_cnt;
 
 public:
+    int m_idx;                              // external index of used material
+
+public:
     MESH();
     ~MESH();
 
@@ -71,6 +74,6 @@ public:
     }
 };
 
-} // namespace model_data
+} // namespace renderer
 
 #endif // __MESH_HPP__

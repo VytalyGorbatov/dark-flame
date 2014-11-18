@@ -33,7 +33,6 @@ using namespace std;
 using namespace math;
 using namespace model;
 using namespace renderer;
-using namespace model_data;
 
 const int MODELVERSION = 2;
 
@@ -67,7 +66,7 @@ MODEL_STAT::MODEL_STAT(const MODEL_STAT& m)
     meshes_cnt = m.meshes_cnt;
 
     materials = new MATERIAL[materials_cnt];
-    meshes = new MESH_M[meshes_cnt];
+    meshes = new MESH[meshes_cnt];
     memcpy(materials, m.materials, materials_cnt * sizeof(MATERIAL));
     memcpy(meshes, m.meshes, meshes_cnt * sizeof(MESH));
 }
@@ -89,7 +88,7 @@ MODEL_STAT& MODEL_STAT::operator =(const MODEL_STAT& m)
     meshes_cnt = m.meshes_cnt;
 
     materials = new MATERIAL[materials_cnt];
-    meshes = new MESH_M[meshes_cnt];
+    meshes = new MESH[meshes_cnt];
     memcpy(materials, m.materials, materials_cnt * sizeof(MATERIAL));
     memcpy(meshes, m.meshes, meshes_cnt * sizeof(MESH));
 
@@ -177,7 +176,7 @@ void MODEL_STAT::init(const char* file_path)
         return;
     }
     delete[] meshes;
-    meshes = new MESH_M[meshes_cnt];
+    meshes = new MESH[meshes_cnt];
 
     for (int i = 0; i < materials_cnt; ++i) {
         int name_len;

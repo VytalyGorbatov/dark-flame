@@ -27,7 +27,6 @@
 
 using namespace math;
 using namespace renderer;
-using namespace model_data;
 
 MESH::MESH()
 {
