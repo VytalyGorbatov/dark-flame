@@ -23,20 +23,38 @@
 #include "wave.hpp"
 #include "primitives.hpp"
 #include "vector.hpp"
+#include "particle.hpp"
 
 using namespace function;
 using namespace physic;
 using namespace renderer;
 using namespace math;
 
-HELP_WAVE::HELP_WAVE(const WAVE& m) : WAVE(m)
+static void set_source(EMITTER& s)
 {
-
+    s.p_mass = 1;
+    s.p_volume = 1;
+    s.p_velocity.dir.set_xyz(0, 0, -1);
+    s.p_spin = 3;
+    s.p_ttl = 2;
+    s.p_f_volume = 1;
+    s.p_f_spin = 0;
+    s.p_delta_mass = 0.5f;
+    s.p_delta_volume = 0.2f;
+    s.p_delta_velocity = 1.1f;
+    s.p_delta_spin = 2;
+    s.p_delta_ttl = 0.8f;
+    s.start_emission();
 }
 
-HELP_WAVE::HELP_WAVE(SOLVER& world) : WAVE(world)
+HELP_WAVE::HELP_WAVE(const WAVE& m) : WAVE(m), source(*m.world, position, 30, 1000)
 {
+    set_source(source);
+}
 
+HELP_WAVE::HELP_WAVE(SOLVER& world) : WAVE(world), source(world, position, 30, 1000)
+{
+    set_source(source);
 }
 
 HELP_WAVE::~HELP_WAVE()
@@ -44,7 +62,7 @@ HELP_WAVE::~HELP_WAVE()
 
 }
 
-HELP_WAVE::HELP_WAVE(const HELP_WAVE& m) : WAVE(m)
+HELP_WAVE::HELP_WAVE(const HELP_WAVE& m) : WAVE(m), source(m.source)
 {
 
 }
@@ -56,6 +74,7 @@ HELP_WAVE& HELP_WAVE::operator =(const HELP_WAVE& m)
     }
 
     WAVE::operator =(m);
+    source = m.source;
 
     return *this;
 }
@@ -89,9 +108,25 @@ void HELP_WAVE::render(float delta_time) const
     }
 
     delete[] pnts;
+
 }
 
 void HELP_WAVE::update(float delta_time)
 {
     WAVE::update(delta_time);
+    source.update(delta_time);
+}
+
+void HELP_WAVE::render_random_rays(float delta_time) const
+{
+    P3D s_color(0.8f, 0.85f, 0.76f);
+    P3D e_color(0.0f, 0.0f, 0.0f);
+
+    P3D* pnts = source.get_dots();
+    int cnt = source.get_dots_cnt();
+    for (int i = 0; i < cnt; ++i) {
+        PRIMITIVES::draw_line(source.position, pnts[i], s_color, e_color);
+    }
+
+    delete[] pnts;
 }

@@ -25,6 +25,7 @@
 #include "function.hpp"
 #include "solver.hpp"
 #include "wave.hpp"
+#include "particle.hpp"
 
 namespace function
 {
@@ -32,6 +33,9 @@ namespace function
 /** Helpful class to visualize the physic::WAVE's work. */
 class HELP_WAVE : public FUNCTION, public physic::WAVE
 {
+private:
+    physic::EMITTER source;
+
 public:
     HELP_WAVE(const physic::WAVE&);
     HELP_WAVE(physic::SOLVER&);
@@ -43,6 +47,8 @@ public:
     void init(std::istream src);
     void render(float delta_time = 0) const;
     void update(float delta_time = 0);
+
+    void render_random_rays(float delta_time = 0) const;
 };
 
 } // namespace function

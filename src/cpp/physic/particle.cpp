@@ -391,3 +391,19 @@ P3D EMITTER::get_collision(const P3D& begin, const P3D& end, V3D* normal)
 {
     return end;
 }
+
+int EMITTER::get_dots_cnt() const
+{
+    return particles_cnt;
+}
+
+P3D* EMITTER::get_dots() const
+{
+    P3D* pnts = new P3D[particles_cnt];
+
+    for (int i = 0; i < particles_cnt; ++i) {
+        pnts[i] = particles[i]->position;
+    }
+
+    return pnts;
+}

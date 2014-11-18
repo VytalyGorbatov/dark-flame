@@ -102,6 +102,8 @@ public:
     void start_emission();
     void stop_emission();
     void update(float delta_time = 0);
+    int get_dots_cnt() const;
+    math::P3D* get_dots() const;
     math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL);
 };
 
