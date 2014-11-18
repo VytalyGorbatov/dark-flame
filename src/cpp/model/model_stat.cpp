@@ -123,12 +123,7 @@ void MODEL_STAT::render(float delta_time) const
     glScalef(scale.x, scale.y, scale.z);
 
     for (int i = 0; i < materials_cnt; ++i) {
-        materials[i].texture.bind();
-        glMaterialfv(GL_FRONT, GL_AMBIENT, materials[i].ambient);
-        glMaterialfv(GL_FRONT, GL_DIFFUSE, materials[i].diffuse);
-        glMaterialfv(GL_FRONT, GL_SPECULAR, materials[i].specular);
-        glMaterialf(GL_FRONT, GL_SHININESS, materials[i].shine);
-
+        materials[i].bind();
         for (int j = 0; j < meshes_cnt; ++j) {
             if (meshes[j].m_idx == i) {
                 meshes[j].render();

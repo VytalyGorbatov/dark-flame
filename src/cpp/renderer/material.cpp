@@ -19,27 +19,15 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __MATERIAL_HPP__
-#define __MATERIAL_HPP__
+#include "material.hpp"
 
-#include "texture.hpp"
+using namespace renderer;
 
-namespace renderer
+void MATERIAL::bind() const
 {
-
-/** Optical properties of the surface. */
-class MATERIAL
-{
-public:
-    float ambient[4];                       // ambient RGBA intensity
-    float diffuse[4];                       // diffuse RGBA intensity
-    float specular[4];                      // specular RGBA intensity
-    float shine;                            // shininess
-    renderer::TEXTURE texture;              // base texture
-
-    void bind() const;
-};
-
-} // namespace renderer
-
-#endif // __MATERIAL_HPP__
+    texture.bind();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+    glMaterialf(GL_FRONT, GL_SHININESS, shine);
+}
