@@ -164,6 +164,23 @@ void PRIMITIVES::draw_box(const P3D& c, const P3D& h)
     glColor3f(1, 1, 1);
 }
 
+void PRIMITIVES::draw_line(const P3D& b, const P3D& e, const P3D& s, const P3D& f)
+{
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+
+    glBegin(GL_LINES);
+    glColor3f(s.x, s.y, s.z);
+    glVertex3f(b.x, b.y, b.z);
+    glColor3f(f.x, f.y, f.z);
+    glVertex3f(e.x, e.y, e.z);
+    glEnd();
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1, 1, 1);
+}
+
 void PRIMITIVES::draw_line_strip(const P3D* pnts, int pnts_cnt, const P3D& color)
 {
     glDisable(GL_LIGHTING);
@@ -182,7 +199,7 @@ void PRIMITIVES::draw_line_strip(const P3D* pnts, int pnts_cnt, const P3D& color
 }
 
 
-void PRIMITIVES::draw_wire_sphere(const math::P3D& centre, float radius, const math::P3D& color)
+void PRIMITIVES::draw_wire_sphere(const P3D& centre, float radius, const P3D& color)
 {
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
