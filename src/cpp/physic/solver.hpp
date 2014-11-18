@@ -33,7 +33,9 @@ class SOLVER;
 
 class PHYS_OBJECT
 {
-protected:
+
+/* TODO: revert back to 'protected' */
+public:
     math::P3D position;                     // origin
     math::P3D rotation;                     // pitch roll yaw
     math::P3D scale;                        // scale the model
