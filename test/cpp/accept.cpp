@@ -51,6 +51,7 @@ const float z_far = 50.0f;
 
 /* parameters for drawing objects */
 math::P3D view_point(-2.1f, 2.8f, 3);
+math::P3D view_point2(-0.3f, 1.2f, 0.3f);
 math::P3D cube_origin(0, 0, 0);
 const float cube_size = 1;
 
@@ -70,6 +71,7 @@ VIEWPORT* viewport2;
 /* cameras */
 camera::MCAMERA* camera1;
 camera::MCAMERA* camera2;
+camera::MCAMERA* camera3;
 
 /* lights */
 LIGHT* light;
@@ -97,6 +99,7 @@ void init_test(void)
 
     camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
     camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
+    camera3 = new PCAMERA(view_point2, cube_origin, 80, window_width / window_height, z_near, z_far);
 
     timer = new TIMER();
     timer->start();
@@ -146,6 +149,7 @@ void main_test(WINDOW* wnd)
     static TIMER_COUNTING sc1(3);
     static TIMER_COUNTING sc2(3);
     static TIMER_COUNTING sc3(3);
+    static TIMER_COUNTING sc4(3);
 
     VIEWPORT::clear();
 
@@ -190,7 +194,7 @@ void main_test(WINDOW* wnd)
 
         fn_wave->update(dt);
 
-        static TIMER_ONCE rt(0.55f);
+        static TIMER_ONCE rt(0.35f);
         if (rt.is_trigged()) {
             fn_wave->randomize(6);
             rt.set(0.4f);
@@ -207,6 +211,14 @@ void main_test(WINDOW* wnd)
         /* perspective */
         viewport2->apply();
         camera2->apply(near_vp, cube_origin);
+        fn_wave->render();
+
+    } else if (sc4.is_active()) {
+
+        fn_wave->update(dt);
+
+        viewport0->apply();
+        camera3->apply();
         fn_wave->render();
 
     } else {
