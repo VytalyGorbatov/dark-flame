@@ -19,6 +19,7 @@
  * For more details see LICENSE file.
  */
 
+#include "ogl.hpp"
 #include "renderer.hpp"
 #include "texture.hpp"
 #include "camera.hpp"

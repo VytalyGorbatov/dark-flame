@@ -22,9 +22,6 @@
 #ifndef __RENDERER_HPP__
 #define __RENDERER_HPP__
 
-/* Use OpenGL interface. */
-#include "ogl.hpp"
-
 namespace renderer
 {
 
@@ -33,6 +30,11 @@ class RENDERER
 {
 public:
     static void init();
+    static void push_matrix();
+    static void pop_matrix();
+    static void translate(float, float, float);
+    static void rotate(float, float, float, float);
+    static void scale(float, float, float);
 };
 
 }

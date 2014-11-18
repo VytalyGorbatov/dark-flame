@@ -19,6 +19,7 @@
  * For more details see LICENSE file.
  */
 
+#include "ogl.hpp"
 #include "renderer.hpp"
 
 using namespace renderer;
@@ -57,4 +58,29 @@ void RENDERER::init()
     // glFogf(GL_FOG_END, fog_end);
     // glFogf(GL_FOG_DENSITY, fog_density);
     // glFogfv(GL_FOG_COLOR, fog_color);
+}
+
+void RENDERER::push_matrix()
+{
+    glPushMatrix();
+}
+
+void RENDERER::pop_matrix()
+{
+    glPopMatrix();
+}
+
+void RENDERER::translate(float x, float y, float z)
+{
+    glTranslatef(x, y, z);
+}
+
+void RENDERER::rotate(float a, float i, float j, float k)
+{
+    glRotatef(a, i, j, k);
+}
+
+void RENDERER::scale(float x, float y, float z)
+{
+    glScalef(x, y, z);
 }

@@ -19,6 +19,7 @@
  * For more details see LICENSE file.
  */
 
+#include "ogl.hpp"
 #include "material.hpp"
 
 using namespace renderer;

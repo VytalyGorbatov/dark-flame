@@ -20,6 +20,7 @@
  */
 
 #include "logger.hpp"
+#include "ogl.hpp"
 #include "vector.hpp"
 #include "renderer.hpp"
 #include "light.hpp"

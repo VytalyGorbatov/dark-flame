@@ -34,10 +34,10 @@ class DF_TEXTURE
 {
 public:
     char* data;
-    int   x;
-    int   y;
-    int   bpp;
-    GLenum format;
+    int x;
+    int y;
+    int bpp;
+    unsigned format;
 
 private:
     bool load_tga(const char*);
@@ -56,7 +56,7 @@ public:
 
 struct LIST_TEXT
 {
-    GLuint id;      // texture ID
+    unsigned id;      // texture ID
     char name[255]; // name of texture (key for resource manager)
     int count;      // count of user of the texture
 };
@@ -87,15 +87,11 @@ public:
     TEXTURE& operator =(const TEXTURE&);
 
     void init(const char*, bool mip_maps = true, bool clamp_to_edge = false);
-    void init(void*, int x, int y, const char* name, bool mip_maps = true, bool clamp_to_edge = false, GLenum format = GL_RGB);
+    void init(void*, int x, int y, const char* name, bool mip_maps = true, bool clamp_to_edge = false);
     void copy_screen(int begin_x, int begin_y, int size_x, int size_y, const char* name);
     void copy_shadow(int begin_x, int begin_y, int size_x, int size_y, const char* name);
 
-    void bind() const {
-        if (pntr >= 0 && pntr < list_size) {
-            glBindTexture(GL_TEXTURE_2D, list[pntr].id);
-        }
-    }
+    void bind() const;
 };
 
 extern TEXTURE WHITE_NULL;

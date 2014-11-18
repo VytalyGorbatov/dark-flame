@@ -115,12 +115,12 @@ void MODEL_STAT::to_sub_model(const P3D& centre, float half_edge)
 
 void MODEL_STAT::render(float delta_time) const
 {
-    glPushMatrix();
-    glTranslatef(position.x, position.y, position.z);
-    glRotatef(-rotation.z, 0, 0, 1);
-    glRotatef(-rotation.y, 0, 1, 0);
-    glRotatef(-rotation.x, 1, 0, 0);
-    glScalef(scale.x, scale.y, scale.z);
+    RENDERER::push_matrix();
+    RENDERER::translate(position.x, position.y, position.z);
+    RENDERER::rotate(-rotation.z, 0, 0, 1);
+    RENDERER::rotate(-rotation.y, 0, 1, 0);
+    RENDERER::rotate(-rotation.x, 1, 0, 0);
+    RENDERER::scale(scale.x, scale.y, scale.z);
 
     for (int i = 0; i < materials_cnt; ++i) {
         materials[i].bind();
@@ -131,7 +131,7 @@ void MODEL_STAT::render(float delta_time) const
         }
     }
 
-    glPopMatrix();
+    RENDERER::pop_matrix();
 }
 
 void MODEL_STAT::update(float delta_time)

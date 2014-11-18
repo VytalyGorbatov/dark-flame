@@ -20,6 +20,7 @@
  */
 
 #include <string.h>
+#include "ogl.hpp"
 #include "mesh.hpp"
 #include "vector.hpp"
 #include "geometry.hpp"

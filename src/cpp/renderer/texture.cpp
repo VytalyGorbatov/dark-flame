@@ -22,6 +22,7 @@
 #include <string.h>
 #include <string>
 #include <fstream>
+#include "ogl.hpp"
 #include "texture.hpp"
 #include "logger.hpp"
 
@@ -689,8 +690,10 @@ void TEXTURE::init(const char* file_name, bool mip_map, bool clamp_to_edge)
         return;
     }
 }
-void TEXTURE::init(void* data, int x, int y, const char* name, bool mip_map, bool clamp_to_edge, GLenum format)
+void TEXTURE::init(void* data, int x, int y, const char* name, bool mip_map, bool clamp_to_edge)
 {
+    GLenum format = GL_RGB;
+
     if (!data || !name) {
         return;
     }
@@ -897,6 +900,13 @@ int TEXTURE::add_to_list(const char* name)
 
     DFLOG.addf("New texture %s added to list successfully.\n", list[list_size - 1].name);
     return (list_size - 1);
+}
+
+void TEXTURE::bind() const
+{
+    if (pntr >= 0 && pntr < list_size) {
+        glBindTexture(GL_TEXTURE_2D, list[pntr].id);
+    }
 }
 
 TEXTURE WHITE_NULL;

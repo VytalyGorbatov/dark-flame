@@ -20,6 +20,7 @@
  */
 
 #include <math.h>
+#include "ogl.hpp"
 #include "renderer.hpp"
 #include "vector.hpp"
 #include "camera.hpp"
