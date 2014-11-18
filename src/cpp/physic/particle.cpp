@@ -387,7 +387,7 @@ void EMITTER::init_particle(PARTICLE* p)
     p->set_final(p_f_volume, p_f_spin, rnd);
 }
 
-P3D EMITTER::get_collision(const P3D& begin, const P3D& end, V3D* normal)
+P3D EMITTER::get_collision(const P3D& begin, const P3D& end, V3D* normal) const
 {
     return end;
 }

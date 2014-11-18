@@ -30,6 +30,8 @@ using namespace physic;
 using namespace renderer;
 using namespace math;
 
+static const P3D source_position(0, 0, 2);
+
 static void set_source(EMITTER& s)
 {
     s.p_mass = 1;
@@ -44,15 +46,16 @@ static void set_source(EMITTER& s)
     s.p_delta_velocity = 1.1f;
     s.p_delta_spin = 2;
     s.p_delta_ttl = 0.8f;
+    s.ext_force.dir.set_xyz(-0.1f, 0.4f, 0.0f);
     s.start_emission();
 }
 
-HELP_WAVE::HELP_WAVE(const WAVE& m) : WAVE(m), source(*m.world, position, 30, 1000)
+HELP_WAVE::HELP_WAVE(const WAVE& m) : WAVE(m), source(*m.world, source_position, 30, 30)
 {
     set_source(source);
 }
 
-HELP_WAVE::HELP_WAVE(SOLVER& world) : WAVE(world), source(world, position, 30, 1000)
+HELP_WAVE::HELP_WAVE(SOLVER& world) : WAVE(world), source(world, source_position, 30, 30)
 {
     set_source(source);
 }
@@ -114,18 +117,26 @@ void HELP_WAVE::render(float delta_time) const
 void HELP_WAVE::update(float delta_time)
 {
     WAVE::update(delta_time);
+}
+
+void HELP_WAVE::update_random_rays(float delta_time)
+{
     source.update(delta_time);
 }
 
 void HELP_WAVE::render_random_rays(float delta_time) const
 {
-    P3D s_color(0.8f, 0.85f, 0.76f);
-    P3D e_color(0.0f, 0.0f, 0.0f);
+    P3D src_sc(0.8f, 0.85f, 0.76f);
+    P3D src_ec(0.7f, 0.75f, 0.67f);
+    P3D und_sc(0.3f, 0.5f, 0.45f);
+    P3D und_ec(0.1f, 0.11f, 0.15f);
 
     P3D* pnts = source.get_dots();
     int cnt = source.get_dots_cnt();
     for (int i = 0; i < cnt; ++i) {
-        PRIMITIVES::draw_line(source.position, pnts[i], s_color, e_color);
+        P3D c = WAVE::get_collision(source.position, pnts[i]);
+        PRIMITIVES::draw_line(source.position, c, src_sc, src_ec);
+        PRIMITIVES::draw_line(c, pnts[i], und_sc, und_ec);
     }
 
     delete[] pnts;

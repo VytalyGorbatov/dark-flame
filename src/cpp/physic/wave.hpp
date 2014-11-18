@@ -65,7 +65,7 @@ public:
 
     void update(float delta_time = 0);
     void randomize(float f = 1);
-    math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL);
+    math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL) const;
 
     /* TODO:
     void lock_area(void*);

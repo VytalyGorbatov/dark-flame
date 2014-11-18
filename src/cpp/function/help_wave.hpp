@@ -48,6 +48,7 @@ public:
     void render(float delta_time = 0) const;
     void update(float delta_time = 0);
 
+    void update_random_rays(float delta_time = 0);
     void render_random_rays(float delta_time = 0) const;
 };
 

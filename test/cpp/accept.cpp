@@ -216,10 +216,12 @@ void main_test(WINDOW* wnd)
     } else if (sc4.is_active()) {
 
         fn_wave->update(dt);
+        fn_wave->update_random_rays(dt);
 
         viewport0->apply();
         camera3->apply();
         fn_wave->render();
+        fn_wave->render_random_rays();
 
     } else {
 
