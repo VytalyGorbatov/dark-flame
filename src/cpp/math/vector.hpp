@@ -48,6 +48,12 @@ public:
         return *this;
     }
 
+    P3D& devide_by(const float& a)
+    {
+        x /= a; y /= a; z /= a;
+        return *this;
+    }
+
     void set_xyz(const float& a, const float& b, const float& c)
     {
         x = a; y = b; z = c;

@@ -103,6 +103,7 @@ public:
     V3D get_normal() const;
     P3D get_collision(const P3D& begin, const P3D& end) const;
     P3D get_collision(const P3D& position, const V3D& vector) const;
+    TRIANGLE* get_nested() const;
 };
 
 } // namespace math

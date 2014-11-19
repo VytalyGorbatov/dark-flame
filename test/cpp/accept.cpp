@@ -84,8 +84,10 @@ math::V3D direction(cube_origin, view_point);
 math::P3D p1(0, 0, 5);
 math::P3D p2(0, 5, 0);
 math::P3D p3(5, 0, 0);
-math::P3D color(0.5f, 0.5f, 0);
+math::P3D yellow(0.5f, 0.5f, 0);
+math::P3D green(0, 1, 0);
 math::TRIANGLE triangle1(p3, p2, p1);
+math::TRIANGLE* triangle2;
 
 /* static models */
 MODEL_STAT* mstat;
@@ -145,6 +147,8 @@ void init_test(void)
     math::P3D scl(1, 1, 1);
     WAVE ph_wave(world, pos, rot, scl, 32, 0.02f);
     fn_wave = new HELP_WAVE(ph_wave);
+
+    triangle2 = triangle1.get_nested();
 }
 
 /* drawing cycle */
@@ -189,13 +193,15 @@ void main_test(WINDOW* wnd)
         /* triangle */
         viewport1->apply();
         camera1->apply();
-        PRIMITIVES::draw_triangle(triangle1, color);
+        PRIMITIVES::draw_triangle(triangle1, yellow);
+        /* TODO: fix nested triangle draw. */
+        PRIMITIVES::draw_triangle(*triangle2, green);
 
         /* sphere */
         viewport2->apply();
         camera2->apply();
         math::P3D center(0, 0, 0);
-        PRIMITIVES::draw_solid_sphere(center, 2.0f, color);
+        PRIMITIVES::draw_solid_sphere(center, 2.0f, yellow);
 
     } else if (sc3.is_active()) {
 
