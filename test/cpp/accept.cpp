@@ -80,6 +80,13 @@ math::P3D diffuse(0.9f, 0.9f, 0.9f);
 math::P3D specular(0.9f, 0.9f, 0.9f);
 math::V3D direction(cube_origin, view_point);
 
+/* triangle */
+math::P3D p1(0, 0, 5);
+math::P3D p2(0, 5, 0);
+math::P3D p3(5, 0, 0);
+math::P3D color(0.5f, 0.5f, 0);
+math::TRIANGLE triangle1(p3, p2, p1);
+
 /* static models */
 MODEL_STAT* mstat;
 
@@ -150,6 +157,7 @@ void main_test(WINDOW* wnd)
     static TIMER_COUNTING sc2(3);
     static TIMER_COUNTING sc3(3);
     static TIMER_COUNTING sc4(3);
+    static TIMER_COUNTING sc5(3);
 
     VIEWPORT::clear();
 
@@ -178,6 +186,19 @@ void main_test(WINDOW* wnd)
 
     } else if (sc2.is_active()) {
 
+        /* triangle */
+        viewport1->apply();
+        camera1->apply();
+        PRIMITIVES::draw_triangle(triangle1, color);
+
+        /* sphere */
+        viewport2->apply();
+        camera2->apply();
+        math::P3D center(0, 0, 0);
+        PRIMITIVES::draw_solid_sphere(center, 2.0f, color);
+
+    } else if (sc3.is_active()) {
+
         fn_emitter->update(dt);
 
         /* ortho */
@@ -190,7 +211,7 @@ void main_test(WINDOW* wnd)
         camera2->apply();
         fn_emitter->render();
 
-    } else if (sc3.is_active()) {
+    } else if (sc4.is_active()) {
 
         fn_wave->update(dt);
 
@@ -213,7 +234,7 @@ void main_test(WINDOW* wnd)
         camera2->apply(near_vp, cube_origin);
         fn_wave->render();
 
-    } else if (sc4.is_active()) {
+    } else if (sc5.is_active()) {
 
         fn_wave->update(dt);
         fn_wave->update_random_rays(dt);

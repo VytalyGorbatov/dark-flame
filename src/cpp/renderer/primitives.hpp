@@ -26,6 +26,7 @@
 #include "texture.hpp"
 #include "camera.hpp"
 #include "vector.hpp"
+#include "geometry.hpp"
 
 namespace renderer
 {
@@ -43,6 +44,8 @@ public:
     static void draw_line(const math::P3D& b, const math::P3D& e, const math::P3D& b_color, const math::P3D& e_color);
     static void draw_line_strip(const math::P3D* pnts, int pnts_cnt, const math::P3D& color);
     static void draw_wire_sphere(const math::P3D& centre, float radius, const math::P3D& color);
+    static void draw_triangle(const math::TRIANGLE& triangle, const math::P3D& color);
+    static void draw_solid_sphere(const math::P3D& centre, float radius, const math::P3D& color);
 };
 
 } // namespace renderer

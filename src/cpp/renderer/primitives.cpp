@@ -25,6 +25,7 @@
 #include "camera.hpp"
 #include "primitives.hpp"
 #include "vector.hpp"
+#include "geometry.hpp"
 
 using namespace renderer;
 using namespace renderer::camera;
@@ -207,10 +208,73 @@ void PRIMITIVES::draw_wire_sphere(const P3D& centre, float radius, const P3D& co
 
     glPushMatrix();
     glTranslatef(centre.x, centre.y, centre.z);
+    /* TODO: include glut for Windows build. */
+#if defined (LINUX)
     glutWireSphere(radius, 12, 10);
+#endif // LINUX 
     glPopMatrix();
 
     glEnable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
     glColor3f(1, 1, 1);
 }
+
+void PRIMITIVES::draw_triangle(const TRIANGLE& triangle, const P3D& color)
+{
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(color.x, color.y, color.z);
+
+    glBegin(GL_TRIANGLES);
+    glNormal3f(triangle.normal.dir.x, triangle.normal.dir.y, triangle.normal.dir.z);
+    glVertex3f(triangle.A.x, triangle.A.y, triangle.A.z);
+    glVertex3f(triangle.B.x, triangle.B.y, triangle.B.z);
+    glVertex3f(triangle.C.x, triangle.C.y, triangle.C.z);
+    glEnd();
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1, 1, 1);
+}
+
+void PRIMITIVES::draw_solid_sphere(const P3D& centre, float radius, const P3D& color)
+{
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor3f(color.x, color.y, color.z);
+
+    const GLfloat X = 0.525731112119133606f * radius;
+    const GLfloat Z = 0.850650808352039932f * radius;
+
+    TRIANGLE* triangles[20];
+
+    const P3D points[12] = {
+        P3D(-X, 0, Z),  P3D( X, 0,  Z), P3D(-X,  0, -Z), P3D( X,  0, -Z),
+        P3D( 0, Z, X),  P3D( 0, Z, -X), P3D( 0, -Z,  X), P3D( 0, -Z, -X),
+        P3D( Z, X, 0),  P3D(-Z, X,  0), P3D( Z, -X,  0), P3D(-Z, -X,  0)};
+
+    GLuint idx[20][3] = {
+        { 1,  4,  0}, { 4,  9,  0}, { 4,  5,  9}, { 8,  5,  4}, { 1,  8,  4},
+        { 1, 10,  8}, {10,  3,  8}, { 8,  3,  5}, { 3,  2,  5}, { 3,  7,  2},
+        { 3, 10,  7}, {10,  6,  7}, { 6, 11,  7}, { 6,  0, 11}, { 6,  1,  0},
+        {10,  1,  6}, {11,  0,  9}, { 2, 11,  9}, { 5,  2,  9}, {11,  2,  7}};
+
+    for (int i = 0; i < 20; i++) {
+        triangles[i] = new TRIANGLE(points[idx[i][0]], points[idx[i][1]], points[idx[i][2]]);
+    }
+
+    glPushMatrix();
+    glTranslatef(centre.x, centre.y, centre.z);
+
+    for (int i = 0; i < 20; i++) {
+        draw_triangle(*(triangles[i]), color);
+    }
+
+    glPopMatrix();
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1, 1, 1);
+}
+
+
