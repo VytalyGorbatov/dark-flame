@@ -339,15 +339,17 @@ TRIANGLE::TRIANGLE(const P3D& a, const P3D& b, const P3D& c) : A(a), B(b), C(c)
     if (0 == normal.get_length()) {
         normal.dir.set_xyz(0, 0, 0);
         d = 0;
+        is_deg = true;
     } else {
         normal.set_length(1.0f);
         d = normal.abs_mult(A);
+        is_deg = false;
     }
 }
 
 bool TRIANGLE::is_degenerate() const
 {
-    return 0 == d;
+    return is_deg;
 }
 
 V3D TRIANGLE::get_normal() const
@@ -357,7 +359,7 @@ V3D TRIANGLE::get_normal() const
 
 P3D TRIANGLE::get_collision(const P3D& b, const P3D& e) const
 {
-    if (0 == d) {
+    if (is_deg) {
         return e;
     }
 
@@ -401,7 +403,7 @@ P3D TRIANGLE::get_collision(const P3D& b, const P3D& e) const
 
 P3D TRIANGLE::get_collision(const P3D& p, const V3D& v) const
 {
-    if (0 == d) {
+    if (is_deg) {
         return p;
     }
 

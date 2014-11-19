@@ -94,6 +94,7 @@ public:
     P3D     A, B, C;                // triangle vertecies coordinates
     V3D     normal;                 // normal to triangle plane
     float   d;                      // parameter in the plane equation
+    bool    is_deg;
 
 public:
     TRIANGLE(const P3D& a, const P3D& b, const P3D& c);
