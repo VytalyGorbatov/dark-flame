@@ -439,9 +439,9 @@ TRIANGLE* TRIANGLE::get_nested() const
     p2 = (B + C);
     p3 = (C + A);
 
-    p1 = p1.devide_by(2.0f);
-    p2 = p2.devide_by(2.0f);
-    p3 = p3.devide_by(2.0f);
+    p1 = p1.mult_by(0.5f);
+    p2 = p2.mult_by(0.5f);
+    p3 = p3.mult_by(0.5f);
 
     return new TRIANGLE(p3, p2, p1);
 }
