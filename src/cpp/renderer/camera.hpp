@@ -59,6 +59,26 @@ public:
     virtual void apply(const math::P3D& position, const math::V3D& dir);
     virtual void apply(const math::V3D& i, const math::V3D& j, const math::V3D& k);
     virtual void apply(const float& pitch, const float& roll, const float& yaw);
+
+    math::P3D get_position() const
+    {
+        return position;
+    }
+
+    math::V3D get_i() const
+    {
+        return i;
+    }
+
+    math::V3D get_j() const
+    {
+        return j;
+    }
+
+    math::V3D get_k() const
+    {
+        return k;
+    }
 };
 
 } //namespace camera
