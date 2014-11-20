@@ -130,10 +130,10 @@ void init_test(void)
     fn_emitter->p_mass = 1;
     fn_emitter->p_volume = 1;
     fn_emitter->p_velocity.dir.set_xyz(0, 0, 10);
-    fn_emitter->p_spin = 3;
+    fn_emitter->p_spin = 300;
     fn_emitter->p_ttl = 2;
     fn_emitter->p_f_volume = 1;
-    fn_emitter->p_f_spin = 0;
+    fn_emitter->p_f_spin = 300;
     fn_emitter->p_delta_mass = 0.5f;
     fn_emitter->p_delta_volume = 0.2f;
     fn_emitter->p_delta_velocity = 1.5f;
@@ -215,7 +215,7 @@ void main_test(WINDOW* wnd)
         /* perspective */
         viewport2->apply();
         camera2->apply();
-        fn_emitter->render();
+        fn_emitter->render(*camera2);
 
     } else if (sc4.is_active()) {
 
