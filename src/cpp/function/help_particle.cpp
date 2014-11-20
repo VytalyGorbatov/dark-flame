@@ -24,6 +24,7 @@
 #include "particle.hpp"
 #include "primitives.hpp"
 #include "vector.hpp"
+#include "camera.hpp"
 
 using namespace function;
 using namespace physic;
@@ -74,6 +75,19 @@ void HELP_PARTICLE::render(float delta_time) const
     PRIMITIVES::draw_cube(position, 0.08f, src_color);
     for (int i = 0; i < particles_cnt; ++i) {
         PRIMITIVES::draw_cube(particles[i]->position, 0.01f, prt_color);
+    }
+}
+
+void HELP_PARTICLE::render(const camera::MCAMERA& camera) const
+{
+    static TEXTURE img("resources/shine100.tga");
+    P3D src_color(0.3f, 0.6f, 0.9f);
+    P3D prt_color(0.2f, 0.75f, 0.75f);
+    float sc = 0.3f;
+
+    PRIMITIVES::draw_cube(position, 0.08f, src_color);
+    for (int i = 0; i < particles_cnt; ++i) {
+        PRIMITIVES::draw_sprite(particles[i]->position, camera, img, prt_color, sc, particles[i]->angle);
     }
 }
 

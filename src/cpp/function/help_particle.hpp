@@ -25,6 +25,7 @@
 #include "function.hpp"
 #include "solver.hpp"
 #include "particle.hpp"
+#include "camera.hpp"
 
 namespace function
 {
@@ -42,6 +43,7 @@ public:
 
     void init(std::istream src);
     void render(float delta_time = 0) const;
+    void render(const renderer::camera::MCAMERA& camera) const;
     void update(float delta_time = 0);
 };
 
