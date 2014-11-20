@@ -87,19 +87,27 @@ void PRIMITIVES::draw_skybox(const MCAMERA& camera,
 
 }
 
-void PRIMITIVES::draw_sprite(const P3D& position, const camera::MCAMERA& camera, const TEXTURE& img, const math::P3D& color, float angle)
+void PRIMITIVES::draw_sprite(const P3D& position, const camera::MCAMERA& camera, const TEXTURE& img, const math::P3D& color, float scale, float angle)
 {
     V3D i = camera.get_i();
     V3D j = camera.get_j();
     V3D k = camera.get_k();
     V3D temp;
 
+    glDisable(GL_LIGHTING);
+    glEnable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+
+    glBlendFunc(GL_ONE, GL_ONE);
+
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
+    glScalef(scale, scale, scale);
     glRotatef(-angle, j.dir.x, j.dir.y, j.dir.z);
-    glColor3f(color.x, color.y, color.z);
-
+    glColor4f(color.x, color.y, color.z, 1.0f);
     glNormal3f(j.dir.x, j.dir.y, j.dir.z);
+    img.bind();
+
     glBegin(GL_QUADS);
     temp = i + k;
     glTexCoord2f(1, 1);
@@ -116,6 +124,10 @@ void PRIMITIVES::draw_sprite(const P3D& position, const camera::MCAMERA& camera,
     glEnd();
 
     glPopMatrix();
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void PRIMITIVES::draw_cube(const P3D& c, float h)
