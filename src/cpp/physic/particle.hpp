@@ -32,13 +32,13 @@ class PARTICLE
 {
 public:
     math::P3D position;
+    float     angle;           // destination summary rotation angle
 
 private:
     float     mass;
     math::V3D velocity;
     float     volume;
     float     spin;            // positive value - clockwise, negative value - conterclock
-    float     angle;           // destination summary rotation angle
 
     float     ttl;             // time to live
 
