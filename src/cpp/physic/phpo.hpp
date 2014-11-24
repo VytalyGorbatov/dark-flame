@@ -19,30 +19,65 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __SPRING_HPP__
-#define __SPRING_HPP__
+#ifndef __PHPO_HPP__
+#define __PHPO_HPP__
 
-#include <list>
 #include "solver.hpp"
 #include "vector.hpp"
 
 namespace physic
 {
 
-/** Represent spring (link or some kind of rope) between two objects. */
-class SPRING : public OBJECT
+class PhPO;
+
+struct CONNECTION {
+    PhPO* object;
+    float curr_length;
+    float prev_length;
+    float low_coeff;
+    float high_coeff;
+    float dumping;
+};
+
+/** Mass-spring physics model. */
+class PhPO
 {
 private:
-    OBJECT* obj_a;
-    OBJECT* obj_b;
+    float       mass;
+    math::P3D   position;
+    math::V3D   velocity;
+    math::V3D   force;
+    CONNECTION* lnk;
+    int         lnk_cnt;
+
+    void add_internal_force(float dt);
 
 public:
-    SPRING();
-    ~SPRING();
+    PhPO();
+    PhPO(float mass, math::P3D& position, math::V3D& velocity);
+    ~PhPO();
 
-    void update(float delta_time, std::list<OBJECT*> objs); // corrects the objects' coordinates acording to tension force
+    PhPO(const PhPO&);
+    PhPO& operator =(const PhPO&);
+
+    void init(float mass, math::P3D& position, math::V3D& velocity);
+    void add(PhPO* object, float low_c, float high_c, float dump);
+    void add_external_force(const math::V3D& force);
+    void reflect(const math::V3D& normal, float coeff = 1);
+    void friction(const math::V3D& normal, float coeff = 1);
+    math::V3D get_impulse() const
+    math::P3D update(float dt);
+
+    math::P3D get_position() const
+    {
+        return position;
+    }
+    void set_position(const math::P3D& p)
+    {
+        position = p;
+    }
 };
 
 } // namespace physic
 
-#endif // __SPRING_HPP__
+#endif // __PHPO_HPP__
