@@ -20,7 +20,9 @@
  */
 
 #include <math.h>
+#include <cstddef>
 #include "solver.hpp"
+#include "phpo.hpp"
 #include "vector.hpp"
 
 using namespace math;
@@ -38,16 +40,16 @@ PhPO::PhPO()
     force.dir.x = 0;
     force.dir.y = 0;
     force.dir.z = 0;
-    lnk = new CONNECTION[];
+    lnk = NULL;
     lnk_cnt = 0;
 }
 
-PhPO::PhPO(float m, P3D& c, V3D& v) : mass(m), position(p), velocity(v)
+PhPO::PhPO(float m, P3D& c, V3D& v) : mass(m), position(c), velocity(v)
 {
     force.dir.x = 0;
     force.dir.y = 0;
     force.dir.z = 0;
-    lnk = new CONNECTION[];
+    lnk = NULL;
     lnk_cnt = 0;
 }
 
@@ -121,7 +123,7 @@ void PhPO::add_internal_force(float dt)
     for (int i = 0; i < lnk_cnt; ++i) {
 
         V3D r(position, lnk[i].object->position);
-        float mod = R.get_length();
+        float mod = r.get_length();
 
         if (mod > 0.000001f) {
             r.mult_by(1 / mod);
@@ -186,7 +188,7 @@ void PhPO::friction(const V3D& normal, float coeff)
     velocity = t + n;
 }
 
-V3D PhPOO::get_impulse() const
+V3D PhPO::get_impulse() const
 {
     V3D res = velocity;
 

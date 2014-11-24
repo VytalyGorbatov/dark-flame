@@ -65,7 +65,7 @@ public:
     void add_external_force(const math::V3D& force);
     void reflect(const math::V3D& normal, float coeff = 1);
     void friction(const math::V3D& normal, float coeff = 1);
-    math::V3D get_impulse() const
+    math::V3D get_impulse() const;
     math::P3D update(float dt);
 
     math::P3D get_position() const
