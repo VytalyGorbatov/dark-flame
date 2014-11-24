@@ -20,7 +20,6 @@
  */
 
 #include <list>
-#include <cstddef>
 #include "solver.hpp"
 #include "enviroment.hpp"
 #include "vector.hpp"

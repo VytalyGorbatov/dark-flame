@@ -23,6 +23,7 @@
 #define __SOLVER_HPP__
 
 #include <list>
+#include <cstddef>
 #include "enviroment.hpp"
 #include "vector.hpp"
 
