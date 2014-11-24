@@ -128,6 +128,22 @@ public:
         return res;
     }
 
+    V3D& operator +=(const V3D& v)
+    {
+        dir.x += v.dir.x;
+        dir.y += v.dir.y;
+        dir.z += v.dir.z;
+        return *this;
+    }
+
+    V3D& operator -=(const V3D& v)
+    {
+        dir.x -= v.dir.x;
+        dir.y -= v.dir.y;
+        dir.z -= v.dir.z;
+        return *this;
+    }
+
     V3D& mult_by(const float& a)
     {
         dir.x *= a;
