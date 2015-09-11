@@ -125,7 +125,7 @@ DF_TEXTURE::DF_TEXTURE(const DF_TEXTURE& m)
     bpp = m.bpp;
     format = m.format;
     data = new char[x * y];
-    memcpy(data, m.data, sizeof(data));
+    memcpy(data, m.data, x * y * sizeof(char));
 }
 
 DF_TEXTURE& DF_TEXTURE::operator =(const DF_TEXTURE& m)
@@ -141,7 +141,7 @@ DF_TEXTURE& DF_TEXTURE::operator =(const DF_TEXTURE& m)
 
     delete[] data;
     data = new char[x * y];
-    memcpy(data, m.data, sizeof(data));
+    memcpy(data, m.data, x * y * sizeof(char));
 
     return *this;
 }
