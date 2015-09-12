@@ -157,6 +157,7 @@ void atest_draw(WINDOW* wnd)
     float dt = timer->dt();
 
     /* times for every presented scene */
+    static TIMER_COUNTING sc0(2);
     static TIMER_COUNTING sc1(3);
     static TIMER_COUNTING sc2(3);
     static TIMER_COUNTING sc3(3);
@@ -165,7 +166,16 @@ void atest_draw(WINDOW* wnd)
 
     VIEWPORT::clear();
 
-    if (sc1.is_active()) {
+    if (sc0.is_active()) {
+
+        static float fi = 0.01f;
+        fi +=  0.5f * dt;
+
+        /* small intro */
+        viewport0->apply();
+        PRIMITIVES::draw_background(*bckgnd, fi);
+
+    } else if (sc1.is_active()) {
 
         static float att = 1.0f;
         att -=  0.5f * dt;
