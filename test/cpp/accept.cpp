@@ -98,7 +98,7 @@ HELP_PARTICLE* fn_emitter;
 HELP_WAVE* fn_wave;
 
 /* init routine and loading resources */
-void init_test(void)
+void atest_init(void)
 {
     RENDERER::init();
 
@@ -152,7 +152,7 @@ void init_test(void)
 }
 
 /* drawing cycle */
-void main_test(WINDOW* wnd)
+void atest_draw(WINDOW* wnd)
 {
     float dt = timer->dt();
 
@@ -266,31 +266,20 @@ void main_test(WINDOW* wnd)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    MSG msg;
     DFLOG.deny();
 
     WINDOW_WINAPI wnd;
     wnd.configure("Accept test window", window_width, window_height, hInstance);
     wnd.make_current();
 
-    init_test();
-    while (1) {
-        // check the message queue
-        while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
-            if (GetMessage(&msg, NULL, 0, 0)) {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
-            }
-        }
-        // close window
-        if (WM_QUIT == msg.message) {
-            break;
-        }
-        // run test
-        main_test(&wnd);
+    atest_init();
+
+    int ret_code = 0;
+    while (wnd.process_event(&ret_code)) {
+        atest_draw(&wnd);
     }
 
-    return (int)msg.wParam;
+    return ret_code;
 }
 
 #elif defined (LINUX)
@@ -303,12 +292,14 @@ int main()
     wnd.configure("Accept test window", window_width, window_height);
     wnd.make_current();
 
-    init_test();
-    while (1) {
-        main_test(&wnd);
+    atest_init();
+
+    int ret_code = 0;
+    while (wnd.process_event(&ret_code)) {
+        atest_draw(&wnd);
     }
 
-    return 0;
+    return ret_code;
 }
 
 #else

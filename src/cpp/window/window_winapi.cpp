@@ -189,9 +189,36 @@ void WINDOW_WINAPI::make_current()
     }
 }
 
+bool WINDOW_WINAPI::process_event(int* ret_code)
+{
+    MSG msg;
+
+    if (is_configured) {
+        return false;
+    }
+
+    while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+        if (GetMessage(&msg, NULL, 0, 0)) {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+    }
+
+    if (WM_QUIT == msg.message) {
+        if (ret_code) {
+            *ret_code = (int)msg.wParam;
+        }
+        return false;
+    }
+
+    return true;
+}
+
 void WINDOW_WINAPI::swap_buffers()
 {
-    SwapBuffers(hdc);
+    if (is_configured) {
+        SwapBuffers(hdc);
+    }
 }
 
 #endif  // WINDOWS

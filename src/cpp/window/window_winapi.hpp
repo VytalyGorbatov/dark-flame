@@ -51,6 +51,7 @@ public:
 
     void configure(const char* name, int width, int height, HINSTANCE hinst);
     void make_current();
+    bool process_event(int* ret_code);
     void swap_buffers();
 };
 

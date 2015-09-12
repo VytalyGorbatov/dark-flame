@@ -122,6 +122,28 @@ void WINDOW_X::make_current()
     }
 }
 
+bool WINDOW_X::process_event(int* ret_code)
+{
+    XEvent event;
+
+    if (is_configured) {
+        return false;
+    }
+
+    XNextEvent(dpy, &event);
+
+    switch(event.type) {
+
+    case DestroyNotify:
+        if (ret_code) {
+            *ret_code = 0;
+        }
+        return false;
+    }
+
+    return true;
+}
+
 void WINDOW_X::swap_buffers()
 {
     if (is_configured) {

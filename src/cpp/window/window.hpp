@@ -29,6 +29,7 @@ class WINDOW
 {
 public:
     virtual void make_current() = 0;
+    virtual bool process_event(int* ret_code) = 0;
     virtual void swap_buffers() = 0;
 };
 
