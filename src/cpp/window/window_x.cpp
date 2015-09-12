@@ -101,7 +101,7 @@ void WINDOW_X::configure(const char* name, int width, int height)
 
     XSetWindowAttributes swa;
     swa.colormap = XCreateColormap(dpy, root, vi->visual, AllocNone);
-    swa.event_mask = ExposureMask | KeyPressMask;
+    swa.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask;
 
     win = XCreateWindow(dpy, root, 0, 0, width, height, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
 
@@ -130,15 +130,14 @@ bool WINDOW_X::process_event(int* ret_code)
         return false;
     }
 
-    XNextEvent(dpy, &event);
-
-    switch(event.type) {
-
-    case DestroyNotify:
-        if (ret_code) {
-            *ret_code = 0;
+    if (XCheckWindowEvent(dpy, win, StructureNotifyMask, &event)) {
+        switch(event.type) {
+        case DestroyNotify:
+            if (ret_code) {
+                *ret_code = 0;
+            }
+            return false;
         }
-        return false;
     }
 
     return true;
