@@ -126,7 +126,7 @@ bool WINDOW_X::process_event(int* ret_code)
 {
     XEvent event;
 
-    if (is_configured) {
+    if (!is_configured) {
         return false;
     }
 

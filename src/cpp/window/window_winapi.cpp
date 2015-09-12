@@ -193,7 +193,7 @@ bool WINDOW_WINAPI::process_event(int* ret_code)
 {
     MSG msg;
 
-    if (is_configured) {
+    if (!is_configured) {
         return false;
     }
 
