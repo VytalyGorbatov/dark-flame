@@ -42,8 +42,8 @@ using namespace physic;
 using namespace function;
 
 /* window settings */
-const int window_width = 800;
-const int window_height = 400;
+const int window_width = 1600;
+const int window_height = 800;
 
 /* setting up camera and viewports */
 const float z_near = 0.1f;
@@ -72,6 +72,7 @@ VIEWPORT* viewport2;
 camera::MCAMERA* camera1;
 camera::MCAMERA* camera2;
 camera::MCAMERA* camera3;
+camera::MCAMERA* camera4;
 
 /* lights */
 LIGHT* light;
@@ -109,6 +110,7 @@ void atest_init(void)
     camera1 = new OCAMERA(view_point, cube_origin, -5, 5, 5, -5, z_near, z_far);
     camera2 = new PCAMERA(view_point, cube_origin, 90, (window_width / 2.0f) / window_height, z_near, z_far);
     camera3 = new PCAMERA(view_point2, cube_origin, 80, window_width / window_height, z_near, z_far);
+    camera4 = new PCAMERA(90, (window_width / 2.0f) / window_height, z_near, z_far);
 
     timer = new TIMER();
     timer->start();
@@ -157,12 +159,12 @@ void atest_draw(WINDOW* wnd)
     float dt = timer->dt();
 
     /* times for every presented scene */
-    static TIMER_COUNTING sc0(2);
-    static TIMER_COUNTING sc1(3);
-    static TIMER_COUNTING sc2(3);
-    static TIMER_COUNTING sc3(3);
-    static TIMER_COUNTING sc4(3);
-    static TIMER_COUNTING sc5(3);
+    static TIMER_COUNTING sc0(3);
+    static TIMER_COUNTING sc1(5);
+    static TIMER_COUNTING sc2(1);
+    static TIMER_COUNTING sc3(5);
+    static TIMER_COUNTING sc4(4);
+    static TIMER_COUNTING sc5(7);
 
     VIEWPORT::clear();
 
@@ -180,6 +182,13 @@ void atest_draw(WINDOW* wnd)
         static float att = 1.0f;
         att -=  0.5f * dt;
 
+        const math::P3D sp(6, 6, 6);
+        const math::P3D ep(-2, -4, 0);
+        math::P3D dir = ep - sp;
+
+        static math::P3D vp = sp;
+        vp = vp + dir.mult_by(0.2f * dt);
+
         /* draw logo */
         viewport0->apply();
         PRIMITIVES::draw_background(*bckgnd, att);
@@ -193,7 +202,7 @@ void atest_draw(WINDOW* wnd)
 
         /* perspective */
         viewport2->apply();
-        camera2->apply();
+        camera4->apply(vp, cube_origin);
         PRIMITIVES::draw_cube(cube_origin, cube_size);
         LIGHT::disable();
         mstat->render();
@@ -263,8 +272,18 @@ void atest_draw(WINDOW* wnd)
     } else {
 
         /* last scene */
+
+        fn_wave->update(dt);
+
+        static TIMER_ONCE rt(5.0f);
+        if (rt.is_trigged()) {
+            fn_wave->randomize(26);
+            rt.set(6);
+        }
+
         viewport0->apply();
-        PRIMITIVES::draw_background(*bckgnd, 0.9f);
+        camera3->apply();
+        fn_wave->render();
     }
 
     wnd->swap_buffers();
