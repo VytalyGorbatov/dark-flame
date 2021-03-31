@@ -19,7 +19,7 @@
  * For more details see LICENSE file.
  */
 
-#if defined (LINUX)
+#if defined (LINUX) || defined (__APPLE__)
 
 #ifndef __WINDOW_X_HPP__
 #define __WINDOW_X_HPP__
@@ -27,9 +27,19 @@
 #include "arch.hpp"
 #include "window.hpp"
 
+#if defined (__APPLE__)
+
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
+
+#else
+
+#include <X11/X.h>
+#include <X11/Xlib.h>
+#include <GL/glx.h>
+
+#endif
 
 namespace window
 {
@@ -60,4 +70,4 @@ public:
 
 #endif  // __WINDOW_X_HPP__
 
-#endif // LINUX
+#endif // LINUX or APPLE

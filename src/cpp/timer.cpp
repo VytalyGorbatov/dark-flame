@@ -60,7 +60,7 @@ float TIMER::get_dt()
 
 #endif  // WINDOWS
 
-#if defined LINUX
+#if defined(LINUX) || defined(__APPLE__)
 
 #include <time.h>
 
@@ -96,7 +96,7 @@ float TIMER::get_dt()
     return dtime;
 }
 
-#endif  // LINUX
+#endif  // LINUX or APPLE
 
 TIMER::TIMER()
 {
