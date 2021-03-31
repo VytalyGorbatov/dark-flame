@@ -124,7 +124,7 @@ endif
 ifeq 'msvc' '$(toolchain)'
   WARNING_CFLAGS = /W3 /nologo
 else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
-  WARNING_CFLAGS = -Wall -pedantic -Wno-unknown-pragmas
+  WARNING_CFLAGS = -Wall -pedantic -Wno-unknown-pragmas -DGL_SILENCE_DEPRECATION
 endif
 
 CFLAGS += $(WARNING_CFLAGS)
@@ -169,6 +169,11 @@ ifeq 'msvc' '$(toolchain)'
     CFLAGS += /analyze-
 endif
 
+ifeq 'clang' '$(toolchain)'
+    CFLAGS += -stdlib=libc++
+    CFLAGS += -I/usr/X11/include
+endif
+
 ################################################################
 # Include libs.
 
@@ -179,10 +184,14 @@ ifeq 'msvc' '$(toolchain)'
     LDFLAGS += opengl32.lib
     LDFLAGS += glu32.lib
     LDFLAGS += gdi32.lib
-else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
-  LDFLAGS += -lglut -lGL -lGLU
-  LDFLAGS += -lX11
-  LDFLAGS += -lpthread
+else ifeq 'gcc' '$(toolchain)'
+    LDFLAGS += -lglut -lGL -lGLU
+    LDFLAGS += -lX11
+    LDFLAGS += -lpthread
+else ifeq 'clang' '$(toolchain)'
+    LDFLAGS += -framework GLUT -framework OpenGL
+    LDFLAGS += -L/usr/X11/lib -lX11 -lGL -lGLU
+    LDFLAGS += -lpthread
 endif
 
 ################################################################
