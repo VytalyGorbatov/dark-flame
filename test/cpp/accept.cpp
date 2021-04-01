@@ -311,7 +311,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     return ret_code;
 }
 
-#elif defined (LINUX)
+#elif defined (LINUX) || defined (__APPLE__)
 
 int main()
 {

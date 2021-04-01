@@ -38,12 +38,27 @@
 
 #include <GL/glut.h>
 
+#elif defined (__APPLE__)
+
+#include <GLUT/glut.h>
+
 #else
 #   error Unsupported target platform.
 #endif
 
+#if defined (__APPLE__)
+
+#include <OpenGl/gl.h>
+#include <OpenGl/glu.h>
+#include <OpenGl/glext.h>
+#include <OpenGl/gltypes.h>
+
+#else
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glext.h>
+
+#endif
 
 #endif // __OGL_HPP__

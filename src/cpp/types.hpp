@@ -37,8 +37,8 @@
     typedef unsigned __int32 uint32_t;
     typedef unsigned __int64 uint64_t;
 
-#elif (!defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(LINUX)) \
-    || (defined(__INTEL_COMPILER) && !defined(LINUX))
+#elif (!defined(__MINGW32__) && !defined(__CYGWIN__) && !defined(LINUX) && !defined(__APPLE__)) \
+    || (defined(__INTEL_COMPILER) && !defined(LINUX) && !defined(__APPLE__))
 
     typedef int bool;
     #define false 0
@@ -54,7 +54,7 @@
     typedef unsigned int uint32_t;
     typedef unsigned long long uint64_t;
 
-#elif defined(LINUX) && defined(__INTEL_COMPILER)
+#elif (defined(LINUX) || defined(__APPLE__)) && defined(__INTEL_COMPILER)
 
     #include </usr/include/sys/types.h>
 

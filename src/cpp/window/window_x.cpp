@@ -23,7 +23,7 @@
 #include "logger.hpp"
 #include "window_x.hpp"
 
-#if defined (LINUX)
+#if defined (LINUX) || defined (__APPLE__)
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -150,4 +150,4 @@ void WINDOW_X::swap_buffers()
     }
 }
 
-#endif //LINUX
+#endif //LINUX or APPLE
