@@ -63,6 +63,9 @@ else ifeq 'linux' '$(host_os)'
 else ifeq 'macosx' '$(host_os)'
   TARGET := macosx
   toolchain := clang
+  ifeq ('$(wildcard /usr/X11/lib/.*)', '')
+    $(error X11 isn't installed(brew install --cask xquartz))
+  endif
 endif
 
 ################################################################
