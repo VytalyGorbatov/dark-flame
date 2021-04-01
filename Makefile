@@ -63,6 +63,9 @@ else ifeq 'linux' '$(host_os)'
 else ifeq 'macosx' '$(host_os)'
   TARGET := macosx
   toolchain := clang
+  ifeq ('$(wildcard /usr/X11/lib/.*)', '')
+    $(error X11 isn't installed(brew install --cask xquartz))
+  endif
 endif
 
 ################################################################
@@ -191,7 +194,7 @@ else ifeq 'gcc' '$(toolchain)'
 else ifeq 'clang' '$(toolchain)'
     LDFLAGS += -framework GLUT -framework OpenGL
     LDFLAGS += -L/usr/X11/lib -lX11 -lGL -lGLU
-    LDFLAGS += -lpthread
+    LDFLxAGS += -lpthread
 endif
 
 ################################################################
