@@ -194,7 +194,7 @@ else ifeq 'gcc' '$(toolchain)'
 else ifeq 'clang' '$(toolchain)'
     LDFLAGS += -framework GLUT -framework OpenGL
     LDFLAGS += -L/usr/X11/lib -lX11 -lGL -lGLU
-    LDFLxAGS += -lpthread
+    LDFLAGS += -lpthread
 endif
 
 ################################################################
