@@ -37,12 +37,21 @@ error_unknown_value = $(error Unknown $(1): '$($(1))')
 ################################################################
 # Determine platform/environment.
 
-host_os := linux
+host_os := 
 ifneq '' '$(COMSPEC)'
   ifneq '' '$(WINDIR)'
     # Probably under Windows.
     host_os := windows
   endif
+else
+  UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		host_os := linux
+	else ifeq ($(UNAME_S),Darwin)
+		host_os := macosx
+  else
+    $(call error_unknown_value,host_os)
+	endif
 endif
 
 ifeq 'windows' '$(host_os)'
@@ -51,8 +60,12 @@ ifeq 'windows' '$(host_os)'
 else ifeq 'linux' '$(host_os)'
   TARGET := linux
   toolchain := gcc
-else
-  $(call error_unknown_value,host_os)
+else ifeq 'macosx' '$(host_os)'
+  TARGET := macosx
+  toolchain := clang
+  ifeq ('$(wildcard /usr/X11/lib/.*)', '')
+    $(error X11 isn't installed(brew install --cask xquartz))
+  endif
 endif
 
 ################################################################
@@ -62,6 +75,8 @@ ifeq 'msvc' '$(toolchain)'
   CC := cl
 else ifeq 'gcc' '$(toolchain)'
   CC := g++
+else ifeq 'clang' '$(toolchain)'
+  CC := clang++
 else
   $(call error_unknown_value,toolchain)
 endif
@@ -69,14 +84,14 @@ endif
 # Usage: $(call COMPILE,flags,input,output)
 ifeq 'msvc' '$(toolchain)'
   COMPILE = $(CC) /Fo$(3) $(1) $(2)
-else ifeq 'gcc' '$(toolchain)'
+else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
   COMPILE = $(CC) -o $(3) $(1) $(2)
 endif
 
 # Usage: $(call LINK,flags,input,output)
 ifeq 'msvc' '$(toolchain)'
   LINK = $(CC) /Fe$3 $2 $1
-else ifeq 'gcc' '$(toolchain)'
+else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
   LINK = $(CC) -o $3 $2 $1
 endif
 
@@ -84,7 +99,7 @@ endif
 ifeq 'msvc' '$(toolchain)'
   OBJ_EXT    = obj
   OBJ_SUFFIX = .obj
-else ifeq 'gcc' '$(toolchain)'
+else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
   OBJ_EXT    = o
   OBJ_SUFFIX = .o
 endif
@@ -111,8 +126,8 @@ endif
 # /W4 (/Wall) - and remarks
 ifeq 'msvc' '$(toolchain)'
   WARNING_CFLAGS = /W3 /nologo
-else ifeq 'gcc' '$(toolchain)'
-  WARNING_CFLAGS = -Wall -pedantic -Wno-unknown-pragmas
+else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
+  WARNING_CFLAGS = -Wall -pedantic -Wno-unknown-pragmas -DGL_SILENCE_DEPRECATION
 endif
 
 CFLAGS += $(WARNING_CFLAGS)
@@ -125,7 +140,7 @@ ifeq 'msvc' '$(toolchain)'
   # /O2 maximize speed, /Ob<n> inline expansion, /Ox max optimisation,
   # /Oy[-] enable frame pointer omission
   OPTIM_CFLAGS = /O2 /Ob2 /Ox
-else ifeq 'gcc' '$(toolchain)'
+else ifeq ($(toolchain),$(filter $(toolchain),gcc clang))
   ifeq '' '$(filter %-debug,$(MAKECMDGOALS))'
     # -O3 max safe optimisation
     OPTIM_CFLAGS = -O3 -finline -fomit-frame-pointer
@@ -157,6 +172,11 @@ ifeq 'msvc' '$(toolchain)'
     CFLAGS += /analyze-
 endif
 
+ifeq 'clang' '$(toolchain)'
+    CFLAGS += -stdlib=libc++
+    CFLAGS += -I/usr/X11/include
+endif
+
 ################################################################
 # Include libs.
 
@@ -168,9 +188,13 @@ ifeq 'msvc' '$(toolchain)'
     LDFLAGS += glu32.lib
     LDFLAGS += gdi32.lib
 else ifeq 'gcc' '$(toolchain)'
-  LDFLAGS += -lglut -lGL -lGLU
-  LDFLAGS += -lX11
-  LDFLAGS += -lpthread
+    LDFLAGS += -lglut -lGL -lGLU
+    LDFLAGS += -lX11
+    LDFLAGS += -lpthread
+else ifeq 'clang' '$(toolchain)'
+    LDFLAGS += -framework GLUT -framework OpenGL
+    LDFLAGS += -L/usr/X11/lib -lX11 -lGL -lGLU
+    LDFLAGS += -lpthread
 endif
 
 ################################################################
