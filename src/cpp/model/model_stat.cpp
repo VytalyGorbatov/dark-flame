@@ -30,7 +30,7 @@
 #include "logger.hpp"
 
 using namespace std;
-using namespace math;
+using namespace Math;
 using namespace model;
 using namespace renderer;
 
@@ -360,7 +360,7 @@ P3D MODEL_STAT::get_collision(const P3D& begin, const P3D& end, V3D* normal)
     return result;
 }
 
-void MODEL_STAT::get_boundaries(math::P3D* min_xyz, math::P3D* max_xyz) const
+void MODEL_STAT::get_boundaries(Math::P3D* min_xyz, Math::P3D* max_xyz) const
 {
     P3D min, max;
 

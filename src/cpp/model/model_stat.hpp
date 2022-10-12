@@ -48,9 +48,9 @@ public:
     virtual void update(float delta_time = 0);
 
     void init(const char* file_path);
-    math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL);
-    void get_boundaries(math::P3D* min_xyz, math::P3D* max_xyz) const;
-    void to_sub_model(const math::P3D& centre, float half_edge);
+    Math::P3D get_collision(const Math::P3D& begin, const Math::P3D& end, Math::V3D* normal = NULL);
+    void get_boundaries(Math::P3D* min_xyz, Math::P3D* max_xyz) const;
+    void to_sub_model(const Math::P3D& centre, float half_edge);
     int enum_polygons() const;
 };
 

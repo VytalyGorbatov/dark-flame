@@ -38,14 +38,14 @@ protected:
 
 public:
     SPHERE(SOLVER& world);
-    SPHERE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, float mass, float radius)
+    SPHERE(SOLVER& world, const Math::P3D& pos, const Math::P3D& rot, const Math::P3D& scl, float mass, float radius)
     ~SPHERE();
 
     SPHERE(const SPHERE&);
     SPHERE& operator =(const SPHERE&);
 
     void update(float delta_time = 0);
-    math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL);
+    Math::P3D get_collision(const Math::P3D& begin, const Math::P3D& end, Math::V3D* normal = NULL);
 };
 
 } // namespace physic

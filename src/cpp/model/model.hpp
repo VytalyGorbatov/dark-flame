@@ -33,16 +33,16 @@ namespace model
 class MODEL
 {
 public:
-    math::P3D position;                     // origin
-    math::P3D rotation;                     // pitch roll yaw
-    math::P3D scale;                        // scale the model
+    Math::P3D position;                     // origin
+    Math::P3D rotation;                     // pitch roll yaw
+    Math::P3D scale;                        // scale the model
 
 public:
     virtual ~MODEL() {};
 
     virtual void render(float delta_time = 0) const = 0;
     virtual void update(float delta_time = 0) = 0;
-    virtual math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL) = 0;
+    virtual Math::P3D get_collision(const Math::P3D& begin, const Math::P3D& end, Math::V3D* normal = NULL) = 0;
 };
 
 } // namespace model

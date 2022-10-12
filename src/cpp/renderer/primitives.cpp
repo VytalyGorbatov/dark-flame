@@ -29,7 +29,7 @@
 
 using namespace renderer;
 using namespace renderer::camera;
-using namespace math;
+using namespace Math;
 
 void PRIMITIVES::draw_background(const TEXTURE& image, float attenuation)
 {
@@ -87,7 +87,7 @@ void PRIMITIVES::draw_skybox(const MCAMERA& camera,
 
 }
 
-void PRIMITIVES::draw_sprite(const P3D& position, const camera::MCAMERA& camera, const TEXTURE& img, const math::P3D& color, float scale, float angle)
+void PRIMITIVES::draw_sprite(const P3D& position, const camera::MCAMERA& camera, const TEXTURE& img, const Math::P3D& color, float scale, float angle)
 {
     V3D i = camera.get_i();
     V3D j = camera.get_j();
@@ -262,7 +262,7 @@ void PRIMITIVES::draw_wire_sphere(const P3D& centre, float radius, const P3D& co
     glColor3f(1, 1, 1);
 }
 
-void PRIMITIVES::draw_triangle(const TRIANGLE& triangle, const P3D& color)
+void PRIMITIVES::draw_triangle(const Triangle& triangle, const P3D& color)
 {
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
@@ -289,7 +289,7 @@ void PRIMITIVES::draw_solid_sphere(const P3D& centre, float radius, const P3D& c
     const GLfloat X = 0.525731112119133606f * radius;
     const GLfloat Z = 0.850650808352039932f * radius;
 
-    TRIANGLE* triangles[20];
+    Triangle* triangles[20];
 
     const P3D points[12] = {
         P3D(-X, 0, Z),  P3D( X, 0,  Z), P3D(-X,  0, -Z), P3D( X,  0, -Z),
@@ -303,7 +303,7 @@ void PRIMITIVES::draw_solid_sphere(const P3D& centre, float radius, const P3D& c
         {10,  1,  6}, {11,  0,  9}, { 2, 11,  9}, { 5,  2,  9}, {11,  2,  7}};
 
     for (int i = 0; i < 20; i++) {
-        triangles[i] = new TRIANGLE(points[idx[i][0]], points[idx[i][1]], points[idx[i][2]]);
+        triangles[i] = new Triangle(points[idx[i][0]], points[idx[i][1]], points[idx[i][2]]);
     }
 
     glPushMatrix();

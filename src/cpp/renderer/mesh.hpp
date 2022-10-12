@@ -33,12 +33,12 @@ struct FACE
     int idx_a;
     int idx_b;
     int idx_c;
-    math::V3D norm_a;
-    math::V3D norm_b;
-    math::V3D norm_c;
-    math::P3D text_a;
-    math::P3D text_b;
-    math::P3D text_c;
+    Math::V3D norm_a;
+    Math::V3D norm_b;
+    Math::V3D norm_c;
+    Math::P3D text_a;
+    Math::P3D text_b;
+    Math::P3D text_c;
 };
 
 /** Bunch of faces with a single material. */
@@ -63,10 +63,10 @@ public:
     MESH(const MESH&);
     MESH& operator =(const MESH&);
 
-    void init(const math::P3D* vrtcs, const FACE* faces, int faces_cnt);
+    void init(const Math::P3D* vrtcs, const FACE* faces, int faces_cnt);
     void render() const;
-    void to_sub_mesh(const math::P3D& centre, float half_edge);
-    void get_boundaries(math::P3D* min_xyz, math::P3D* max_xyz) const;
+    void to_sub_mesh(const Math::P3D& centre, float half_edge);
+    void get_boundaries(Math::P3D* min_xyz, Math::P3D* max_xyz) const;
 
     int enum_polygons() const
     {

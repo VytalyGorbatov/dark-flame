@@ -24,7 +24,7 @@
 #include "wave.hpp"
 #include "geometry.hpp"
 
-using namespace math;
+using namespace Math;
 using namespace physic;
 using namespace physic::wave;
 
@@ -42,7 +42,7 @@ WAVE::WAVE(SOLVER& world) : PHYS_OBJECT(world)
     next = NULL;
 }
 
-WAVE::WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, int dimension, float wave_height, float frames_per_second) : PHYS_OBJECT(world, pos, rot, scl)
+WAVE::WAVE(SOLVER& world, const Math::P3D& pos, const Math::P3D& rot, const Math::P3D& scl, int dimension, float wave_height, float frames_per_second) : PHYS_OBJECT(world, pos, rot, scl)
 {
 
     if (dimension <= 0 || frames_per_second <= 0.01f) {
@@ -254,7 +254,7 @@ P3D WAVE::get_collision(const P3D& begin, const P3D& end, V3D* normal) const
         for (int j = 0; j < dim - 1; ++j) {
 
             register int idx = dim * i + j;
-            TRIANGLE tria(
+            Triangle tria(
                     vertecies[idx].coord,
                     vertecies[idx + 1].coord,
                     vertecies[idx + dim + 1].coord);
@@ -284,7 +284,7 @@ P3D WAVE::get_collision(const P3D& begin, const P3D& end, V3D* normal) const
         for (int j = 0; j < dim - 1; ++j) {
 
             register int idx = dim * i + j;
-            TRIANGLE tria(
+            Triangle tria(
                     vertecies[idx].coord,
                     vertecies[idx + dim + 1].coord,
                     vertecies[idx + dim].coord);

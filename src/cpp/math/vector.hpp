@@ -1,5 +1,5 @@
 /**
- * DarkFlame Copyright (C) 2014 Alexey Shumeiko
+ * DarkFlame Copyright (C) 2022 Alexey Shumeiko
  *
  * This file is part of DarkFlame.
  *
@@ -19,41 +19,52 @@
  * For more details see LICENSE file.
  */
 
-#ifndef __VECTOR_HPP__
-#define __VECTOR_HPP__
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
+/** Contains declarations for:
+ * Math point in Cartesian coordinate system - P3D
+ * Vector in Cartesian coordinate system - V3D
+*/
 
-namespace math
+namespace Math
 {
 
 /** Math point in Cartesian coordinate system. */
 class P3D
 {
 public:
-    float x, y, z;
-
-public:
     P3D()
     {
-        x = 0; y = 0; z = 0;
+        x = 0;
+        y = 0;
+        z = 0;
     }
 
     P3D(const float& a, const float& b, const float& c)
     {
-        x = a; y = b; z = c;
+        x = a;
+        y = b;
+        z = c;
     }
 
     P3D& mult_by(const float& a)
     {
-        x *= a; y *= a; z *= a;
+        x *= a;
+        y *= a;
+        z *= a;
         return *this;
     }
 
     void set_xyz(const float& a, const float& b, const float& c)
     {
-        x = a; y = b; z = c;
+        x = a;
+        y = b;
+        z = c;
     }
 
     float get_distance(const P3D& point) const;
+
+    float x, y, z;
 };
 
 inline P3D operator +(P3D lh, const P3D& rh)
@@ -75,9 +86,6 @@ inline P3D operator -(P3D lh, const P3D& rh)
 /** Vector in Cartesian coordinate system. */
 class V3D
 {
-public:
-    P3D dir;
-
 public:
     V3D()
     {
@@ -110,47 +118,11 @@ public:
         dir = v.dir;
     }
 
-    V3D operator -()
-    {
-        V3D res;
-        res.dir.x = -dir.x;
-        res.dir.y = -dir.y;
-        res.dir.z = -dir.z;
-        return res;
-    }
-
-    V3D operator *(const V3D& v)
-    {
-        V3D res;
-        res.dir.x = dir.y * v.dir.z - dir.z * v.dir.y;
-        res.dir.y = - dir.x * v.dir.z + dir.z * v.dir.x;
-        res.dir.z = dir.x * v.dir.y - dir.y * v.dir.x;
-        return res;
-    }
-
-    V3D& operator +=(const V3D& v)
-    {
-        dir.x += v.dir.x;
-        dir.y += v.dir.y;
-        dir.z += v.dir.z;
-        return *this;
-    }
-
-    V3D& operator -=(const V3D& v)
-    {
-        dir.x -= v.dir.x;
-        dir.y -= v.dir.y;
-        dir.z -= v.dir.z;
-        return *this;
-    }
-
-    V3D& mult_by(const float& a)
-    {
-        dir.x *= a;
-        dir.y *= a;
-        dir.z *= a;
-        return *this;
-    }
+    V3D operator -();
+    V3D operator *(const V3D& v);
+    V3D& operator +=(const V3D& v);
+    V3D& operator -=(const V3D& v);
+    V3D& mult_by(const float& a);
 
     float abs_mult(const V3D& v) const
     {
@@ -162,28 +134,14 @@ public:
         return dir.x * v.x + dir.y * v.y + dir.z * v.z;
     }
 
-    float full_mult(const V3D& v, const V3D& w) const
-    {
-        float res;
-        res = dir.x * (v.dir.y * w.dir.z - v.dir.z * w.dir.y);
-        res -= dir.y * (v.dir.x * w.dir.z - v.dir.z * w.dir.x);
-        res += dir.z * (v.dir.x * w.dir.y - v.dir.y * w.dir.x);
-        return res;
-    }
-
-    P3D add_to(const P3D& p) const
-    {
-        P3D result;
-        result.x = p.x + dir.x;
-        result.y = p.y + dir.y;
-        result.z = p.z + dir.z;
-        return result;
-    }
-
+    float full_mult(const V3D& v, const V3D& w) const;
+    P3D add_to(const P3D& p) const;
     float get_length() const;
     float get_distance(const P3D& point) const;
     bool set_length(const float& length);
     bool projection(const V3D& base);
+
+    P3D dir;
 };
 
 inline V3D operator +(V3D lh, const V3D& rh)
@@ -202,6 +160,66 @@ inline V3D operator -(V3D lh, const V3D& rh)
     return lh;
 }
 
-} // namespace math
+inline V3D V3D::operator -()
+{
+    V3D res;
+    res.dir.x = -dir.x;
+    res.dir.y = -dir.y;
+    res.dir.z = -dir.z;
+    return res;
+}
 
-#endif // __VECTOR_HPP__
+inline V3D V3D::operator *(const V3D& v)
+{
+    V3D res;
+    res.dir.x = dir.y * v.dir.z - dir.z * v.dir.y;
+    res.dir.y = - dir.x * v.dir.z + dir.z * v.dir.x;
+    res.dir.z = dir.x * v.dir.y - dir.y * v.dir.x;
+    return res;
+}
+
+inline V3D& V3D::operator +=(const V3D& v)
+{
+    dir.x += v.dir.x;
+    dir.y += v.dir.y;
+    dir.z += v.dir.z;
+    return *this;
+}
+
+inline V3D& V3D::operator -=(const V3D& v)
+{
+    dir.x -= v.dir.x;
+    dir.y -= v.dir.y;
+    dir.z -= v.dir.z;
+    return *this;
+}
+
+inline V3D& V3D::mult_by(const float& a)
+{
+    dir.x *= a;
+    dir.y *= a;
+    dir.z *= a;
+    return *this;
+}
+
+inline float V3D::full_mult(const V3D& v, const V3D& w) const
+{
+    float res;
+    res = dir.x * (v.dir.y * w.dir.z - v.dir.z * w.dir.y);
+    res -= dir.y * (v.dir.x * w.dir.z - v.dir.z * w.dir.x);
+    res += dir.z * (v.dir.x * w.dir.y - v.dir.y * w.dir.x);
+    return res;
+}
+
+inline P3D V3D::add_to(const P3D& p) const
+{
+    P3D result;
+    result.x = p.x + dir.x;
+    result.y = p.y + dir.y;
+    result.z = p.z + dir.z;
+    return result;
+}
+
+} // namespace Math
+
+#endif // VECTOR_HPP

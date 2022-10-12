@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include "particle.hpp"
 
-using namespace math;
+using namespace Math;
 using namespace physic;
 
 PARTICLE::PARTICLE()

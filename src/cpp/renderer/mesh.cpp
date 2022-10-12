@@ -26,7 +26,7 @@
 #include "geometry.hpp"
 #include "renderer.hpp"
 
-using namespace math;
+using namespace Math;
 using namespace renderer;
 
 MESH::MESH()
@@ -232,7 +232,7 @@ void MESH::to_sub_mesh(const P3D& centre, float half_edge)
         c.z = vertex[3 * i + 2];
         i++;
 
-        if (GEOMETRY::is_triangle_in_cube(centre, half_edge, a, b, c)) {
+        if (Geometry::is_triangle_in_cube(centre, half_edge, a, b, c)) {
             check[i - 2] = check[i - 1] = check[i] = true;
             c_cnt += 3;
         } else {

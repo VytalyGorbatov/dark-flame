@@ -35,18 +35,18 @@ class PRIMITIVES
 {
 public:
     static void draw_background(const TEXTURE& image, float attenuation = 1);
-    static void draw_normal(const math::P3D& position, const math::V3D& direction, const float length);
+    static void draw_normal(const Math::P3D& position, const Math::V3D& direction, const float length);
     static void draw_aim(const camera::MCAMERA& camera, const TEXTURE& crest);
     static void draw_skybox(const camera::MCAMERA& camera, const TEXTURE& up, const TEXTURE& dn, const TEXTURE& ft, const TEXTURE& bk, const TEXTURE& lf, const TEXTURE& rt);
-    static void draw_sprite(const math::P3D& position, const camera::MCAMERA& camera, const TEXTURE& img, const math::P3D& color, float scale, float angle = 0);
-    static void draw_cube(const math::P3D& centre, float half_edge);
-    static void draw_cube(const math::P3D& centre, float half_edge, const math::P3D& color);
-    static void draw_box(const math::P3D& centre, const math::P3D& size_xyz);
-    static void draw_line(const math::P3D& b, const math::P3D& e, const math::P3D& b_color, const math::P3D& e_color);
-    static void draw_line_strip(const math::P3D* pnts, int pnts_cnt, const math::P3D& color);
-    static void draw_wire_sphere(const math::P3D& centre, float radius, const math::P3D& color);
-    static void draw_triangle(const math::TRIANGLE& triangle, const math::P3D& color);
-    static void draw_solid_sphere(const math::P3D& centre, float radius, const math::P3D& color);
+    static void draw_sprite(const Math::P3D& position, const camera::MCAMERA& camera, const TEXTURE& img, const Math::P3D& color, float scale, float angle = 0);
+    static void draw_cube(const Math::P3D& centre, float half_edge);
+    static void draw_cube(const Math::P3D& centre, float half_edge, const Math::P3D& color);
+    static void draw_box(const Math::P3D& centre, const Math::P3D& size_xyz);
+    static void draw_line(const Math::P3D& b, const Math::P3D& e, const Math::P3D& b_color, const Math::P3D& e_color);
+    static void draw_line_strip(const Math::P3D* pnts, int pnts_cnt, const Math::P3D& color);
+    static void draw_wire_sphere(const Math::P3D& centre, float radius, const Math::P3D& color);
+    static void draw_triangle(const Math::Triangle& triangle, const Math::P3D& color);
+    static void draw_solid_sphere(const Math::P3D& centre, float radius, const Math::P3D& color);
 };
 
 } // namespace renderer

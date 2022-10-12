@@ -34,48 +34,48 @@ namespace camera
 class MCAMERA
 {
 protected:
-    math::P3D position;
-    math::V3D i;
-    math::V3D j;
-    math::V3D k;
+    Math::P3D position;
+    Math::V3D i;
+    Math::V3D j;
+    Math::V3D k;
 
     float pitch;
     float roll;
     float yaw;
 
-    void set_camera(const math::P3D& position, const math::P3D& target);
-    void set_camera(const math::P3D& position, const math::V3D& dir);
-    void set_vectors(const math::V3D& i, const math::V3D& j, const math::V3D& k);
+    void set_camera(const Math::P3D& position, const Math::P3D& target);
+    void set_camera(const Math::P3D& position, const Math::V3D& dir);
+    void set_vectors(const Math::V3D& i, const Math::V3D& j, const Math::V3D& k);
     void set_angles(const float pitch, const float roll, const float yaw);
 
 public:
     MCAMERA();
-    MCAMERA(const math::P3D& position);
-    MCAMERA(const math::P3D& position, const math::P3D& target);
-    MCAMERA(const math::P3D& position, const math::V3D& dir);
+    MCAMERA(const Math::P3D& position);
+    MCAMERA(const Math::P3D& position, const Math::P3D& target);
+    MCAMERA(const Math::P3D& position, const Math::V3D& dir);
 
     virtual void apply();
-    virtual void apply(const math::P3D& position, const math::P3D& target);
-    virtual void apply(const math::P3D& position, const math::V3D& dir);
-    virtual void apply(const math::V3D& i, const math::V3D& j, const math::V3D& k);
+    virtual void apply(const Math::P3D& position, const Math::P3D& target);
+    virtual void apply(const Math::P3D& position, const Math::V3D& dir);
+    virtual void apply(const Math::V3D& i, const Math::V3D& j, const Math::V3D& k);
     virtual void apply(const float& pitch, const float& roll, const float& yaw);
 
-    math::P3D get_position() const
+    Math::P3D get_position() const
     {
         return position;
     }
 
-    math::V3D get_i() const
+    Math::V3D get_i() const
     {
         return i;
     }
 
-    math::V3D get_j() const
+    Math::V3D get_j() const
     {
         return j;
     }
 
-    math::V3D get_k() const
+    Math::V3D get_k() const
     {
         return k;
     }
@@ -95,16 +95,16 @@ protected:
 public:
     PCAMERA();
     PCAMERA(float fovy, float aspect, float near, float far);
-    PCAMERA(const math::P3D& position, const math::P3D& target, float fovy, float aspect, float near, float far);
-    PCAMERA(const math::P3D& position, const math::V3D& dir, float fovy, float aspect, float near, float far);
+    PCAMERA(const Math::P3D& position, const Math::P3D& target, float fovy, float aspect, float near, float far);
+    PCAMERA(const Math::P3D& position, const Math::V3D& dir, float fovy, float aspect, float near, float far);
 
     void set_camera(float fovy);
     void set_camera(float fovy, float aspect);
     void set_camera(float fovy, float aspect, float near, float far);
 
     void apply();
-    void apply(const math::P3D& position, const math::P3D& target);
-    void apply(const math::P3D& position, const math::V3D& dir);
+    void apply(const Math::P3D& position, const Math::P3D& target);
+    void apply(const Math::P3D& position, const Math::V3D& dir);
 };
 
 /* rules with projection permutations (ortho) */
@@ -121,15 +121,15 @@ protected:
 public:
     OCAMERA();
     OCAMERA(float left, float right, float top, float bottom, float near, float far);
-    OCAMERA(const math::P3D& position, const math::P3D& target, float left, float right, float top, float bottom, float near, float far);
-    OCAMERA(const math::P3D& position, const math::V3D& dir, float left, float right, float top, float bottom, float near, float far);
+    OCAMERA(const Math::P3D& position, const Math::P3D& target, float left, float right, float top, float bottom, float near, float far);
+    OCAMERA(const Math::P3D& position, const Math::V3D& dir, float left, float right, float top, float bottom, float near, float far);
 
     void set_camera(float left, float right, float top, float bottom);
     void set_camera(float left, float right, float top, float bottom, float near, float far);
 
     void apply();
-    void apply(const math::P3D& position, const math::P3D& target);
-    void apply(const math::P3D& position, const math::V3D& dir);
+    void apply(const Math::P3D& position, const Math::P3D& target);
+    void apply(const Math::P3D& position, const Math::V3D& dir);
 };
 
 } // namespace renderer
