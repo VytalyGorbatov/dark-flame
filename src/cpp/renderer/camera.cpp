@@ -25,7 +25,7 @@
 #include "vector.hpp"
 #include "camera.hpp"
 
-using namespace math;
+using namespace Math;
 using namespace renderer;
 using namespace renderer::camera;
 

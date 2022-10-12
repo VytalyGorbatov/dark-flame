@@ -44,9 +44,9 @@ class PhPO
 {
 private:
     float       mass;
-    math::P3D   position;
-    math::V3D   velocity;
-    math::V3D   force;
+    Math::P3D   position;
+    Math::V3D   velocity;
+    Math::V3D   force;
     CONNECTION* lnk;
     int         lnk_cnt;
 
@@ -54,25 +54,25 @@ private:
 
 public:
     PhPO();
-    PhPO(float mass, math::P3D& position, math::V3D& velocity);
+    PhPO(float mass, Math::P3D& position, Math::V3D& velocity);
     ~PhPO();
 
     PhPO(const PhPO&);
     PhPO& operator =(const PhPO&);
 
-    void init(float mass, math::P3D& position, math::V3D& velocity);
+    void init(float mass, Math::P3D& position, Math::V3D& velocity);
     void add(PhPO* object, float low_c, float high_c, float dump);
-    void add_external_force(const math::V3D& force);
-    void reflect(const math::V3D& normal, float coeff = 1);
-    void friction(const math::V3D& normal, float coeff = 1);
-    math::V3D get_impulse() const;
-    math::P3D update(float dt);
+    void add_external_force(const Math::V3D& force);
+    void reflect(const Math::V3D& normal, float coeff = 1);
+    void friction(const Math::V3D& normal, float coeff = 1);
+    Math::V3D get_impulse() const;
+    Math::P3D update(float dt);
 
-    math::P3D get_position() const
+    Math::P3D get_position() const
     {
         return position;
     }
-    void set_position(const math::P3D& p)
+    void set_position(const Math::P3D& p)
     {
         position = p;
     }

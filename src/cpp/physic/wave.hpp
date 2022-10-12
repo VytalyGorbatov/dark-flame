@@ -33,8 +33,8 @@ namespace wave
 
 struct vertex
 {
-    math::P3D coord;
-    math::V3D norm;
+    Math::P3D coord;
+    Math::V3D norm;
     bool is_active;
 };
 
@@ -57,7 +57,7 @@ protected:
 
 public:
     WAVE(SOLVER& world);
-    WAVE(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl, int dimension, float wave_height, float frames_per_second = 30);
+    WAVE(SOLVER& world, const Math::P3D& pos, const Math::P3D& rot, const Math::P3D& scl, int dimension, float wave_height, float frames_per_second = 30);
     ~WAVE();
 
     WAVE(const WAVE&);
@@ -65,7 +65,7 @@ public:
 
     void update(float delta_time = 0);
     void randomize(float f = 1);
-    math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL) const;
+    Math::P3D get_collision(const Math::P3D& begin, const Math::P3D& end, Math::V3D* normal = NULL) const;
 
     /* TODO:
     void lock_area(void*);

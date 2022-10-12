@@ -25,7 +25,7 @@
 #include "phpo.hpp"
 #include "vector.hpp"
 
-using namespace math;
+using namespace Math;
 using namespace physic;
 
 PhPO::PhPO()

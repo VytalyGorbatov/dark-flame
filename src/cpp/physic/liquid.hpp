@@ -33,8 +33,8 @@ namespace physic
 class LIQUID : public PHYS_OBJECT
 {
 private:
-    math::P3D mix_xyz;                     // the nearest point to coordinates origin
-    math::P3D max_xyz;                     // the most far point from coordinates origin
+    Math::P3D mix_xyz;                     // the nearest point to coordinates origin
+    Math::P3D max_xyz;                     // the most far point from coordinates origin
 
 public:
     LIQUID();

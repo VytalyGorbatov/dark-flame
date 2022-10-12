@@ -31,7 +31,7 @@ namespace physic
 class ENVIROMENT
 {
 public:
-    math::V3D gravity;
+    Math::V3D gravity;
 };
 
 } // namespace physic

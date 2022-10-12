@@ -37,10 +37,10 @@ class PHYS_OBJECT
 
 /* TODO: revert back to 'protected' */
 public:
-    math::P3D position;                     // origin
-    math::P3D rotation;                     // pitch roll yaw
-    math::P3D scale;                        // scale the model
-    math::V3D external_force;               // applied external force
+    Math::P3D position;                     // origin
+    Math::P3D rotation;                     // pitch roll yaw
+    Math::P3D scale;                        // scale the model
+    Math::V3D external_force;               // applied external force
     SOLVER* const world;                    // native world
 
     std::list<PHYS_OBJECT*> get_actors();
@@ -49,29 +49,29 @@ public:
 
 public:
     PHYS_OBJECT(SOLVER& world);
-    PHYS_OBJECT(SOLVER& world, const math::P3D& pos, const math::P3D& rot, const math::P3D& scl);
+    PHYS_OBJECT(SOLVER& world, const Math::P3D& pos, const Math::P3D& rot, const Math::P3D& scl);
     virtual ~PHYS_OBJECT();
 
     PHYS_OBJECT(const PHYS_OBJECT&);
     PHYS_OBJECT& operator =(const PHYS_OBJECT&);
 
-    const math::P3D& get_position() const
+    const Math::P3D& get_position() const
     {
         return position;
     }
 
-    const math::P3D& get_rotation() const
+    const Math::P3D& get_rotation() const
     {
         return rotation;
     }
 
-    const math::P3D& get_scale() const
+    const Math::P3D& get_scale() const
     {
         return scale;
     }
 
     virtual void update(float delta_time) = 0;
-    virtual math::P3D get_collision(const math::P3D& begin, const math::P3D& end, math::V3D* normal = NULL) const = 0;
+    virtual Math::P3D get_collision(const Math::P3D& begin, const Math::P3D& end, Math::V3D* normal = NULL) const = 0;
     void collapse();
 };
 

@@ -29,7 +29,7 @@
 using namespace function;
 using namespace physic;
 using namespace renderer;
-using namespace math;
+using namespace Math;
 
 HELP_PARTICLE::HELP_PARTICLE(const EMITTER& m) : EMITTER(m)
 {

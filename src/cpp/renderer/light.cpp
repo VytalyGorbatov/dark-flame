@@ -25,7 +25,7 @@
 #include "renderer.hpp"
 #include "light.hpp"
 
-using namespace math;
+using namespace Math;
 using namespace renderer;
 
 /* OpenGl guarantees 8 light sources */

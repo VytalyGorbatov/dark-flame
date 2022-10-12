@@ -26,7 +26,7 @@
 
 using namespace std;
 using namespace physic;
-using namespace math;
+using namespace Math;
 
 list<PHYS_OBJECT*> PHYS_OBJECT::get_actors()
 {

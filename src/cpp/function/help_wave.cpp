@@ -28,7 +28,7 @@
 using namespace function;
 using namespace physic;
 using namespace renderer;
-using namespace math;
+using namespace Math;
 
 static const P3D source_position(0, 0, 2);
 
